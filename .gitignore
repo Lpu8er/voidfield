@@ -6,3 +6,5 @@
 /vendor/
 ###< symfony/framework-bundle ###
 /nbproject/private/
+*.lock
+

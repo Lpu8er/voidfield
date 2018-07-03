@@ -8,10 +8,13 @@
         "doctrine/doctrine-bundle": "^1.9",
         "doctrine/doctrine-fixtures-bundle": "^3.0",
         "doctrine/orm": "^2.6",
+        "sensio/framework-extra-bundle": "^5.2",
         "symfony/console": "^4.1",
         "symfony/flex": "^1.0",
         "symfony/framework-bundle": "^4.1",
         "symfony/lts": "^4@dev",
+        "symfony/maker-bundle": "^1.5",
+        "symfony/twig-bundle": "^4.1",
         "symfony/yaml": "^4.1"
     },
     "require-dev": {

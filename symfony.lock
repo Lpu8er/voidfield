@@ -59,6 +59,9 @@
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
+    "nikic/php-parser": {
+        "version": "v4.0.2"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
@@ -70,6 +73,15 @@
     },
     "psr/simple-cache": {
         "version": "1.0.1"
+    },
+    "sensio/framework-extra-bundle": {
+        "version": "4.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.0",
+            "ref": "aaddfdf43cdecd4cf91f992052d76c2cadc04543"
+        }
     },
     "symfony/cache": {
         "version": "v4.1.1"
@@ -134,6 +146,15 @@
     "symfony/lts": {
         "version": "4-dev"
     },
+    "symfony/maker-bundle": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
+        }
+    },
     "symfony/polyfill-mbstring": {
         "version": "v1.8.0"
     },
@@ -146,7 +167,22 @@
             "ref": "cda8b550123383d25827705d05a42acf6819fe4e"
         }
     },
+    "symfony/twig-bridge": {
+        "version": "v4.1.1"
+    },
+    "symfony/twig-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "f75ac166398e107796ca94cc57fa1edaa06ec47f"
+        }
+    },
     "symfony/yaml": {
         "version": "v4.1.1"
+    },
+    "twig/twig": {
+        "version": "v2.4.8"
     }
 }

@@ -7,5 +7,5 @@ namespace App\Entity;
  * @author lpu8er
  */
 class Planet {
-    //put your code here
+    
 }

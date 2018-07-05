@@ -7,5 +7,7 @@ namespace App\Entity;
  * @author lpu8er
  */
 class Character {
-    //put your code here
+    const RACE_HUMAN = 'human'; // classic, can elvove and reproduce, some needs
+    const RACE_BOT = 'bot'; // cannot evolve nor reproduce, less needs
+    
 }

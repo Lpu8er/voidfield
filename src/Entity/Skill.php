@@ -15,6 +15,13 @@ class Skill {
     const ATTRIBUTE_ENERGYCONSUMPTION = 'energyconso';
     const ATTRIBUTE_ENERGYPROD = 'energyprod';
     const ATTRIBUTE_ENERGYSTOCK = 'energystock';
+    const ATTRIBUTE_MORALE = 'morale';
+    const ATTRIBUTE_DAILYCOST = 'dailycost';
+    const ATTRIBUTE_BUILDCOST = 'buildcost';
+    const ATTRIBUTE_PRODSPEED = 'prodspeed';
+    const ATTRIBUTE_BUILDSPEED = 'buildspeed';
+    const ATTRIBUTE_ZOOLOGY = 'zoology';
+    const ATTRIBUTE_RESEARCHSPEED = 'researchspeed';
     
     protected $id;
     protected $name;

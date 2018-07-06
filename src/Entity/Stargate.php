@@ -1,11 +1,4 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace App\Entity;
 
 /**
@@ -13,6 +6,21 @@ namespace App\Entity;
  *
  * @author lpu8er
  */
-class Stargate {
-    //put your code here
+class Stargate extends Celestial {
+    public function getCType() {
+        return static::CTYPE_STARGATE;
+    }
+    
+    public function colonisable(): bool {
+        return false;
+    }
+    
+    protected $targetGalaxy;
+    protected $targetSystem;
+    protected $targetX;
+    protected $targetY;
+    protected $targetZ;
+    protected $targetDeviation;
+    protected $jumpEnergyConsumption;
+    protected $jumpCost;
 }

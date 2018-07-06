@@ -2,14 +2,14 @@
 namespace App\Entity;
 
 /**
- * Description of ShipModel
+ * Description of FleetShip
  *
  * @author lpu8er
  */
-class ShipModel {
-    protected $id;
-    protected $name;
-    protected $deleted; // we don't delete a shipmodel : we deactive it.
+class FleetShip {
+    protected $shipModel;
+    protected $fleet;
+    protected $nb;
     protected $hull;
     protected $modules;
     protected $baseCost;

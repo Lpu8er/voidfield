@@ -14,5 +14,13 @@ class Building {
     const RESTRICT_ORBITAL = 8;
     
     protected $id;
+    protected $name;
+    protected $restrictedTo;
+    protected $buildCost;
+    protected $replacing;
+    protected $baseDuration;
+    protected $points; // how many points (minutes) it needs
+    protected $special;
+    protected $energyConsumption;
     
 }

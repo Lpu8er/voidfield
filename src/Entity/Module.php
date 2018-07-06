@@ -20,10 +20,10 @@ class Module {
     const SPECIAL_PROBER = 'prober'; // same as tracker (we'll split roles, prolly tracker for artefacts / colonies / resources, probers for fleets)
     
     const SLOT_EXTERNAL_EQUIPMENT = 'exteqp'; // external usable equipment : deployable, turrets
-    const SLOT_EXTERNAL_UTILITY = 'extutil'; // external utility : defense, detectors
+    const SLOT_EXTERNAL_UTILITY = 'extutil'; // external utility : defense, detectors, cargoholds
     const SLOT_INTERNAL_ENGINE = 'engine'; // internal engine : energy boost, thruster boosts
     const SLOT_INTERNAL_EQUIPMENT = 'inteqp'; // internal usable equipment (prolly won't be used at first)
-    const SLOT_INTERNAL_UTILITY = 'intutil'; // internal utility : defense, attack boosts...
+    const SLOT_INTERNAL_UTILITY = 'intutil'; // internal utility : defense, attack boosts, cargoholds...
     const SLOT_PROPULSION = 'prop'; // propulsion - self explicit
     
     protected $id;
@@ -47,4 +47,6 @@ class Module {
     protected $energyConsumation; // flat value of energy consuming
     protected $energyBase; // base energy apport
     protected $energyModifier; // modifier energy apport
+    protected $maxCargoMass;
+    protected $maxCargoSize;
 }

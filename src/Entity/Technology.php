@@ -9,5 +9,5 @@ namespace App\Entity;
 class Technology {
     protected $research;
     protected $player;
-    protected $dateFound;
+    protected $dateFound; // @TODO add a second date "train" to allow mid time (replicate and train all colonies)
 }

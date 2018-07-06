@@ -7,5 +7,8 @@ namespace App\Entity;
  * @author lpu8er
  */
 class BuildRecipe {
-    //put your code here
+    protected $building;
+    protected $resource;
+    protected $nb;
+    protected $recyclable; // resource that can be taken back if build is cancelled
 }

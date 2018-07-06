@@ -9,4 +9,6 @@ namespace App\Entity;
 class Resource {
     protected $id;
     protected $name;
+    protected $mass;
+    protected $size;
 }

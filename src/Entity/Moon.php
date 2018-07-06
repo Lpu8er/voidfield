@@ -2,13 +2,13 @@
 namespace App\Entity;
 
 /**
- * Description of Planet
+ * Description of Moon
  *
  * @author lpu8er
  */
-class Planet extends Celestial {
+class Moon extends Celestial {
     public function getCType() {
-        return static::CTYPE_PLANET;
+        return static::CTYPE_MOON;
     }
     
     public function colonisable(): bool {

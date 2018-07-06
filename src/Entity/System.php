@@ -7,5 +7,11 @@ namespace App\Entity;
  * @author lpu8er
  */
 class System {
-    //put your code here
+    protected $id;
+    protected $name;
+    protected $galaxy;
+    protected $centerX;
+    protected $centerY;
+    protected $centerZ;
+    protected $sov;
 }

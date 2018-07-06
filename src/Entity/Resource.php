@@ -7,5 +7,6 @@ namespace App\Entity;
  * @author lpu8er
  */
 class Resource {
-    //put your code here
+    protected $id;
+    protected $name;
 }

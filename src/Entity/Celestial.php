@@ -36,4 +36,6 @@ abstract class Celestial {
     protected $usableLandSurface;
     protected $usableWaterSurface;
     protected $usableAtmosphericSurface;
+    
+    abstract public function getCType(): string;
 }

@@ -6,6 +6,6 @@ namespace App\Entity;
  *
  * @author lpu8er
  */
-class Planet {
+class Planet extends Celestial {
     
 }

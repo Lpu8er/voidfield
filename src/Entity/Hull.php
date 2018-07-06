@@ -7,5 +7,14 @@ namespace App\Entity;
  * @author lpu8er
  */
 class Hull {
-    //put your code here
+    protected $id;
+    protected $name;
+    protected $mass;
+    protected $size;
+    protected $exteqpSlots;
+    protected $extutilSlots;
+    protected $engineSlots;
+    protected $inteqpSlots;
+    protected $intutilSlots;
+    protected $propSlots;
 }

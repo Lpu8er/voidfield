@@ -22,6 +22,5 @@ class Zoology {
     protected $scariness; // passive modifier
     protected $naturalLiving;
     protected $effectiveness; // optimal number for 100% effect
-    protected $number; // actual number
     protected $toxicityCleaning; // clean toxicity of the natural living
 }

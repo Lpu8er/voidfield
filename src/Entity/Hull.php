@@ -11,6 +11,7 @@ class Hull {
     protected $name;
     protected $mass;
     protected $size;
+    protected $signature;
     protected $exteqpSlots;
     protected $extutilSlots;
     protected $engineSlots;

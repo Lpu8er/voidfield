@@ -7,5 +7,7 @@ namespace App\Entity;
  * @author lpu8er
  */
 class Technology {
-    //put your code here
+    protected $research;
+    protected $player;
+    protected $dateFound;
 }

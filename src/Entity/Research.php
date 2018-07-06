@@ -7,5 +7,7 @@ namespace App\Entity;
  * @author lpu8er
  */
 class Research {
-    //put your code here
+    protected $id;
+    protected $name;
+    protected $replacing; // if that replace a previous one (previous level, usually)
 }

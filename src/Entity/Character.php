@@ -27,5 +27,6 @@ class Character {
     protected $gender;
     protected $owner; // owner user
     protected $isMain; // is main character from user
-    
+    protected $dateStartPregnant;
+    protected $dateEndPregnant;
 }

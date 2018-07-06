@@ -7,5 +7,8 @@ namespace App\Entity;
  * @author lpu8er
  */
 class ShipModel {
-    //put your code here
+    protected $id;
+    protected $name;
+    protected $hull;
+    protected $modules;
 }

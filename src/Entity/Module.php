@@ -40,7 +40,10 @@ class Module {
     protected $scanStrength;
     protected $mass;
     protected $size;
+    protected $signatureBase;
+    protected $signatureModifier;
     protected $slot;
+    protected $slotUsage; // if that uses more than a slot, should not be used at first
     protected $energyConsumation; // flat value of energy consuming
     protected $energyBase; // base energy apport
     protected $energyModifier; // modifier energy apport

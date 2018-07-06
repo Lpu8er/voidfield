@@ -7,5 +7,6 @@ namespace App\Entity;
  * @author lpu8er
  */
 class Galaxy {
-    //put your code here
+    protected $id;
+    protected $name;
 }

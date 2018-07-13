@@ -5,9 +5,12 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Description of User
+ * 
+ * When registered, some things happen:
+ * * a character is generated
  *
  * @author lpu8er
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="users")
  */
 class User implements \Symfony\Component\Security\Core\User\UserInterface, \Serializable {
@@ -56,6 +59,25 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
      * @ORM\Column(type="boolean")
      */
     protected $admin = false;
+    /**
+     *
+     * @var Character
+     * @ORM\OneToOne(targetEntity="Character")
+     * @ORM\JoinColumn(name="maincharacter_id", referencedColumnName="id", nullable=true)
+     */
+    protected $mainCharacter = null;
+    /**
+     *
+     * @var integer
+     * @ORM\Column(type="integer")
+     */
+    protected $money = 0;
+    /**
+     *
+     * @var \DateTime
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $firstConnection = null;
     
     public function __construct() {
         $this->status = static::STATUS_INACTIVE;
@@ -139,6 +161,40 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
         $this->status = $status;
         return $this;
     }
+    
+    public function getAdmin() {
+        return $this->admin;
+    }
 
+    public function getMainCharacter(): Character {
+        return $this->mainCharacter;
+    }
 
+    public function getMoney() {
+        return $this->money;
+    }
+
+    public function getFirstConnection(): \DateTime {
+        return $this->firstConnection;
+    }
+
+    public function setAdmin($admin) {
+        $this->admin = $admin;
+        return $this;
+    }
+
+    public function setMainCharacter(Character $mainCharacter) {
+        $this->mainCharacter = $mainCharacter;
+        return $this;
+    }
+
+    public function setMoney($money) {
+        $this->money = $money;
+        return $this;
+    }
+
+    public function setFirstConnection(\DateTime $firstConnection) {
+        $this->firstConnection = $firstConnection;
+        return $this;
+    }
 }

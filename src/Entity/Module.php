@@ -1,10 +1,14 @@
 <?php
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Description of Module
  *
  * @author lpu8er
+ * @ORM\Entity()
+ * @ORM\Table(name="modules")
  */
 class Module {
     const DAMAGETYPE_THERMAL = 'thermal';
@@ -26,6 +30,13 @@ class Module {
     const SLOT_INTERNAL_UTILITY = 'intutil'; // internal utility : defense, attack boosts, cargoholds...
     const SLOT_PROPULSION = 'prop'; // propulsion - self explicit
     
+    /**
+     * 
+     * @var int
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
     protected $id;
     protected $name;
     protected $attackBase; // flat attack value

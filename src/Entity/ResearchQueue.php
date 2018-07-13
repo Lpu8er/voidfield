@@ -1,15 +1,33 @@
 <?php
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Description of ResearchQueue
  *
  * @author lpu8er
+ * @ORM\Entity()
+ * @ORM\Table(name="researchqueue")
  */
 class ResearchQueue {
+    /**
+     *
+     * @var Research 
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="Research")
+     * @ORM\JoinColumn(name="research_id", referencedColumnName="id")
+     */
     protected $research;
-    protected $player;
+    /**
+     *
+     * @var Colony 
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="Colony")
+     * @ORM\JoinColumn(name="colony_id", referencedColumnName="id")
+     */
     protected $colony;
+    protected $player;
     protected $startDate;
     protected $estimatedEndDate;
     protected $lastQueueCheckDate;

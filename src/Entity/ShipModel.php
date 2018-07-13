@@ -1,12 +1,23 @@
 <?php
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Description of ShipModel
  *
  * @author lpu8er
+ * @ORM\Entity()
+ * @ORM\Table(name="shipmodels")
  */
 class ShipModel {
+    /**
+     * 
+     * @var int
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
     protected $id;
     protected $name;
     protected $deleted; // we don't delete a shipmodel : we deactive it.

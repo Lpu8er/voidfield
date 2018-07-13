@@ -1,10 +1,14 @@
 <?php
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Description of Colony
  *
  * @author lpu8er
+ * @ORM\Entity()
+ * @ORM\Table(name="colonies")
  */
 class Colony {
     const CTYPE_EARTH = 'earth';
@@ -12,6 +16,13 @@ class Colony {
     const CTYPE_AIR = 'air';
     const CTYPE_SPACE = 'space'; // only stations
     
+    /**
+     * 
+     * @var int
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
     protected $id;
     protected $name;
     protected $ctype;

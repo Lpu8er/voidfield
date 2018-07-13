@@ -1,10 +1,13 @@
 <?php
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Description of Star
  *
  * @author lpu8er
+ * @ORM\Entity()
  */
 class Star extends Celestial {
     public function getCType(): string {

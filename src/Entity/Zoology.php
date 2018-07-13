@@ -1,10 +1,14 @@
 <?php
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Description of Zoology
  *
  * @author lpu8er
+ * @ORM\Entity()
+ * @ORM\Table(name="zoologies")
  */
 class Zoology {
     const NEVER = 0;
@@ -13,6 +17,13 @@ class Zoology {
     const LIVING_ATMOSPHERIC = 4;
     const LIVING_ORBITAL = 8;
     
+    /**
+     * 
+     * @var int
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
     protected $id;
     protected $name;
     protected $description;

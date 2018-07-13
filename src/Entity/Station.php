@@ -1,10 +1,13 @@
 <?php
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Description of Station
  *
  * @author lpu8er
+ * @ORM\Entity
  */
 class Station extends Celestial {
     public function getCType(): string {

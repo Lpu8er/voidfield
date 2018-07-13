@@ -1,13 +1,31 @@
 <?php
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Description of FleetShip
  *
  * @author lpu8er
+ * @ORM\Entity()
+ * @ORM\Table(name="fleetships")
  */
 class FleetShip {
+    /**
+     *
+     * @var ShipModel 
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="ShipModel")
+     * @ORM\JoinColumn(name="shipmodel_id", referencedColumnName="id")
+     */
     protected $shipModel;
+    /**
+     *
+     * @var Fleet 
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="Fleet")
+     * @ORM\JoinColumn(name="fleet_id", referencedColumnName="id")
+     */
     protected $fleet;
     protected $nb;
     protected $hull;

@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
  * Description of User
  *
  * @author lpu8er
- * @Entity()
- * @Table(name="users")
+ * @ORM\Entity()
+ * @ORM\Table(name="users")
  */
 class User implements \Symfony\Component\Security\Core\User\UserInterface, \Serializable {
     const STATUS_ACTIVE = 'active';
@@ -87,7 +87,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
         ));
     }
     
-    public function unserialize(string $serialized) {
+    public function unserialize($serialized) {
         list (
             $this->id,
             $this->username,

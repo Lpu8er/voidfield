@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
  * Description of Celestial
  *
  * @author lpu8er
- * @ORM\Entity()
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="ctype", type="string")
- * @ORM\DiscriminatorMap({"star" = "Star", "planet" = "Planet", "moon" = "Moon", "station" = "Station", "stargate" = "Stargate"})
+ * ORM\Entity()
+ * ORM\InheritanceType("SINGLE_TABLE")
+ * ORM\DiscriminatorColumn(name="ctype", type="string")
+ * ORM\DiscriminatorMap({"star" = "Star", "planet" = "Planet", "moon" = "Moon", "station" = "Station", "stargate" = "Stargate"})
  */
 abstract class Celestial {
     const CTYPE_STAR = 'star';

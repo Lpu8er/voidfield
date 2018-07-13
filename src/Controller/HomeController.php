@@ -4,11 +4,11 @@ namespace App\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class SubscribeController extends Controller {
+class HomeController extends Controller {
     /**
-     * @Route("/subscribe", name="subscribe")
+     * @Route("/home", name="home")
      */
     public function index() {
-        return $this->render('external/subscribe.html.twig', []);
+        return $this->render('internal/home.html.twig', []);
     }
 }

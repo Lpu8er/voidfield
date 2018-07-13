@@ -7,7 +7,7 @@ namespace App\Entity;
  * @author lpu8er
  */
 class Station extends Celestial {
-    public function getCType() {
+    public function getCType(): string {
         return static::CTYPE_STATION;
     }
     

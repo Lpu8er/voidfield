@@ -22,4 +22,8 @@ class Fleet {
     protected $commander;
     protected $baseSignature;
     protected $visibleSignature;
+    protected $bestScanStrength; // best scan strength
+    protected $x;
+    protected $y;
+    protected $z;
 }

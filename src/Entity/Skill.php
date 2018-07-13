@@ -10,7 +10,8 @@ class Skill {
     const ATTRIBUTE_ATTACK = 'attack';
     const ATTRIBUTE_DEFENSE = 'defense';
     const ATTRIBUTE_PRODUCTION = 'production';
-    const ATTRIBUTE_STOCK = 'stock';
+    const ATTRIBUTE_STOCKSIZE = 'stocksize';
+    const ATTRIBUTE_STOCKMASS = 'stockmass';
     const ATTRIBUTE_SPEED = 'speed';
     const ATTRIBUTE_ENERGYCONSUMPTION = 'energyconso';
     const ATTRIBUTE_ENERGYPROD = 'energyprod';
@@ -22,6 +23,9 @@ class Skill {
     const ATTRIBUTE_BUILDSPEED = 'buildspeed';
     const ATTRIBUTE_ZOOLOGY = 'zoology';
     const ATTRIBUTE_RESEARCHSPEED = 'researchspeed';
+    const ATTRIBUTE_WORKERSCONSUMPTION = 'workersconso';
+    const ATTRIBUTE_WORKERSPROD = 'workersprod';
+    const ATTRIBUTE_WORKERSSTOCK = 'workersstock';
     
     protected $id;
     protected $name;

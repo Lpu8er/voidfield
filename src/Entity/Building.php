@@ -16,11 +16,13 @@ class Building {
     protected $id;
     protected $name;
     protected $restrictedTo;
-    protected $buildCost;
+    protected $buildCost; // money
     protected $replacing;
     protected $baseDuration;
     protected $points; // how many points (minutes) it needs
     protected $special;
     protected $energyConsumption;
+    protected $buildWorkersNeeds; // how many needs to start the build
+    protected $workers; // how many needed to stay up
     
 }

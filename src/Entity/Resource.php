@@ -11,4 +11,5 @@ class Resource {
     protected $name;
     protected $mass;
     protected $size;
+    protected $nutritive; // nutritive value
 }

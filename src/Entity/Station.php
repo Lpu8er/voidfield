@@ -14,4 +14,8 @@ class Station extends Celestial {
     public function colonisable(): bool {
         return true;
     }
+    
+    protected $owner; // a station is owned by someone
+    protected $taxStartColony; // installation fees
+    protected $taxDailyColony; // tax by person per colony
 }

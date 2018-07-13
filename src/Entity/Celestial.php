@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
  * Description of Celestial
  *
  * @author lpu8er
- * ORM\Entity()
- * ORM\InheritanceType("SINGLE_TABLE")
- * ORM\DiscriminatorColumn(name="ctype", type="string")
- * ORM\DiscriminatorMap({"star" = "Star", "planet" = "Planet", "moon" = "Moon", "station" = "Station", "stargate" = "Stargate"})
+ * @ORM\Entity()
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="ctype", type="string")
+ * @ORM\DiscriminatorMap({"star" = "Star", "planet" = "Planet", "moon" = "Moon", "station" = "Station", "stargate" = "Stargate"})
  */
 abstract class Celestial {
     const CTYPE_STAR = 'star';
@@ -19,8 +19,21 @@ abstract class Celestial {
     const CTYPE_STATION = 'station';
     const CTYPE_STARGATE = 'stargate';
     
+    /**
+     * 
+     * @var int
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
     protected $id;
+    /**
+     * 
+     * @var string
+     * @ORM\Column(type="string")
+     */
     protected $name;
+    protected $description;
     protected $system;
     protected $galaxy;
     protected $x;
@@ -34,14 +47,15 @@ abstract class Celestial {
     protected $derivWindSpeed;
     protected $waterPercent;
     protected $waterViability;
-    protected $centeredOn;
+    protected $centeredOn; // nah, remove it
     protected $ellipticCenterDistance;
     protected $waterToxicity;
     protected $earthToxicity;
     protected $airToxicity;
-    protected $usableLandSurface;
+    protected $usableLandSurface; // usable size / nb of colonies of this type => usable surface for a player, first one best one
     protected $usableWaterSurface;
     protected $usableAtmosphericSurface;
+    protected $gravity;
     
     abstract public function getCType(): string;
     abstract public function colonisable(): bool;

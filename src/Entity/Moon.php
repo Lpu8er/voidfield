@@ -14,4 +14,6 @@ class Moon extends Celestial {
     public function colonisable(): bool {
         return true;
     }
+    
+    protected $centeredOn; // planet
 }

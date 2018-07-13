@@ -15,7 +15,8 @@ class Star extends Celestial {
         return false;
     }
     
-    protected $energyStrength;
+    protected $energyStrength; // decrease in space
     protected $eol;
     protected $stype; // white, red...
+    protected $rgb; // rgb color of the star
 }

@@ -14,4 +14,6 @@ class Planet extends Celestial {
     public function colonisable(): bool {
         return true;
     }
+    
+    protected $centeredOn; // star
 }

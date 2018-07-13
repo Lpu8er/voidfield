@@ -6,9 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class SubscribeController extends Controller {
     /**
-     * @Route("/subscribe", name="subscribe")
+     * @Route("/register", name="register")
      */
     public function index() {
-        return $this->render('external/subscribe.html.twig', []);
+        return $this->render('external/register.html.twig', []);
     }
 }

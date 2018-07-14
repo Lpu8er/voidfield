@@ -26,6 +26,7 @@ class Building {
      */
     protected $id;
     protected $name;
+    protected $description;
     protected $restrictedTo;
     protected $buildCost; // money
     protected $replacing;
@@ -35,5 +36,8 @@ class Building {
     protected $energyConsumption;
     protected $buildWorkersNeeds; // how many needs to start the build
     protected $workers; // how many needed to stay up
+    protected $earthToxicity; // moving index for earth
+    protected $waterToxicity; // moving index for earth
+    protected $airToxicity; // moving index for earth
     
 }

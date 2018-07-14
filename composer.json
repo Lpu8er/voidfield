@@ -6,7 +6,6 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/doctrine-bundle": "^1.9",
-        "doctrine/doctrine-fixtures-bundle": "^3.0",
         "doctrine/orm": "^2.6",
         "sensio/framework-extra-bundle": "^5.2",
         "symfony/apache-pack": "^1.0",
@@ -21,6 +20,7 @@
         "symfony/yaml": "^4.1"
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.0",
         "symfony/dotenv": "^4.1",
         "symfony/profiler-pack": "^1.0"
     },

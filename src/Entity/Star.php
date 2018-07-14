@@ -18,8 +18,66 @@ class Star extends Celestial {
         return false;
     }
     
+    /**
+     * 
+     * @var int
+     * @ORM\Column(type="integer")
+     */
     protected $energyStrength; // decrease in space
-    protected $eol;
+    /**
+     * 
+     * @var \DateTime
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $eol = null;
+    /**
+     * 
+     * @var string
+     * @ORM\Column(type="string")
+     */
     protected $stype; // white, red...
+    /**
+     * 
+     * @var string
+     * @ORM\Column(type="string")
+     */
     protected $rgb; // rgb color of the star
+    
+    public function getEnergyStrength() {
+        return $this->energyStrength;
+    }
+
+    public function getEol(): \DateTime {
+        return $this->eol;
+    }
+
+    public function getStype() {
+        return $this->stype;
+    }
+
+    public function getRgb() {
+        return $this->rgb;
+    }
+
+    public function setEnergyStrength($energyStrength) {
+        $this->energyStrength = $energyStrength;
+        return $this;
+    }
+
+    public function setEol(\DateTime $eol = null) {
+        $this->eol = $eol;
+        return $this;
+    }
+
+    public function setStype($stype) {
+        $this->stype = $stype;
+        return $this;
+    }
+
+    public function setRgb($rgb) {
+        $this->rgb = $rgb;
+        return $this;
+    }
+
+
 }

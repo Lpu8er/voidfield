@@ -33,19 +33,61 @@ class AppFixtures extends Fixture {
         $this->setReference('res-quartz', $quartz);
         $titane = $this->createResource($manager, 'Titane', 100.0, 100.0, 0.0);
         $this->setReference('res-titane', $titane);
-        $water = $this->createResource($manager, 'Water', 1.0, 1.0, 0.4);
+        $water = $this->createResource($manager, 'Eau potable', 1.0, 1.0, 0.4);
         $this->setReference('res-water', $water);
         $wheat = $this->createResource($manager, 'Féculents', 0.8, 1.5, 1.5);
         $this->setReference('res-wheat', $wheat);
         $legfruits = $this->createResource($manager, 'Fruits et légumes', 1.2, 1.2, 1.0);
         $this->setReference('res-legfruits', $legfruits);
-        $gold = $this->createResource($manager, 'Precious', 80.0, 110.0, 0.0);
+        $gold = $this->createResource($manager, 'Précieux', 80.0, 110.0, 0.0);
         $this->setReference('res-gold', $gold);
+        
         // generate galaxy / systems
         $g = $this->createGalaxy($manager, 'Andromeda');
         $this->setReference('galaxy-a', $g);
+        
+        // start system
         $startSystem = $this->createSystem($manager, 'Système solaire', 1000, 1000, 1000, $g);
         $this->setReference('system-start', $startSystem);
+        
+        // sun
+        $sun = $this->createStandardStar($manager, $g, $startSystem, 'Soleil', 1000000);
+        $this->setReference('star-sun', $sun);
+        
+        // planets
+        $planets = [
+            'mercury' => [],
+            'venus' => [],
+            'earth' => [],
+            'mars' => [],
+            'jupiter' => [],
+            'saturn' => [],
+            'uranus' => [],
+            'neptune' => [],
+        ];
+        foreach($planets as $kp => $pd) {
+            $planet = $this->createPlanet($manager,
+                    $g,
+                    $startSystem,
+                    $sun,
+                    $pd['name'],
+                    array_key_exists('earthToxicity', $pd)? $pd['earthToxicity']:0,
+                    array_key_exists('waterToxicity', $pd)? $pd['waterToxicity']:0,
+                    array_key_exists('airToxicity', $pd)? $pd['airToxicity']:0,
+                    array_key_exists('waterPercent', $pd)? $pd['waterPercent']:0,
+                    array_key_exists('waterViability', $pd)? $pd['waterViability']:0,
+                    array_key_exists('medWind', $pd)? $pd['medWind']:0,
+                    array_key_exists('derivWind', $pd)? $pd['derivWind']:0,
+                    array_key_exists('dist', $pd)? $pd['dist']:0,
+                    array_key_exists('grav', $pd)? $pd['grav']:0,
+                    array_key_exists('tempMin', $pd)? $pd['tempMin']:0,
+                    array_key_exists('tempMax', $pd)? $pd['tempMax']:0,
+                    array_key_exists('radius', $pd)? $pd['radius']:0,
+                    array_key_exists('spin', $pd)? $pd['spin']:0);
+            $this->setReference('planet-'.$kp, $planet);
+        }
+        
+        
     }
     
     /**
@@ -126,6 +168,15 @@ class AppFixtures extends Fixture {
         return $sys;
     }
     
+    /**
+     * 
+     * @param ObjectManager $em
+     * @param \App\Entity\Galaxy $galaxy
+     * @param \App\Entity\System $system
+     * @param string $name
+     * @param int $energyStrength
+     * @return \App\Entity\Star
+     */
     protected function createStandardStar($em, $galaxy, $system, $name, $energyStrength) {
         $s = new \App\Entity\Star;
         $s->setAirToxicity(0);
@@ -144,8 +195,8 @@ class AppFixtures extends Fixture {
         $s->setMinTemp(3500);
         $s->setMaxTemp(6000);
         $s->setRadius(696000);
-        $s->setRgb('');
-        $s->setSpin($spin);
+        $s->setRgb('250,225,75');
+        $s->setSpin(7000000);
         $s->setSystem($system);
         $s->setName($name);
         $em->persist($s);
@@ -153,7 +204,68 @@ class AppFixtures extends Fixture {
         return $s;
     }
     
-    protected function createPlanet($em) {
-        
+    /**
+     * 
+     * @TODO compute usableLandSurface depending on other shit
+     * 
+     * @param ObjectManager $em
+     * @param \App\Entity\Galaxy $galaxy
+     * @param \App\Entity\System $system
+     * @param \App\Entity\Star $star
+     * @param string $name
+     * @param float $earthToxicity
+     * @param float $waterToxicity
+     * @param float $airToxicity
+     * @param float $waterPercent
+     * @param float $waterViability
+     * @param float $medWind
+     * @param float $derivWind
+     * @param float $dist
+     * @param float $grav
+     * @param float $tempMin
+     * @param float $tempMax
+     * @param float $radius
+     * @param float $spin
+     * @return \App\Entity\Planet
+     */
+    protected function createPlanet($em,
+            $galaxy,
+            $system,
+            $star,
+            $name,
+            $earthToxicity,
+            $waterToxicity,
+            $airToxicity,
+            $waterPercent,
+            $waterViability,
+            $medWind,
+            $derivWind,
+            $dist,
+            $grav,
+            $tempMin,
+            $tempMax,
+            $radius,
+            $spin) {
+        $p = new \App\Entity\Planet;
+        $p->setGalaxy($galaxy);
+        $p->setSystem($system);
+        $p->setCenteredOn($star);
+        $p->setName($name);
+        $p->setEarthToxicity($earthToxicity);
+        $p->setWaterToxicity($waterToxicity);
+        $p->setAirToxicity($airToxicity);
+        $p->setWaterPercent($waterPercent);
+        $p->setWaterViability($waterViability);
+        $p->setMedWindSpeed($medWind);
+        $p->setDerivWindSpeed($derivWind);
+        $p->setEllipticCenterDistance($dist);
+        $p->setGravity($grav);
+        $p->setMinTemp($tempMin);
+        $p->setMaxTemp($tempMax);
+        $p->setRadius($radius);
+        $p->setSpin($spin);
+        $em->persist($p);
+        $em->flush();
+        return $p;
     }
 }

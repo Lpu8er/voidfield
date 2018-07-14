@@ -29,11 +29,15 @@ class Colony {
     protected $owner;
     protected $celestial;
     protected $population; // total population
+    protected $hostiles; // hostiles, very unsatisfied
+    protected $baddies; // unsatisfied
+    protected $goodies; // satisfied persons
+    protected $partisans; // very satisfied
     protected $dailyTax; // depends on population
     protected $earthToxicity; // local toxicity, can be moved by colony, will move and be moved by celestial
     protected $waterToxicity;
     protected $airToxicity;
-    protected $energy;
-    protected $workers;
+    protected $energy; // current stock
+    protected $workers;// used
     protected $leader;
 }

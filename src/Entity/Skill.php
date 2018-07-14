@@ -30,6 +30,8 @@ class Skill {
     const ATTRIBUTE_WORKERSCONSUMPTION = 'workersconso';
     const ATTRIBUTE_WORKERSPROD = 'workersprod';
     const ATTRIBUTE_WORKERSSTOCK = 'workersstock';
+    const ATTRIBUTE_SCANSTRENGTH = 'scanstrength';
+    const ATTRIBUTE_DAILYINCOME = 'dailyincome';
     
     /**
      * 

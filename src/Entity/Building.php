@@ -39,5 +39,7 @@ class Building {
     protected $earthToxicity; // moving index for earth
     protected $waterToxicity; // moving index for earth
     protected $airToxicity; // moving index for earth
-    
+    protected $energyStock;
+    protected $energyProd;
+    protected $workersStock;
 }

@@ -35,19 +35,19 @@ class System {
     /**
      * 
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="bigint")
      */
     protected $centerX;
     /**
      * 
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="bigint")
      */
     protected $centerY;
     /**
      * 
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="bigint")
      */
     protected $centerZ;
     

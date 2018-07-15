@@ -72,4 +72,10 @@ class Skill {
      * @ORM\JoinColumn(name="resource_id", referencedColumnName="id")
      */
     protected $resource;
+    /**
+     *
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    protected $usableOnCharacter = false;
 }

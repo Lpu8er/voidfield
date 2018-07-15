@@ -39,37 +39,49 @@ abstract class Celestial {
      * @var string
      * @ORM\Column(type="text")
      */
-    protected $description;
+    protected $description = '';
+    /**
+     *
+     * @var System
+     * @ORM\ManyToOne(targetEntity="System")
+     * @ORM\JoinColumn(name="system_id", referencedColumnName="id")
+     */
     protected $system;
+    /**
+     *
+     * @var Galaxy
+     * @ORM\ManyToOne(targetEntity="Galaxy")
+     * @ORM\JoinColumn(name="galaxy_id", referencedColumnName="id")
+     */
     protected $galaxy;
     /**
      * 
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="bigint")
      */
     protected $x;
     /**
      * 
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="bigint")
      */
     protected $y;
     /**
      * 
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="bigint")
      */
     protected $z;
     /**
      * 
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="bigint")
      */
     protected $radius;
     /**
      * 
      * @var float
-     * @ORM\Column(type="decimal", precision=10, scale=5)
+     * @ORM\Column(type="decimal", precision=20, scale=5)
      */
     protected $spin;
     /**
@@ -87,69 +99,69 @@ abstract class Celestial {
     /**
      * 
      * @var float
-     * @ORM\Column(type="decimal", precision=10, scale=5)
+     * @ORM\Column(type="decimal", precision=20, scale=5)
      */
-    protected $medWindSpeed;
+    protected $medWindSpeed = 0.0;
+    /**
+     * 
+     * @var float
+     * @ORM\Column(type="decimal", precision=20, scale=5)
+     */
+    protected $derivWindSpeed = 0.0;
     /**
      * 
      * @var float
      * @ORM\Column(type="decimal", precision=10, scale=5)
      */
-    protected $derivWindSpeed;
+    protected $waterPercent = 0.0;
     /**
      * 
      * @var float
      * @ORM\Column(type="decimal", precision=10, scale=5)
      */
-    protected $waterPercent;
-    /**
-     * 
-     * @var float
-     * @ORM\Column(type="decimal", precision=10, scale=5)
-     */
-    protected $waterViability;
+    protected $waterViability = 0.0;
     /**
      * 
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="bigint")
      */
-    protected $ellipticCenterDistance;
+    protected $ellipticCenterDistance = 0;
     /**
      * 
      * @var float
      * @ORM\Column(type="decimal", precision=10, scale=5)
      */
-    protected $waterToxicity;
+    protected $waterToxicity = 0.0;
     /**
      * 
      * @var float
      * @ORM\Column(type="decimal", precision=10, scale=5)
      */
-    protected $earthToxicity;
+    protected $earthToxicity = 0.0;
     /**
      * 
      * @var float
      * @ORM\Column(type="decimal", precision=10, scale=5)
      */
-    protected $airToxicity;
+    protected $airToxicity = 0.0;
     /**
      * 
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="bigint")
      */
-    protected $usableLandSurface; // usable size / nb of colonies of this type => usable surface for a player, first one best one
+    protected $usableLandSurface = 0.0; // usable size / nb of colonies of this type => usable surface for a player, first one best one
     /**
      * 
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="bigint")
      */
-    protected $usableWaterSurface;
+    protected $usableWaterSurface = 0.0;
     /**
      * 
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="bigint")
      */
-    protected $usableAtmosphericSurface;
+    protected $usableAtmosphericSurface = 0.0;
     /**
      * 
      * @var float

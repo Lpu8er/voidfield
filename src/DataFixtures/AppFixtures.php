@@ -1,7 +1,11 @@
 <?php
 namespace App\DataFixtures;
 
+use App\Entity\Galaxy;
+use App\Entity\Planet;
 use App\Entity\Resource;
+use App\Entity\Star;
+use App\Entity\System;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -13,6 +17,8 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  * @author lpu8er
  */
 class AppFixtures extends Fixture {
+    const AU = 149597870;
+    
     /**
      *
      * @var UserPasswordEncoderInterface 
@@ -56,14 +62,106 @@ class AppFixtures extends Fixture {
         
         // planets
         $planets = [
-            'mercury' => [],
-            'venus' => [],
-            'earth' => [],
-            'mars' => [],
-            'jupiter' => [],
-            'saturn' => [],
-            'uranus' => [],
-            'neptune' => [],
+            'mercury' => [
+                'name' => 'Mercure',
+                'grav' => 0.38,
+                'dist' => 0.4,
+                'spin' => 10892,
+                'radius' => 2400,
+                'waterPercent' => 20.0,
+                'waterViability' => 10.0,
+                'tempMin' => -200,
+                'tempMax' => 500,
+                'resources' => [
+                    'iron' => ['stock' => 0.0, 'prod' => 0.0, 'replate' => 0.0,],
+                    'hydro' => ['stock' => 0.0, 'prod' => 0.0, 'replate' => 0.0,],
+                    'quartz' => ['stock' => 0.0, 'prod' => 0.0, 'replate' => 0.0,],
+                    'titane' => ['stock' => 0.0, 'prod' => 0.0, 'replate' => 0.0,],
+                    'water' => ['stock' => 0.0, 'prod' => 0.0, 'replate' => 0.0,],
+                    'wheat' => ['stock' => 0.0, 'prod' => 0.0, 'replate' => 0.0,],
+                    'legfruits' => ['stock' => 0.0, 'prod' => 0.0, 'replate' => 0.0,],
+                    'gold' => ['stock' => 0.0, 'prod' => 0.0, 'replate' => 0.0,],
+                ],
+            ],
+            'venus' => [
+                'name' => 'Vénus',
+                'grav' => 0.9,
+                'dist' => 0.7,
+                'spin' => 6.52,
+                'radius' => 6051,
+                'waterPercent' => 5.0,
+                'waterViability' => 10.0,
+                'tempMin' => 400,
+                'tempMax' => 500,
+            ],
+            'earth' => [
+                'name' => 'Terre',
+                'grav' => 1.0,
+                'dist' => 1.0,
+                'spin' => 0.46,
+                'radius' => 6371,
+                'waterPercent' => 70.0,
+                'waterViability' => 99.9,
+                'tempMin' => -90,
+                'tempMax' => 60.0,
+                'medWind' => 80,
+                'derivWind' => 80,
+            ],
+            'mars' => [
+                'name' => 'Mars',
+                'grav' => 0.4,
+                'dist' => 1.4,
+                'spin' => 868,
+                'radius' => 3390,
+                'waterPercent' => 0.0,
+                'waterViability' => 0.0,
+                'tempMin' => -140,
+                'tempMax' => 35,
+            ],
+            'jupiter' => [
+                'name' => 'Jupiter',
+                'grav' => 2.5,
+                'dist' => 5.2,
+                'spin' => 45000,
+                'radius' => 70,
+                'waterPercent' => 2.0,
+                'waterViability' => 20.0,
+                'tempMin' => -160,
+                'tempMax' => -60,
+            ],
+            'saturn' => [
+                'name' => 'Saturne',
+                'grav' => 1.06,
+                'dist' => 9.5,
+                'spin' => 35500,
+                'radius' => 58000,
+                'waterPercent' => 5.0,
+                'waterViability' => 2.0,
+                'tempMin' => -190,
+                'tempMax' => -90,
+            ],
+            'uranus' => [
+                'name' => 'Uranus',
+                'grav' => 0.89,
+                'dist' => 20,
+                'spin' => 9320,
+                'radius' => 25000,
+                'waterPercent' => 5.0,
+                'waterViability' => 2.0,
+                'tempMin' => -220,
+                'tempMax' => -190,
+            ],
+            'neptune' => [
+                'name' => 'Neptune',
+                'grav' => 1.14,
+                'dist' => 30,
+                'spin' => 9650,
+                'radius' => 24600,
+                'waterPercent' => 95.0,
+                'waterViability' => 5.0,
+                'tempMin' => -210,
+                'tempMax' => -180,
+            ],
         ];
         foreach($planets as $kp => $pd) {
             $planet = $this->createPlanet($manager,
@@ -78,7 +176,7 @@ class AppFixtures extends Fixture {
                     array_key_exists('waterViability', $pd)? $pd['waterViability']:0,
                     array_key_exists('medWind', $pd)? $pd['medWind']:0,
                     array_key_exists('derivWind', $pd)? $pd['derivWind']:0,
-                    array_key_exists('dist', $pd)? $pd['dist']:0,
+                    static::AU * (array_key_exists('dist', $pd)? $pd['dist']:0),
                     array_key_exists('grav', $pd)? $pd['grav']:0,
                     array_key_exists('tempMin', $pd)? $pd['tempMin']:0,
                     array_key_exists('tempMax', $pd)? $pd['tempMax']:0,
@@ -136,10 +234,10 @@ class AppFixtures extends Fixture {
      * 
      * @param ObjectManager $em
      * @param string $name
-     * @return \App\Entity\Galaxy
+     * @return Galaxy
      */
     protected function createGalaxy($em, $name) {
-        $g = new \App\Entity\Galaxy();
+        $g = new Galaxy();
         $g->setName($name);
         $em->persist($g);
         $em->flush();
@@ -153,11 +251,11 @@ class AppFixtures extends Fixture {
      * @param int $x
      * @param int $y
      * @param int $z
-     * @param \App\Entity\Galaxy $galaxy
-     * @return \App\Entity\System
+     * @param Galaxy $galaxy
+     * @return System
      */
     protected function createSystem($em, $name, $x, $y, $z, $galaxy) {
-        $sys = new \App\Entity\System();
+        $sys = new System();
         $sys->setName($name);
         $sys->setCenterX($x);
         $sys->setCenterY($y);
@@ -171,14 +269,14 @@ class AppFixtures extends Fixture {
     /**
      * 
      * @param ObjectManager $em
-     * @param \App\Entity\Galaxy $galaxy
-     * @param \App\Entity\System $system
+     * @param Galaxy $galaxy
+     * @param System $system
      * @param string $name
      * @param int $energyStrength
-     * @return \App\Entity\Star
+     * @return Star
      */
     protected function createStandardStar($em, $galaxy, $system, $name, $energyStrength) {
-        $s = new \App\Entity\Star;
+        $s = new Star;
         $s->setAirToxicity(0);
         $s->setEarthToxicity(0);
         $s->setWaterToxicity(0);
@@ -191,7 +289,7 @@ class AppFixtures extends Fixture {
         $s->setEnergyStrength($energyStrength);
         $s->setEol(null);
         $s->setGalaxy($galaxy);
-        $s->setGravity(30);
+        $s->setGravity(28);
         $s->setMinTemp(3500);
         $s->setMaxTemp(6000);
         $s->setRadius(696000);
@@ -199,6 +297,9 @@ class AppFixtures extends Fixture {
         $s->setSpin(7000000);
         $s->setSystem($system);
         $s->setName($name);
+        $s->setX(0);
+        $s->setY(0);
+        $s->setZ(0);
         $em->persist($s);
         $em->flush();
         return $s;
@@ -209,9 +310,9 @@ class AppFixtures extends Fixture {
      * @TODO compute usableLandSurface depending on other shit
      * 
      * @param ObjectManager $em
-     * @param \App\Entity\Galaxy $galaxy
-     * @param \App\Entity\System $system
-     * @param \App\Entity\Star $star
+     * @param Galaxy $galaxy
+     * @param System $system
+     * @param Star $star
      * @param string $name
      * @param float $earthToxicity
      * @param float $waterToxicity
@@ -226,7 +327,8 @@ class AppFixtures extends Fixture {
      * @param float $tempMax
      * @param float $radius
      * @param float $spin
-     * @return \App\Entity\Planet
+     * @param array $resources
+     * @return Planet
      */
     protected function createPlanet($em,
             $galaxy,
@@ -245,8 +347,9 @@ class AppFixtures extends Fixture {
             $tempMin,
             $tempMax,
             $radius,
-            $spin) {
-        $p = new \App\Entity\Planet;
+            $spin,
+            $resources = []) {
+        $p = new Planet;
         $p->setGalaxy($galaxy);
         $p->setSystem($system);
         $p->setCenteredOn($star);
@@ -264,8 +367,48 @@ class AppFixtures extends Fixture {
         $p->setMaxTemp($tempMax);
         $p->setRadius($radius);
         $p->setSpin($spin);
+        // computed values
+        // usable surfaces
+        $totalSurface = 4 * pi() * ($radius ** 2);
+        $waterSurface = round($totalSurface * $waterPercent / 100);
+        $earthSurface = floor($totalSurface - ($waterSurface * mt_rand(1.009, 1.1)));
+        $p->setUsableLandSurface($earthSurface);
+        $p->setUsableWaterSurface($waterSurface);
+        $p->setUsableAtmosphericSurface($totalSurface * 1.5); // @TODO
+        // coords
+        $ox = $star->getX();
+        $oy = $star->getY();
+        $oz = $star->getZ();
+        $sx = ((mt_rand(0,1)? -1:1) * mt_rand(pow($dist, 1/5), pow($dist, 1/2)));
+        $sy = ((mt_rand(0,1)? -1:1) * mt_rand(pow($dist, 1/5), pow($dist, 1/2)));
+        $sz = ((mt_rand(0,1)? -1:1) * mt_rand(pow($dist, 1/5), pow($dist, 1/2)));
+        $nx = $ox + $sx;
+        $ny = $oy + $sy;
+        $nz = $oz + $sz;
+        // randomly move one of the 3 to adjust dist
+        $wh = mt_rand(0,2);
+        // $dist**2 = ($nx - $ox)**2 + ($ny - $oy)**2 + ($nz - $oz)**2
+        if($wh >= 2) { // z
+            $nz = sqrt($dist**2 - (($nx - $ox)**2 + ($ny - $oy)**2)) + $oz;
+        } elseif($wh >= 1) { // y
+            $ny = sqrt($dist**2 - (($nx - $ox)**2 + ($nz - $oz)**2)) + $oy;
+        } else { // x
+            $nx = sqrt($dist**2 - (($ny - $oy)**2 + ($nz - $oz)**2)) + $ox;
+        }
+        $p->setX($nx);
+        $p->setY($ny);
+        $p->setZ($nz);
+        echo '=========================='.PHP_EOL;
+        echo $name.PHP_EOL;
+        echo 'Sun : '.$ox.','.$oy.','.$oz.PHP_EOL;
+        echo 'Distance : '.$dist.PHP_EOL;
+        echo 'Position finale : '.$nx.','.$ny.','.$nz.PHP_EOL;
+        echo '=========================='.PHP_EOL;
         $em->persist($p);
         $em->flush();
+        // generate resources
+        
+        
         return $p;
     }
 }

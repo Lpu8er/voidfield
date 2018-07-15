@@ -99,4 +99,16 @@ class Character {
      * @ORM\Column(type="boolean")
      */
     protected $isMain = false; // is main character from user
+    /**
+     *
+     * @var int
+     * @ORM\Column(type="bigint")
+     */
+    protected $xp = 0;
+    /**
+     * 
+     * @var int
+     * @ORM\Column(type="integer")
+     */
+    protected $lvl = 1;
 }

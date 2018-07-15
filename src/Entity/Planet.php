@@ -22,7 +22,7 @@ class Planet extends Celestial {
      *
      * @var Star 
      * @ORM\ManyToOne(targetEntity="Star")
-     * @ORM\JoinColumn(name="center_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="centerstar_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $centeredOn; // star
     

@@ -42,4 +42,7 @@ class Building {
     protected $energyStock;
     protected $energyProd;
     protected $workersStock;
+    protected $assaultType;
+    protected $assaultValue;
+    protected $hitpoints;
 }

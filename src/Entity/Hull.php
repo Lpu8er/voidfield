@@ -29,4 +29,5 @@ class Hull {
     protected $inteqpSlots;
     protected $intutilSlots;
     protected $propSlots;
+    protected $hitpoints;
 }

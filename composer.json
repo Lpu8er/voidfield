@@ -16,6 +16,8 @@
         "symfony/lts": "^4@dev",
         "symfony/maker-bundle": "^1.5",
         "symfony/security-bundle": "^4.1",
+        "symfony/security-csrf": "^4.1",
+        "symfony/swiftmailer-bundle": "^3.2",
         "symfony/twig-bundle": "^4.1",
         "symfony/yaml": "^4.1"
     },

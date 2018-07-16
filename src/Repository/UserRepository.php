@@ -14,4 +14,20 @@ class UserRepository extends ServiceEntityRepository {
         parent::__construct($registry, User::class);
     }
     
+    /**
+     * Search if an user is already used by email and/or username
+     * @param type $email
+     * @param type $username
+     * @return bool if some user was found
+     */
+    public function searchAnyEmailUsername(string $email, string $username): bool {
+        $qb = $this->createQueryBuilder('u');
+        $qb->where('u.email=:e')
+           ->orWhere('u.username=:u')
+           ->setParameter('e', $email)
+           ->setParameter('u', $username);
+        $r = $qb->getQuery()->getResult();
+        return !empty($r);
+    }
+    
 }

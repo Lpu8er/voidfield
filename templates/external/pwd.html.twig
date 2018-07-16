@@ -1,0 +1,48 @@
+{% extends 'external-base.html.twig' %}
+{% block content %}
+    <div class="container">
+        <h1>
+            Mot de passe oublié
+        </h1>
+        <p class="lead">
+            Vous avez oublié votre mot de passe ?
+            Indiquez simplement votre username et votre email.
+            Un mot de passe temporaire sera généré et utilisable
+            temporairement.
+        </p>
+        <form action="{{ path('pwd') }}"
+              method="post">
+            <div class="form-group">
+                <label for="pwdEmail">Email</label>
+                <input type="email"
+                       name="email"
+                       class="form-control"
+                       id="pwdEmail"
+                       aria-describedby="email"
+                       placeholder="Adresse email" />
+                <small id="pwdEmail" class="form-text text-muted">
+                    Attention, en cas d'erreur,
+                    aucune information ne sera donnée !
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="pwdUsername">Username</label>
+                <input type="text"
+                       name="username"
+                       class="form-control"
+                       id="registerUsername"
+                       aria-describedby="username"
+                       placeholder="" />
+                <small id="pwdUsername" class="form-text text-muted">
+                    Attention, en cas d'erreur,
+                    aucune information ne sera donnée !
+                </small>
+            </div>
+            <input type="hidden"
+                   name="_csrf"
+                   value="{{ csrf_token('user-pwd') }}" />
+            <button type="submit"
+                    class="btn btn-primary">Envoyer la demande de mot de passe temporaire</button>
+        </form>
+    </div>
+{% endblock %}

@@ -24,5 +24,8 @@ security:
         - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/info, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/cgu, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/pwd, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_USER }
         

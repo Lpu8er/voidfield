@@ -1,0 +1,11 @@
+#mainContent {
+    padding-top: 60px;
+}
+
+.ghost-message-container {
+    position: fixed;
+    top: 35px;
+    right: 15px;
+    z-index: 3000;
+    opacity: 0.9;
+}

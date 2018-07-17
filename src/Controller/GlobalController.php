@@ -12,6 +12,12 @@ use Symfony\Component\HttpFoundation\Response;
 abstract class GlobalController extends Controller {
     /**
      *
+     * @var string 
+     */
+    protected $current = null;
+    
+    /**
+     *
      * @var array
      */
     protected $messages = [];
@@ -39,8 +45,26 @@ abstract class GlobalController extends Controller {
      * 
      * @return array
      */
-    protected function getMessages() {
+    protected function getMessages(): array {
         return $this->messages;
+    }
+    
+    /**
+     * 
+     * @param string $current
+     * @return $this
+     */
+    protected function setCurrent(string $current): self {
+        $this->current = $current;
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return string
+     */
+    protected function getCurrent() {
+        return $this->current;
     }
     
     /**
@@ -52,6 +76,7 @@ abstract class GlobalController extends Controller {
      */
     protected function render(string $view, array $parameters = array(), Response $response = null): Response {
         $parameters['_messages'] = $this->getMessages();
+        $parameters['_current'] = $this->getCurrent();
         return parent::render($view, $parameters, $response);
     }
 }

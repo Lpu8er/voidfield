@@ -1,12 +1,36 @@
 {% extends 'external-base.html.twig' %}
 {% block content %}
     <div class="container">
-        <form action="{{ path('login') }}" method="post">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="_username" />
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="_password" />
-            <button type="submit">login</button>
+        <h1>
+            Connexion
+        </h1>
+        <form action="{{ path('register') }}" method="post">
+            <div class="form-group">
+                <label for="loginUsername">Identifiant utilisateur</label>
+                <input type="text"
+                       name="_username"
+                       required="required"
+                       class="form-control"
+                       id="loginUsername"
+                       placeholder="Identifiant utilisateur" />
+                <a href="{{ path('register') }}" class="form-text">
+                    Pas encore inscrit ?
+                </a>
+            </div>
+            <div class="form-group">
+                <label for="loginPwd">Mot de passe</label>
+                <input type="password"
+                       name="_password"
+                       required="required"
+                       class="form-control"
+                       id="loginPwd"
+                       placeholder="Mot de passe" />
+                <a href="{{ path('pwd') }}" class="form-text">
+                    Mot de passe oublié ?
+                </a>
+            </div>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+            <button type="submit" class="btn btn-primary">Connexion</button>
         </form>
     </div>
 {% endblock %}

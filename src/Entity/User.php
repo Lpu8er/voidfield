@@ -89,9 +89,12 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     
     public function getRoles() {
         $r = [];
-        if($this->bot) { $r[] = 'ROLE_BOT'; }
+        if(static::STATUS_BOT === $this->status) { $r[] = 'ROLE_BOT'; }
         else { $r[] = 'ROLE_USER'; }
         if($this->admin) { $r[] = 'ROLE_ADMIN'; }
+        if(!empty($this->mainCharacter)) {
+            $r[] = 'ROLE_VERIFIED';
+        }
         return $r;
     }
     
@@ -166,7 +169,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
         return $this->admin;
     }
 
-    public function getMainCharacter(): Character {
+    public function getMainCharacter() {
         return $this->mainCharacter;
     }
 
@@ -174,7 +177,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
         return $this->money;
     }
 
-    public function getFirstConnection(): \DateTime {
+    public function getFirstConnection() {
         return $this->firstConnection;
     }
 

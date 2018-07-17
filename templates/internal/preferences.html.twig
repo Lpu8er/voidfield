@@ -1,0 +1,49 @@
+{% extends 'internal-base.html.twig' %}
+{% block content %}
+    <h1>
+        Préférences
+    </h1>
+    <form action="{{ path('preferences') }}" method="post">
+        <fieldset>
+            <legend>Changer de mot de passe</legend>
+            <div class="form-group">
+                <label for="prefsOldPwd">Ancien mot de passe</label>
+                <input type="password"
+                       name="oldPwd"
+                       required="required"
+                       class="form-control"
+                       id="prefsOldPwd"
+                       placeholder="Mot de passe actuel" />
+            </div>
+            <div class="form-group">
+                <label for="prefsNewPwd">Nouveau mot de passe</label>
+                <input type="password"
+                       name="newPwd"
+                       required="required"
+                       class="form-control"
+                       id="prefsNewPwd"
+                       placeholder="Mot de passe souhaité" />
+                <small class="form-text text-muted">
+                    Il est recommandé d'utiliser un mot de passe conjuguant
+                    des minuscules, majuscules, symboles...
+                    Mais c'est votre choix ! Assumez-le.
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="prefsNewPwdBis">Nouveau mot de passe (confirmez)</label>
+                <input type="password"
+                       name="newPwdBis"
+                       required="required"
+                       class="form-control"
+                       id="prefsNewPwdBis"
+                       placeholder="Doit etre identique" />
+            </div>
+        </fieldset>
+        <input type="hidden"
+               name="_csrf"
+               value="{{ csrf_token('user-preferences') }}" />
+        <button type="submit"
+                name="savePrefs"
+                class="btn btn-primary">Enregistrer ces préférences</button>
+    </form>
+{% endblock %}

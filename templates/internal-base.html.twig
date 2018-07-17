@@ -3,7 +3,7 @@
     <header class="">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
             <a class="navbar-brand"
-               href="{{ path('root') }}"
+               href="{{ path('home') }}"
                title="Voidfield">🕳</a>
             <button class="navbar-toggler"
                     type="button"
@@ -19,17 +19,21 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
                         <a class="nav-link"
-                           href="{{ path('root') }}">Voidfield{% if _current is not defined or 'home' == _current %}<span class="sr-only">(current)</span>{% endif %}</a>
+                           href="{{ path('home') }}">Empire{% if current is not defined or 'home' == current %}<span class="sr-only">(current)</span>{% endif %}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="#">Informations{% if _current is defined and 'info' == _current %}<span class="sr-only">(current)</span>{% endif %}</a>
+                           href="#">Informations{% if current is defined and 'infos' == current %}<span class="sr-only">(current)</span>{% endif %}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="{{ path('register') }}">Inscription{% if _current is defined and 'register' == _current %}<span class="sr-only">(current)</span>{% endif %}</a>
+                           href="{{ path('register') }}">Inscription{% if current is defined and 'register' == current %}<span class="sr-only">(current)</span>{% endif %}</a>
                     </li>
                 </ul>
+            </div>
+            <div class="mt-2 mt-md-0">
+                <a href="{{ path('preferences') }}">{{ app.user.username }}</a>
+                <a href="{{ path('logout') }}">Déconnexion</a>
             </div>
         </nav>
     </header>
@@ -54,6 +58,8 @@
         </div>
     {% endif %}
     <section id="mainContent">
-        {% block content %}{% endblock %}
+        <div class="container-fluid">
+            {% block content %}{% endblock %}
+        </div>
     </section>
 {% endblock %}

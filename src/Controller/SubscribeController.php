@@ -2,14 +2,17 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use Swift_Mailer;
+use Swift_Message;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class SubscribeController extends GlobalController {
     /**
      * @Route("/register", name="register")
      */
-    public function register(Request $request, \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface $encoder, \Swift_Mailer $mailer) {
+    public function register(Request $request, UserPasswordEncoderInterface $encoder, Swift_Mailer $mailer) {
         $params = [
             'email' => '',
             'username' => '',
@@ -41,7 +44,7 @@ class SubscribeController extends GlobalController {
                 $this->getDoctrine()->getManager()->persist($u);
                 $this->getDoctrine()->getManager()->flush();
                 // mail
-                $mailContent = (new \Swift_Message('Register'))
+                $mailContent = (new Swift_Message('Register'))
                         ->setFrom('lpu8er@lpu8er.com')
                         ->setTo($params['email'])
                         ->setBody($this->renderView('mails/register.html.twig', ['pwd' => $clearPwd,]));
@@ -64,5 +67,12 @@ class SubscribeController extends GlobalController {
      */
     public function info() {
         return $this->render('external/info.html.twig', []);
+    }
+    
+    /**
+     * @Route("/pwd", name="pwd")
+     */
+    public function pwd() {
+        return $this->render('external/pwd.html.twig', []);
     }
 }

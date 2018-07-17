@@ -1,0 +1,58 @@
+{% extends 'internal-base.html.twig' %}
+{% block content %}
+    <h1>
+        Création de votre personnage
+    </h1>
+    <div class="alert alert-info" role="alert">
+        Votre personnage est l'élément le plus important de votre empire.
+    </div>
+    <form action="{{ path('register') }}" method="post">
+        <div class="form-group">
+            <label for="registerEmail">Email</label>
+            <input type="email"
+                   name="email"
+                   required="required"
+                   class="form-control"
+                   id="registerEmail"
+                   aria-describedby="email"
+                   placeholder="Adresse email"
+                   value="{{ email|default('') }}" />
+            <small class="form-text text-muted">
+                Une adresse email valide est obligatoire.
+            </small>
+        </div>
+        <div class="form-group">
+            <label for="registerUsername">Identifiant utilisateur</label>
+            <input type="text"
+                   name="username"
+                   required="required"
+                   class="form-control"
+                   id="registerUsername"
+                   aria-describedby="username"
+                   placeholder="Identifiant d'utilisateur"
+                   autocomplete="off"
+                   value="{{ username|default('') }}" />
+            <small class="form-text text-muted">
+                Cet identifiant utilisateur sera utilisé à la connexion et ne sera pas divulgué.
+            </small>
+        </div>
+        <div class="form-group form-check">
+            <input type="checkbox"
+                   name="cgu"
+                   class="form-check-input"
+                   id="registerCgu" />
+            <label class="form-check-label"
+                   for="registerCgu">
+                Vous reconnaissez avoir lu et compris les
+                <a href="{{ path('cgu') }}">Conditions Générales d'Utilisation</a>
+                et acceptez de vous y conformer
+            </label>
+        </div>
+        <input type="hidden"
+               name="_csrf"
+               value="{{ csrf_token('user-register') }}" />
+        <button type="submit"
+                name="register"
+                class="btn btn-primary">S'enregister</button>
+    </form>
+{% endblock %}

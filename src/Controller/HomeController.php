@@ -51,8 +51,23 @@ class HomeController extends InternalController {
         if(!empty($mc)) {
             $returns = $this->redirectToRoute('home');
         } else {
-            $returns = $this->render('internal/character.html.twig', []);
+            $startSkillPoints = $this->getParameter('character.startskillpoints');
+            $random = [
+                'firstName' => $this->randomFirstName(),
+                'lastName' => $this->randomLastName(),
+                'givenName' => $this->randomGivenName(),
+            ];
+            $skills = $this->getDoctrine()->getRepository(\App\Entity\Skill::class)->findByUsableOnCharacter(true);
+            $returns = $this->render('internal/character.html.twig', [
+                'random' => $random,
+                'skills' => $skills,
+                'startSkillPoints' => $startSkillPoints,
+            ]);
         }
         return $returns;
     }
+    
+    protected function randomFirstName(): string { return ''; }
+    protected function randomLastName(): string { return ''; }
+    protected function randomGivenName(): string { return ''; }
 }

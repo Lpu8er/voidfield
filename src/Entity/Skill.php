@@ -69,13 +69,78 @@ class Skill {
      * 
      * @var Resource
      * @ORM\ManyToOne(targetEntity="Resource")
-     * @ORM\JoinColumn(name="resource_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="resource_id", referencedColumnName="id", nullable=true)
      */
-    protected $resource;
+    protected $resource = null;
     /**
      *
      * @var bool
      * @ORM\Column(type="boolean")
      */
     protected $usableOnCharacter = false;
+    
+    public function getId() {
+        return $this->id;
+    }
+
+    public function getName() {
+        return $this->name;
+    }
+
+    public function getAttribute() {
+        return $this->attribute;
+    }
+
+    public function getValue() {
+        return $this->value;
+    }
+
+    public function getDamageType() {
+        return $this->damageType;
+    }
+
+    public function getResource() {
+        return $this->resource;
+    }
+
+    public function getUsableOnCharacter(): bool {
+        return $this->usableOnCharacter;
+    }
+
+    public function setId($id) {
+        $this->id = $id;
+        return $this;
+    }
+
+    public function setName($name) {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function setAttribute($attribute) {
+        $this->attribute = $attribute;
+        return $this;
+    }
+
+    public function setValue($value) {
+        $this->value = $value;
+        return $this;
+    }
+
+    public function setDamageType($damageType) {
+        $this->damageType = $damageType;
+        return $this;
+    }
+
+    public function setResource(Resource $resource = null) {
+        $this->resource = $resource;
+        return $this;
+    }
+
+    public function setUsableOnCharacter(bool $usableOnCharacter) {
+        $this->usableOnCharacter = $usableOnCharacter;
+        return $this;
+    }
+
+
 }

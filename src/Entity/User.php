@@ -78,6 +78,12 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
      * @ORM\Column(type="datetime", nullable=true)
      */
     protected $firstConnection = null;
+    /**
+     *
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    protected $rookie = true;
     
     public function __construct() {
         $this->status = static::STATUS_INACTIVE;
@@ -92,7 +98,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
         if(static::STATUS_BOT === $this->status) { $r[] = 'ROLE_BOT'; }
         else { $r[] = 'ROLE_USER'; }
         if($this->admin) { $r[] = 'ROLE_ADMIN'; }
-        if(!empty($this->mainCharacter)) {
+        if(!empty($this->mainCharacter)) { // fun fact : this is in Sf cache so will trigger some issues if changed without a full roles refresh
             $r[] = 'ROLE_VERIFIED';
         }
         return $r;
@@ -200,4 +206,15 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
         $this->firstConnection = $firstConnection;
         return $this;
     }
+    
+    public function getRookie() {
+        return $this->rookie;
+    }
+
+    public function setRookie($rookie) {
+        $this->rookie = $rookie;
+        return $this;
+    }
+
+
 }

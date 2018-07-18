@@ -33,4 +33,33 @@ class CharacterSkill {
      * @ORM\Column(type="integer")
      */
     protected $points;
+    
+    public function getCharacter(): Character {
+        return $this->character;
+    }
+
+    public function getSkill(): Skill {
+        return $this->skill;
+    }
+
+    public function getPoints() {
+        return $this->points;
+    }
+
+    public function setCharacter(Character $character) {
+        $this->character = $character;
+        return $this;
+    }
+
+    public function setSkill(Skill $skill) {
+        $this->skill = $skill;
+        return $this;
+    }
+
+    public function setPoints($points) {
+        $this->points = $points;
+        return $this;
+    }
+
+
 }

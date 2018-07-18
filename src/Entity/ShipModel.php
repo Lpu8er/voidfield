@@ -33,4 +33,5 @@ class ShipModel {
     protected $energyBase; // base energy apport
     protected $maxCargoMass;
     protected $maxCargoSize;
+    protected $owner = null; // if null, public/system model
 }

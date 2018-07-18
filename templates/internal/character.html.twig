@@ -5,8 +5,12 @@
     </h1>
     <div class="alert alert-info" role="alert">
         Votre personnage est l'élément le plus important de votre empire.
+        Ses caractéristiques rayonnent à travers toutes vos colonies,
+        vos flottes, et c'est ce personnage qui doit survivre à tout prix.<br />
+        Ce personnage démarrera dans une flotte dans un système de départ.
+        N'ayez crainte, l'USC empechera toute attaque pendant un temps.
     </div>
-    <form action="{{ path('register') }}" method="post">
+    <form action="{{ path('character') }}" method="post">
         <div class="form-group">
             <label for="characterLastName">Nom du personnage</label>
             <input type="text"
@@ -57,29 +61,34 @@
                 ?
             </small>
         </div>
-        <div class="form-group form-check">
-            <p>
-                Il vous reste
-                <span class="whole-remainder-number"
-                      data-whole="skillpoints">{{ startSkillPoints }}</span>
-                points à attribuer.
-            </p>
-            {% for skill in skills %}
-            <p>
-                <input type="number"
-                       min="0"
-                       step="1"
-                       max="{{ startSkillPoints }}"
-                       name="skill[{{ skill.id }}]"
-                       class="form-control whole-control-number"
-                       data-whole="skillpoints"
-                       value="0"
-                       id="characterSkill_{{ skill.id }}" />
-                <label class="form-check-label"
-                       for="characterSkill_{{ skill.id }}">
-                    {{ skill.name }}
-                </label>
-            </p>{% endfor %}
+        <div class="form-group">
+            <div class="form-row">
+                <p class="form-col alert alert-info" role="alert"">
+                    Vous pouvez conserver des points pour plus tard.
+                    Il vous reste
+                    <strong class="whole-remainder-number"
+                          data-whole="skillpoints">{{ startSkillPoints }}</strong>
+                    points à attribuer.
+                </p>
+            </div>
+            <div class="form-row">
+                {% for skill in skills %}
+                <p>
+                    <input type="number"
+                           min="0"
+                           step="1"
+                           max="{{ startSkillPoints }}"
+                           name="skill[{{ skill.id }}]"
+                           class="form-control whole-control-number"
+                           data-whole="skillpoints"
+                           value="0"
+                           id="characterSkill_{{ skill.id }}" />
+                    <label class="form-check-label"
+                           for="characterSkill_{{ skill.id }}">
+                        {{ skill.name }}
+                    </label>
+                </p>{% endfor %}
+            </div>
         </div>
         <input type="hidden"
                name="_csrf"

@@ -35,7 +35,7 @@ voidfield.ClickToComplete.prototype.complete = function(){
  */
 voidfield.WholeNumber = function(whole, maxPoints){
     this.whole = whole;
-    this.maxPoints = maxPoints;
+    this.maxPoints = parseInt(maxPoints);
 };
 
 /**
@@ -55,18 +55,22 @@ voidfield.WholeNumber.prototype.recompute = function(){
     let points = 0;
     let mx = this.maxPoints;
     jQuery('.whole-control-number[data-whole="'+this.whole+'"]').each(function(){
-        let ad = jQuery(this).val();
+        let ad = parseInt(jQuery(this).val());
         if(!isNaN(ad)) {
-            if((points + ad) <= mx) {
-                points = points + ad;
-            } else {
+            if((points + ad) > mx) {
                 returns = false;
             }
+            points = points + ad;
         }
     });
     let remainder = this.maxPoints - points;
-    while(remainder < 0) { // fast way, bug here @TODO
-        jQuery('.whole-control-number[data-whole="'+this.whole+'"][value!=0]').first().val(0);
+    while(points > this.maxPoints) { // fast way, bug here @TODO
+        let $ce = jQuery('.whole-control-number[data-whole="'+this.whole+'"]').filter(function(){
+            return (0 < this.value);
+        }).first();
+        points = points - parseInt($ce.val());
+        remainder = this.maxPoints - points;
+        $ce.val(0);
     }
     jQuery('.whole-remainder-number[data-whole="'+this.whole+'"]').text(remainder);
     return returns;

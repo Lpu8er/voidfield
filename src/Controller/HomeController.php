@@ -3,6 +3,9 @@ namespace App\Controller;
 
 use App\Entity\Character;
 use App\Entity\CharacterSkill;
+use App\Entity\Colony;
+use App\Entity\Fleet;
+use App\Entity\Planet;
 use App\Entity\Skill;
 use DateInterval;
 use DateTime;
@@ -19,8 +22,8 @@ class HomeController extends InternalController {
                 && empty($this->getUser()->getMainCharacter())) {
             $returns = $this->redirectToRoute('character');
         } else {
-            $colonies = $this->getDoctrine()->getRepository(\App\Entity\Colony::class)->findByOwner($this->getUser());
-            $fleets = $this->getDoctrine()->getRepository(\App\Entity\Fleet::class)->findByOwner($this->getUser());
+            $colonies = $this->getDoctrine()->getRepository(Colony::class)->findByOwner($this->getUser());
+            $fleets = $this->getDoctrine()->getRepository(Fleet::class)->findByOwner($this->getUser());
             
             $returns = $this->render('internal/home.html.twig', [
                 'colonies' => $colonies,
@@ -106,12 +109,23 @@ class HomeController extends InternalController {
                     $this->getDoctrine()->getManager()->persist($cs);
                     $this->getDoctrine()->getManager()->flush();
                 }
-                // create fleet
-                
                 // update main
                 $this->getUser()->setMainCharacter($c);
                 $this->getDoctrine()->getManager()->persist($this->getUser());
                 $this->getDoctrine()->getManager()->flush();
+                // create colony on a start planet randomly at first
+                $startPlanets = $this->getDoctrine()->getRepository(Planet::class)->findByStartable(true);
+                if(!empty($startPlanets)) {
+                    $startPlanet = $startPlanets[0];
+                    $colony = new Colony;
+                    $colony->setCelestial($startPlanet);
+                    $colony->setCtype(Colony::CTYPE_EARTH);
+                    $colony->setLeader($c);
+                    $colony->setName($startPlanet->getName());
+                    $colony->setOwner($this->getUser());
+                    $this->getDoctrine()->getManager()->persist($colony);
+                    $this->getDoctrine()->getManager()->flush();
+                } // no colony ? that shouldn't be possible @TODO
                 $this->addFlash('success', 'Création du premier personnage bien effectué !');
                 $returns = $this->redirectToRoute('home');
             } else {

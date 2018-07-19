@@ -55,67 +55,67 @@ class Colony {
      * @var int
      * @ORM\Column(type="integer")
      */
-    protected $population; // total population
+    protected $population = 0; // total population
     /**
      *
      * @var int
      * @ORM\Column(type="integer")
      */
-    protected $hostiles; // hostiles, very unsatisfied
+    protected $hostiles = 0; // hostiles, very unsatisfied
     /**
      *
      * @var int
      * @ORM\Column(type="integer")
      */
-    protected $baddies; // unsatisfied
+    protected $baddies = 0; // unsatisfied
     /**
      *
      * @var int
      * @ORM\Column(type="integer")
      */
-    protected $goodies; // satisfied persons
+    protected $goodies = 0; // satisfied persons
     /**
      *
      * @var int
      * @ORM\Column(type="integer")
      */
-    protected $partisans; // very satisfied
+    protected $partisans = 0; // very satisfied
     /**
      * 
      * @var float
      * @ORM\Column(type="decimal", precision=20, scale=5)
      */
-    protected $dailyTax; // depends on population
+    protected $dailyTax = 0.0; // depends on population
     /**
      * 
      * @var float
      * @ORM\Column(type="decimal", precision=20, scale=5)
      */
-    protected $earthToxicity; // local toxicity, can be moved by colony, will move and be moved by celestial
+    protected $earthToxicity = 0.0; // local toxicity, can be moved by colony, will move and be moved by celestial
     /**
      * 
      * @var float
      * @ORM\Column(type="decimal", precision=20, scale=5)
      */
-    protected $waterToxicity;
+    protected $waterToxicity = 0.0;
     /**
      * 
      * @var float
      * @ORM\Column(type="decimal", precision=20, scale=5)
      */
-    protected $airToxicity;
+    protected $airToxicity = 0.0;
     /**
      *
      * @var int
      * @ORM\Column(type="integer")
      */
-    protected $energy; // current stock
+    protected $energy = 0; // current stock
     /**
      *
      * @var int
      * @ORM\Column(type="integer")
      */
-    protected $workers;// used
+    protected $workers = 0;// used
     /**
      *
      * @var Character 
@@ -276,6 +276,12 @@ class Colony {
         $this->leader = $leader;
         return $this;
     }
-
-
+    
+    public function getSatisfaction() {
+        return (0 < $this->population)? ((100 * ($this->goodies + $this->partisans)) / $this->population):0;
+    }
+    
+    public function getInsatisfaction() {
+        return (0 < $this->population)? ((100 * ($this->baddies + $this->hostiles)) / $this->population):0;
+    }
 }

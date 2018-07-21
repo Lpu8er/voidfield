@@ -27,7 +27,22 @@ class Natural {
      * @ORM\JoinColumn(name="resource_id", referencedColumnName="id")
      */
     protected $resource;
-    protected $stocks; // current natural stocks; stocks is filled by production each day, deplated by extraction, meaning that's the max a colony can extract by day
-    protected $production; // natural production; that value will periodically move by the replating value depending on resource type
-    protected $replating; // natural replate (negative : deplate); negative events and mass extraction will lower that value
+    /**
+     *
+     * @var int
+     * @ORM\Column(type="bigint") 
+     */
+    protected $stocks = 0; // current natural stocks; stocks is filled by production each day, deplated by extraction, meaning that's the max a colony can extract by day
+    /**
+     * 
+     * @var float
+     * @ORM\Column(type="decimal", precision=20, scale=5)
+     */
+    protected $production = 0.0; // natural production; that value will periodically move by the replating value depending on resource type
+    /**
+     * 
+     * @var float
+     * @ORM\Column(type="decimal", precision=20, scale=5)
+     */
+    protected $replating = 0.0; // natural replate (negative : deplate); negative events and mass extraction will lower that value
 }

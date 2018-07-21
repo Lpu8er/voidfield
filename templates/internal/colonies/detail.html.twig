@@ -1,0 +1,204 @@
+{% extends 'internal-base.html.twig' %}
+{% block content %}
+    <div class="container-fluid">
+        <h2>{{ colony.name }}</h2>
+        <div class="row">
+            {% for stock in stocks %}
+                <div class="col-sm">
+                    {{ stock.resource.name }}
+                    {{ stock.stocks|nformat }}
+                </div>
+            {% endfor %}
+            <div class="col-sm">
+                Travailleurs
+                {{ colony.workers }}
+            </div>
+            <div class="col-sm">
+                Énergie
+                {{ colony.energy }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <ul class="nav nav-tabs"
+                    id="colonyTabs"
+                    role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active"
+                           id="general-tab"
+                           data-toggle="tab"
+                           href="#general-tabpane"
+                           role="tab"
+                           aria-controls="general-tabpane"
+                           aria-selected="true">Vue générale</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           id="planet-tab"
+                           data-toggle="tab"
+                           href="#planet-tabpane"
+                           role="tab"
+                           aria-controls="planet-tabpane"
+                           aria-selected="true">Planète</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           id="buildings-tab"
+                           data-toggle="tab"
+                           href="#buildings-tabpane"
+                           role="tab"
+                           aria-controls="buildings-tabpane"
+                           aria-selected="false">Batiments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           id="extracts-tab"
+                           data-toggle="tab"
+                           href="#extracts-tabpane"
+                           role="tab"
+                           aria-controls="extracts-tabpane"
+                           aria-selected="false">Extraction</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           id="prods-tab"
+                           data-toggle="tab"
+                           href="#prods-tabpane"
+                           role="tab"
+                           aria-controls="prods-tabpane"
+                           aria-selected="false">Production</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           id="fleets-tab"
+                           data-toggle="tab"
+                           href="#fleets-tabpane"
+                           role="tab"
+                           aria-controls="fleets-tabpane"
+                           aria-selected="false">Spatioport</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane border-left active"
+                         id="general-tabpane"
+                         role="tabpanel"
+                         aria-labelledby="general-tabpane">
+                        <fieldset class="container-fluid">
+                            <legend>Moral</legend>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    Satisfaction générale
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="progress">
+                                        <div class="progress-bar bg-danger"
+                                             role="progressbar"
+                                             style="width: {{ colony.insatisfaction }}%"
+                                             aria-valuenow="{{ colony.baddies + colony.hostiles }}"
+                                             aria-valuemin="0"
+                                             aria-valuemax="{{ colony.population }}"
+                                             title="{{ colony.insatisfaction }}% insatisfaits dont {{ colony.hostiles|nformat }} hostiles"></div>
+                                        <div class="progress-bar"
+                                             role="progressbar"
+                                             style="width: {{ colony.neutrals }}%"
+                                             aria-valuenow="{{ colony.population - (colony.baddies + colony.hostiles + colony.goodies + colony.partisans) }}"
+                                             aria-valuemin="0"
+                                             aria-valuemax="{{ colony.population }}"></div>
+                                        <div class="progress-bar bg-success"
+                                             role="progressbar"
+                                             style="width: {{ colony.satisfaction }}%"
+                                             aria-valuenow="{{ colony.goodies + colony.partisans }}"
+                                             aria-valuemin="0"
+                                             aria-valuemax="{{ colony.population }}"
+                                             title="{{ colony.satisfaction }}% satisfaits dont {{ colony.partisans|nformat }} partisans"></div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    Total:
+                                    {{ colony.population|nformat }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    Satisfaction
+                                </div>
+                                <div class="col-sm-4">
+                                    {{ colony.satisfaction }}%
+                                    soit
+                                    {{ (colony.goodies + colony.partisans)|nformat }}
+                                </div>
+                                <div class="col-sm-6">
+                                    Une population satisfaite permet un taux de taxe
+                                    plus élevé sans grogne.
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    Insatisfaction
+                                </div>
+                                <div class="col-sm-4">
+                                    {{ colony.insatisfaction }}%
+                                    soit
+                                    {{ (colony.baddies + colony.hostiles)|nformat }}
+                                </div>
+                                <div class="col-sm-6">
+                                    Une population insatisfaite ralentit la production,
+                                    augmente les couts, et peut provoquer des incidents.
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="container-fluid">
+                            <legend>Ressources</legend>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Ressource</th>
+                                        <th>Stocks</th>
+                                        <th>% Maximum</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for stock in stocks %}
+                                        <tr>
+                                            <th>{{ stock.resource.name }}</th>
+                                            <td>{{ stock.stocks|nformat }}</td>
+                                            <td>
+                                                &nbsp;{# @TODO #}
+                                            </td>
+                                        </tr>
+                                    {% endfor%}
+                                    <tr>
+                                        <th>Énergie</th>
+                                        <td>{{ colony.energy }}</td>
+                                        <td>
+                                            L'énergie est utilisée en continu
+                                            par les batiments. Sa production est
+                                            instantanée, soumise à un maximum.
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Travailleurs</th>
+                                        <td>{{ colony.workers }}</td>
+                                        <td>
+                                            Les travailleurs sont utilisés en continu
+                                            par les batiments et viennent directement
+                                            de votre population. Ils ne sont pas consommés,
+                                            mais sont occupés.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </fieldset>
+                    </div>
+                    <div class="tab-pane"
+                         id="planet-tabpane"
+                         role="tabpanel"
+                         aria-labelledby="planet-tabpane">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

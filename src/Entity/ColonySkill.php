@@ -4,21 +4,21 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Description of BuildingSkill
+ * Description of ColonySkill
  *
  * @author lpu8er
  * @ORM\Entity()
- * @ORM\Table(name="buildingskills")
+ * @ORM\Table(name="colonyskills")
  */
-class BuildingSkill {
+class ColonySkill {
     /**
      *
-     * @var Building 
+     * @var Colony 
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="Building")
-     * @ORM\JoinColumn(name="building_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Colony")
+     * @ORM\JoinColumn(name="colony_id", referencedColumnName="id")
      */
-    protected $building;
+    protected $colony;
     /**
      *
      * @var Skill 
@@ -34,8 +34,8 @@ class BuildingSkill {
      */
     protected $points;
     
-    public function getBuilding(): Building {
-        return $this->building;
+    public function getColony(): Colony {
+        return $this->colony;
     }
 
     public function getSkill(): Skill {
@@ -46,8 +46,8 @@ class BuildingSkill {
         return $this->points;
     }
 
-    public function setBuilding(Building $building) {
-        $this->building = $building;
+    public function setColony(Colony $colony) {
+        $this->colony = $colony;
         return $this;
     }
 

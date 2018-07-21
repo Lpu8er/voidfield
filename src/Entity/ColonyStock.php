@@ -4,21 +4,21 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Description of BuildingExtraction
+ * Description of ColonyStock
  *
  * @author lpu8er
  * @ORM\Entity()
- * @ORM\Table(name="buildingextractions")
+ * @ORM\Table(name="colonystocks")
  */
-class BuildingExtraction {
+class ColonyStock {
     /**
      *
-     * @var Building 
+     * @var Colony 
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="Building")
-     * @ORM\JoinColumn(name="building_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Colony", inversedBy="stocks")
+     * @ORM\JoinColumn(name="colony_id", referencedColumnName="id")
      */
-    protected $building;
+    protected $colony;
     /**
      *
      * @var Resource 
@@ -30,24 +30,24 @@ class BuildingExtraction {
     /**
      *
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="bigint") 
      */
-    protected $nb;
+    protected $stocks = 0;
     
-    public function getBuilding(): Building {
-        return $this->building;
+    public function getColony(): Colony {
+        return $this->colony;
     }
 
     public function getResource(): Resource {
         return $this->resource;
     }
 
-    public function getNb() {
-        return $this->nb;
+    public function getStocks() {
+        return $this->stocks;
     }
 
-    public function setBuilding(Building $building) {
-        $this->building = $building;
+    public function setColony(Colony $colony) {
+        $this->colony = $colony;
         return $this;
     }
 
@@ -56,8 +56,8 @@ class BuildingExtraction {
         return $this;
     }
 
-    public function setNb($nb) {
-        $this->nb = $nb;
+    public function setStocks($stocks) {
+        $this->stocks = $stocks;
         return $this;
     }
 

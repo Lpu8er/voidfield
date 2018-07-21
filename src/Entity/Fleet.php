@@ -47,7 +47,7 @@ class Fleet {
     /**
      *
      * @var Colony 
-     * @ORM\ManyToOne(targetEntity="Colony")
+     * @ORM\ManyToOne(targetEntity="Colony", inversedBy="fleets")
      * @ORM\JoinColumn(name="colony_id", referencedColumnName="id", nullable=true)
      */
     protected $colony = null; // if docked

@@ -35,10 +35,11 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="{{ path('preferences') }}">🔧 Préférences</a>
+                           href="#">💰 {{ app.user.money|nformat }}</a>
                     </li>
-                    <li class="nav-item active">
-                        <span class="navbar-text">{{ app.user.username }}</span>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="{{ path('preferences') }}">🔧 Préférences</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"

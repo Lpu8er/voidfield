@@ -27,4 +27,24 @@ class BuildingCond {
      * @ORM\JoinColumn(name="target_id", referencedColumnName="id")
      */
     protected $target;
+    
+    public function getNeed(): Research {
+        return $this->need;
+    }
+
+    public function getTarget(): Building {
+        return $this->target;
+    }
+
+    public function setNeed(Research $need) {
+        $this->need = $need;
+        return $this;
+    }
+
+    public function setTarget(Building $target) {
+        $this->target = $target;
+        return $this;
+    }
+
+
 }

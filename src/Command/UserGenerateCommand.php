@@ -2,7 +2,6 @@
 namespace App\Command;
 
 use App\Entity\User;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -18,7 +17,7 @@ class UserGenerateCommand extends Command {
     protected $encoder = null;
     /**
      *
-     * @var ObjectManager 
+     * @var EntityManagerInterface 
      */
     protected $entityManager = null;
     

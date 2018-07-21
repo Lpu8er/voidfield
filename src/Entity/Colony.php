@@ -1,13 +1,14 @@
 <?php
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Description of Colony
  *
  * @author lpu8er
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\ColonyRepository")
  * @ORM\Table(name="colonies")
  */
 class Colony {
@@ -123,6 +124,44 @@ class Colony {
      * @ORM\JoinColumn(name="leader_id", referencedColumnName="id", nullable=true)
      */
     protected $leader = null;
+    /**
+     *
+     * @var ColonyStock[]
+     * @ORM\OneToMany(targetEntity="ColonyStock", mappedBy="colony")
+     */
+    protected $stocks;
+    /**
+     *
+     * @var ColonyBuilding[]
+     * @ORM\OneToMany(targetEntity="ColonyBuilding", mappedBy="colony")
+     */
+    protected $buildings;
+    /**
+     *
+     * @var Fleet[]
+     * @ORM\OneToMany(targetEntity="Fleet", mappedBy="colony")
+     */
+    protected $fleets;
+    /**
+     *
+     * @var BuildQueue[]
+     * @ORM\OneToMany(targetEntity="BuildQueue", mappedBy="colony")
+     */
+    protected $buildqueue;
+    /**
+     *
+     * @var ResearchQueue[]
+     * @ORM\OneToMany(targetEntity="ResearchQueue", mappedBy="colony")
+     */
+    protected $searchqueue;
+    
+    public function __construct() {
+        $this->stocks = new ArrayCollection;
+        $this->buildings = new ArrayCollection;
+        $this->fleets = new ArrayCollection;
+        $this->buildqueue = new ArrayCollection;
+        $this->searchqueue = new ArrayCollection;
+    }
     
     public function getId() {
         return $this->id;
@@ -284,4 +323,75 @@ class Colony {
     public function getInsatisfaction() {
         return (0 < $this->population)? ((100 * ($this->baddies + $this->hostiles)) / $this->population):0;
     }
+    
+    public function getNeutrals() {
+        return floor(100 - ($this->getSatisfaction() + $this->getInsatisfaction()));
+    }
+    
+    /**
+     * 
+     * @return ColonyStock[]
+     */
+    public function getStocks() {
+        return $this->stocks;
+    }
+
+    /**
+     * 
+     * @return ColonyBuilding[]
+     */
+    public function getBuildings() {
+        return $this->buildings;
+    }
+
+    /**
+     * 
+     * @return Fleet[]
+     */
+    public function getFleets() {
+        return $this->fleets;
+    }
+
+    /**
+     * 
+     * @return BuilQueue[]
+     */
+    public function getBuildqueue() {
+        return $this->buildqueue;
+    }
+
+    /**
+     * 
+     * @return ResearchQueue[]
+     */
+    public function getSearchqueue() {
+        return $this->searchqueue;
+    }
+
+    public function setStocks($stocks) {
+        $this->stocks = $stocks;
+        return $this;
+    }
+
+    public function setBuildings($buildings) {
+        $this->buildings = $buildings;
+        return $this;
+    }
+
+    public function setFleets($fleets) {
+        $this->fleets = $fleets;
+        return $this;
+    }
+
+    public function setBuildqueue($buildqueue) {
+        $this->buildqueue = $buildqueue;
+        return $this;
+    }
+
+    public function setSearchqueue($searchqueue) {
+        $this->searchqueue = $searchqueue;
+        return $this;
+    }
+
+
 }

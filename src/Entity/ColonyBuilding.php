@@ -23,10 +23,20 @@ class ColonyBuilding {
      *
      * @var Colony 
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="Colony")
+     * @ORM\ManyToOne(targetEntity="Colony", inversedBy="buildings")
      * @ORM\JoinColumn(name="colony_id", referencedColumnName="id")
      */
     protected $colony;
-    protected $running; // percent of func, allow energy and resources saving
-    protected $integrity; // percent of integrity, lower the func
+    /**
+     *
+     * @var int
+     * @ORM\Column(type="integer") 
+     */
+    protected $running = 100; // percent of func, allow energy and resources saving
+    /**
+     *
+     * @var int
+     * @ORM\Column(type="integer") 
+     */
+    protected $integrity = 100; // percent of integrity, lower the func
 }

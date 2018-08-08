@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Description of Building
  *
  * @author lpu8er
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\BuildingRepository")
  * @ORM\Table(name="buildings")
  */
 class Building {

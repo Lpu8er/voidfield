@@ -388,5 +388,15 @@ abstract class Celestial {
         return $this;
     }
 
-
+    public function getNameTree(): array {
+        $returns = [];
+        $returns[] = $this->getName();
+        $returns[] = $this->getSystem()->getName();
+        $returns[] = $this->getSystem()->getGalaxy()->getName();
+        return $returns;
+    }
+    
+    public function getFullName(string $sep = ' - '): string {
+        return implode($sep, $this->getNameTree());
+    }
 }

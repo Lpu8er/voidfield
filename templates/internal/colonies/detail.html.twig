@@ -210,7 +210,14 @@
                             <legend>
                                 Batiments
                             </legend>
-                            {{ dump(buildable) }}
+                            <div class="d-flex flex-wrap">
+                                {% for building in buildable %}
+                                    <div>
+                                        <h5>{{ building.name }}</h5>
+                                        <p></p>
+                                    </div>
+                                {% endfor %}
+                            </div>
                         </fieldset>
                     </div>
                 </div>

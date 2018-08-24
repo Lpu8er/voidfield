@@ -49,14 +49,13 @@ EOQ;
         $stmt = $sql->prepare($q);
         $stmt->bindValue('c', $colony->getId());
         $stmt->execute();
-        $ls = $stmt->fetchAll($sql::FETCH_ASSOC); // we have a small subset of results that we need to format
+        $ls = $stmt->fetchAll(\PDO::FETCH_ASSOC); // we have a small subset of results that we need to format
         foreach($ls as $l) {
             $bids[$l['id']] = $l['id']; // avoid duplicates
         }
         
         // here we go to grab doctrine objects
-        $qb = $this->createQueryBuilder();
-        $qb->select('b');
+        $qb = $this->createQueryBuilder('b');
         $qb->where($qb->expr()->in('b.id', $bids));
         return $qb->getQuery()->getResult(); // hydrate with buildings : we're good
     }

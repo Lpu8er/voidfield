@@ -22,6 +22,7 @@ class ColonyController extends InternalController {
             $returns = $this->render('internal/colonies/detail.html.twig', [
                 'colony' => $colony,
                 'stocks' => $this->getDoctrine()->getRepository(Colony::class)->getPaddedResources($colony),
+                'buildable' => $this->getDoctrine()->getRepository(\App\Entity\Building::class)->visibleList($colony),
                 ]);
         } else {
             throw $this->createAccessDeniedException();

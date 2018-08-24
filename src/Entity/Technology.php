@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Description of Technology
  *
  * @author lpu8er
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\TechnologyRepository")
  * @ORM\Table(name="technologies")
  */
 class Technology {

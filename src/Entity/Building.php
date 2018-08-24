@@ -79,59 +79,59 @@ class Building {
      * @var int
      * @ORM\Column(type="bigint")
      */
-    protected $energyConsumption;
+    protected $energyConsumption = 0;
     /**
      *
      * @var int
      * @ORM\Column(type="bigint")
      */
-    protected $buildWorkersNeeds; // how many needs to start the build
+    protected $buildWorkersNeeds = 0; // how many needs to start the build
     /**
      *
      * @var int
      * @ORM\Column(type="bigint")
      */
-    protected $workers; // how many needed to stay up
+    protected $workers = 0; // how many needed to stay up
     /**
      * 
      * @var float
      * @ORM\Column(type="decimal", precision=10, scale=5)
      */
-    protected $earthToxicity; // moving index for earth
+    protected $earthToxicity = 0.; // moving index for earth
     /**
      * 
      * @var float
      * @ORM\Column(type="decimal", precision=10, scale=5)
      */
-    protected $waterToxicity; // moving index for earth
+    protected $waterToxicity = 0.; // moving index for earth
     /**
      * 
      * @var float
      * @ORM\Column(type="decimal", precision=10, scale=5)
      */
-    protected $airToxicity; // moving index for earth
+    protected $airToxicity = 0.; // moving index for earth
     /**
      *
      * @var int
      * @ORM\Column(type="bigint")
      */
-    protected $energyStock;
+    protected $energyStock = 0;
     /**
      *
      * @var int
      * @ORM\Column(type="bigint")
      */
-    protected $energyProd;
+    protected $energyProd = 0;
     /**
      *
      * @var int
      * @ORM\Column(type="bigint")
      */
-    protected $workersStock;
+    protected $workersStock = 0;
     /**
      *
      * @var string
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     protected $assaultType;
     /**
@@ -139,7 +139,7 @@ class Building {
      * @var int
      * @ORM\Column(type="bigint")
      */
-    protected $assaultValue;
+    protected $assaultValue = 0;
     /**
      *
      * @var int

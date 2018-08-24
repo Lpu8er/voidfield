@@ -1,28 +1,35 @@
 <?php
 namespace App\Repository;
 
+use App\Entity\Building;
+use App\Entity\Colony;
+use App\Entity\Technology;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Symfony\Bridge\Doctrine\RegistryInterface;
+
 /**
  * Description of BuildingRepository
  *
  * @author lpu8er
  */
-class BuildingRepository extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository {
+class BuildingRepository extends ServiceEntityRepository {
+    /**
+     * 
+     * @param RegistryInterface $registry
+     */
+    public function __construct(RegistryInterface $registry) {
+        parent::__construct($registry, Building::class);
+    }
+    
     /**
      * Retrieve all buildings that can be built
-     * @param \App\Entity\Colony $colony
+     * @param Colony $colony
      * @return Building[]
      */
-    public function visibleList(\App\Entity\Colony $colony) {
+    public function visibleList(Colony $colony) {
         $bids = [];
         // first of all, retrieves a flat list of known technologies
-        $technologies = $this->createQueryBuilder('t')
-                ->leftJoin('t.research', 'r')
-                ->leftJoin('t.player', 'p')
-                ->select('r.id')
-                ->where('p.id=:p')
-                ->setParameter('p', $colony->getOwner()->getId())
-                ->getQuery()
-                ->getArrayResult();
+        $technologies = $this->getEntityManager()->getRepository(Technology::class)->retrieveFlatList($colony->getOwner());
         // we'll go deep in native query in order to optimize that shit
         $techiesClause = ''; // extreme case, but eh
         if(!empty($technologies)) {

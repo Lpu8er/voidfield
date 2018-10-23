@@ -28,7 +28,7 @@ class REST {
         foreach($data as $k => $v) { $r->setData($k, $v); }
         foreach($headers as $k => $v) { $r->setHeader($k, $v); }
         foreach($options as $k => $v) { $r->setOption($k, $v); }
-        $r->call('/', $method);
+        $r->call('', $method);
         $returns = [
             'response' => $r->getResponse(),
             'errors' => $r->getErrors(),
@@ -51,7 +51,7 @@ class REST {
         foreach($data as $k => $v) { $r->setData($k, $v); }
         foreach($headers as $k => $v) { $r->setHeader($k, $v); }
         foreach($options as $k => $v) { $r->setOption($k, $v); }
-        $r->call('/', $method);
+        $r->call('', $method);
         $returns = [
             'response' => $r->getJsonResponse(),
             'errors' => $r->getErrors(),
@@ -259,7 +259,10 @@ class REST {
         curl_setopt($ch, CURLOPT_FAILONERROR, false);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $bUri = trim($this->base, '/').'/'.ltrim($this->uri, '/');
+        $bUri = trim($this->base, '/');
+        if(!empty($this->uri)) {
+            $bUri.= '/'.ltrim($this->uri, '/');
+        }
         if(in_array($this->method, [static::METHOD_GET, static::METHOD_HEAD,])) {
             if(!empty($this->data)) {
                 $bUri .= '?'.http_build_query($this->data);

@@ -66,6 +66,7 @@ class SubscribeController extends GlobalController {
                 }
             } else {
                 $this->addMessage('error', 'Error while validating recaptcha');
+                $logger->debug('REcaptcha='.var_export($r, true));
             }
         }
         return $this->render('external/register.html.twig', $params);

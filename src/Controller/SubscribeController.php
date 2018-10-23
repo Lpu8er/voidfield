@@ -10,11 +10,13 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 use App\Utils\REST;
 
+use Psr\Log\LoggerInterface; // @TMP
+
 class SubscribeController extends GlobalController {
     /**
      * @Route("/register", name="register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $encoder, Swift_Mailer $mailer) {
+    public function register(Request $request, UserPasswordEncoderInterface $encoder, Swift_Mailer $mailer, LoggerInterface $logger) {
         $params = [
             'email' => '',
             'username' => '',

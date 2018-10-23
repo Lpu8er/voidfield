@@ -35,16 +35,19 @@
                 </small>
             </div>
             <div class="form-group form-check">
-                <input type="checkbox"
-                       name="cgu"
-                       class="form-check-input"
-                       id="registerCgu" />
-                <label class="form-check-label"
-                       for="registerCgu">
-                    Vous reconnaissez avoir lu et compris les
-                    <a href="{{ path('cgu') }}">Conditions Générales d'Utilisation</a>
-                    et acceptez de vous y conformer
-                </label>
+                <p>
+                    <input type="checkbox"
+                           name="cgu"
+                           class="form-check-input"
+                           id="registerCgu" />
+                    <label class="form-check-label"
+                           for="registerCgu">
+                        Vous reconnaissez avoir lu et compris les
+                        <a href="{{ path('cgu') }}">Conditions Générales d'Utilisation</a>
+                        et acceptez de vous y conformer
+                    </label>
+                </p>
+                <div class="g-recaptcha" data-sitekey="6Ldba3YUAAAAAPparOumNxqB5Ne_22V-StOXIWTx"></div>
             </div>
             <input type="hidden"
                    name="_csrf"

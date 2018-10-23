@@ -57,3 +57,7 @@
         {% block content %}{% endblock %}
     </section>
 {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+{% endblock %}

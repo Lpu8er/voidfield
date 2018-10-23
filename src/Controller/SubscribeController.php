@@ -10,13 +10,11 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 use App\Utils\REST;
 
-use Psr\Log\LoggerInterface; // @TMP
-
 class SubscribeController extends GlobalController {
     /**
      * @Route("/register", name="register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $encoder, Swift_Mailer $mailer, LoggerInterface $logger) {
+    public function register(Request $request, UserPasswordEncoderInterface $encoder, Swift_Mailer $mailer) {
         $params = [
             'email' => '',
             'username' => '',
@@ -66,7 +64,6 @@ class SubscribeController extends GlobalController {
                 }
             } else {
                 $this->addMessage('error', 'Error while validating recaptcha');
-                $logger->debug('REcaptcha='.var_export($r, true));
             }
         }
         return $this->render('external/register.html.twig', $params);

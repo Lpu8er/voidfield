@@ -30,6 +30,9 @@ class AppFixtures extends Fixture {
     }
     
     public function load(ObjectManager $manager) {
+        // tmp
+        $this->createUser($manager, 'Admin', 'lpu8er@gmail.com', 'test', User::STATUS_ACTIVE);
+        
         // generate resource
         $iron = $this->createResource($manager, 'Ferreux', 100.0, 100.0, 0.0);
         $this->setReference('res-iron', $iron);
@@ -410,5 +413,35 @@ class AppFixtures extends Fixture {
         
         
         return $p;
+    }
+    
+    /**
+     * 
+     * @param ObjectManager $em
+     * @param string $name
+     * @param string $attribute
+     * @param type $value
+     * @param string $damageType
+     * @param Resource $resource
+     * @param bool $usableOnCharacter
+     * @return \App\Entity\Skill
+     */
+    protected function createSkill(ObjectManager $em, string $name, string $attribute, $value, string $damageType = null, Resource $resource = null, bool $usableOnCharacter = false) {
+        $s = new \App\Entity\Skill();
+        $s->setName($name);
+        $s->setAttribute($attribute);
+        $s->setValue($value);
+        $s->setDamageType($damageType);
+        $s->setResource($resource);
+        $s->setUsableOnCharacter($usableOnCharacter);
+        $em->persist($s);
+        $em->flush();
+        
+        return $s;
+    }
+    
+    protected function createResearch(ObjectManager $em, string $name, string $duration, int $points, int $cost, array $skills = [], string $replacing = null, array $conditions = []) {
+        $r = new \App\Entity\Research;
+        
     }
 }

@@ -1,0 +1,5 @@
+<div>
+    <h5>{{ building.name }}</h5>
+    <p>{{ building.description }}</p>
+    {% include 'comps/resources-table.html.twig' with {'_values': building.recipe } %}
+</div>

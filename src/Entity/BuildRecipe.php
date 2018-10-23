@@ -15,7 +15,7 @@ class BuildRecipe {
      *
      * @var Building 
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="Building")
+     * @ORM\ManyToOne(targetEntity="Building", inversedBy="recipe")
      * @ORM\JoinColumn(name="building_id", referencedColumnName="id")
      */
     protected $building;

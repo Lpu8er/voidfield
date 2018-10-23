@@ -1,0 +1,11 @@
+<table class="table resources-table">
+    {% if _title is defined %}<caption>{{ _title }}</caption>{% endif %}
+    <tbody>
+        {% for line in _values %}
+            <tr>
+                <th>{{ line.resource.name }}</th>
+                <td>{{ line.nb }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

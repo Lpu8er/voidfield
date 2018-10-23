@@ -159,6 +159,13 @@ class Building {
      */
     protected $alwaysVisible = true;
     
+    /**
+     *
+     * @var BuildRecipe[]
+     * @ORM\OneToMany(targetEntity="BuildRecipe", mappedBy="building")
+     */
+    protected $recipe;
+    
     public function getId() {
         return $this->id;
     }
@@ -366,5 +373,7 @@ class Building {
         return $this;
     }
 
-
+    public function getRecipe(): array {
+        return $this->recipe;
+    }
 }

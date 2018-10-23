@@ -56,7 +56,7 @@ class SubscribeController extends GlobalController {
                     $this->getDoctrine()->getManager()->flush();
                     // mail
                     $mailContent = (new Swift_Message('Register'))
-                            ->setFrom('lpu8er@lpu8er.com')
+                            ->setFrom($this->getParameter('mail.register.sender'))
                             ->setTo($params['email'])
                             ->setBody($this->renderView('mails/register.html.twig', ['pwd' => $clearPwd,]));
                     $mailer->send($mailContent);

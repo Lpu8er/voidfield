@@ -2,6 +2,7 @@ parameters:
     character.startskillpoints: 10
     recaptcha.uri: '%env(GOOGLE_RECAPTCHA_URI)%'
     recaptcha.key: '%env(GOOGLE_RECAPTCHA_KEY)%'
+    mail.register.sender: 'register@lpu8er.net'
 
 services:
     # default configuration for services in *this* file

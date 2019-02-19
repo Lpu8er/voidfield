@@ -27,6 +27,16 @@ class ShipModelRecipe {
      * @ORM\JoinColumn(name="resource_id", referencedColumnName="id")
      */
     protected $resource;
+    /**
+     *
+     * @var int
+     * @ORM\Column(type="integer")
+     */
     protected $nb;
+    /**
+     *
+     * @var int
+     * @ORM\Column(type="integer")
+     */
     protected $recyclable; // resource that can be taken back if prod is cancelled
 }

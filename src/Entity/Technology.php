@@ -27,5 +27,10 @@ class Technology {
      * @ORM\JoinColumn(name="player_id", referencedColumnName="id")
      */
     protected $player;
+    /**
+     *
+     * @var \DateTime
+     * @ORM\Column(type="datetime", nullable=true)
+     */
     protected $dateFound; // @TODO add a second date "train" to allow mid time (replicate and train all colonies)
 }

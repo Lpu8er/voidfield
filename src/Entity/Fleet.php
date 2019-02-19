@@ -114,6 +114,14 @@ class Fleet {
      */
     protected $z;
     
+    /**
+     * If the fleet is currently in battle.
+     * This status is special and lock abilities to do stuff with fleet, so it'll serve as a "lock semaphore"
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    protected $battling;
+    
     public function getId() {
         return $this->id;
     }

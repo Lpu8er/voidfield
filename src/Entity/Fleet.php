@@ -257,5 +257,17 @@ class Fleet {
         return $this;
     }
 
+    public function getBattling(): ?bool
+    {
+        return $this->battling;
+    }
+
+    public function setBattling(bool $battling): self
+    {
+        $this->battling = $battling;
+
+        return $this;
+    }
+
 
 }

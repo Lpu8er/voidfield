@@ -28,5 +28,29 @@ class ResearchRecipe {
      */
     protected $resource;
     protected $nb;
-    protected $recyclable; // resource that can be taken back if research is cancelled
+    protected $recyclable;
+
+    public function getResearch(): ?Research
+    {
+        return $this->research;
+    }
+
+    public function setResearch(?Research $research): self
+    {
+        $this->research = $research;
+
+        return $this;
+    }
+
+    public function getResource(): ?Resource
+    {
+        return $this->resource;
+    }
+
+    public function setResource(?Resource $resource): self
+    {
+        $this->resource = $resource;
+
+        return $this;
+    } // resource that can be taken back if research is cancelled
 }

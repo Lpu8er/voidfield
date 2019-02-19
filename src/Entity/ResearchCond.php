@@ -27,4 +27,28 @@ class ResearchCond {
      * @ORM\JoinColumn(name="target_id", referencedColumnName="id")
      */
     protected $target;
+
+    public function getNeed(): ?Research
+    {
+        return $this->need;
+    }
+
+    public function setNeed(?Research $need): self
+    {
+        $this->need = $need;
+
+        return $this;
+    }
+
+    public function getTarget(): ?Research
+    {
+        return $this->target;
+    }
+
+    public function setTarget(?Research $target): self
+    {
+        $this->target = $target;
+
+        return $this;
+    }
 }

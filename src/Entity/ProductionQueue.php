@@ -31,5 +31,22 @@ class ProductionQueue {
     protected $startDate;
     protected $estimatedEndDate;
     protected $lastQueueCheckDate;
-    protected $points; // how many cumulated points still left. Lost, by default, 1 point by minute depending on current - lastQueueCheckDate, once at 0 building built
+    protected $points;
+
+    public function getOrder(): ?int
+    {
+        return $this->order;
+    }
+
+    public function getColony(): ?Colony
+    {
+        return $this->colony;
+    }
+
+    public function setColony(?Colony $colony): self
+    {
+        $this->colony = $colony;
+
+        return $this;
+    } // how many cumulated points still left. Lost, by default, 1 point by minute depending on current - lastQueueCheckDate, once at 0 building built
 }

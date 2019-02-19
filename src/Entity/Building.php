@@ -1,6 +1,8 @@
 <?php
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -165,6 +167,11 @@ class Building {
      * @ORM\OneToMany(targetEntity="BuildRecipe", mappedBy="building")
      */
     protected $recipe;
+
+    public function __construct()
+    {
+        $this->recipe = new ArrayCollection();
+    }
     
     public function getId() {
         return $this->id;
@@ -375,5 +382,28 @@ class Building {
 
     public function getRecipe(): array {
         return $this->recipe;
+    }
+
+    public function addRecipe(BuildRecipe $recipe): self
+    {
+        if (!$this->recipe->contains($recipe)) {
+            $this->recipe[] = $recipe;
+            $recipe->setBuilding($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipe(BuildRecipe $recipe): self
+    {
+        if ($this->recipe->contains($recipe)) {
+            $this->recipe->removeElement($recipe);
+            // set the owning side to null (unless already changed)
+            if ($recipe->getBuilding() === $this) {
+                $recipe->setBuilding(null);
+            }
+        }
+
+        return $this;
     }
 }

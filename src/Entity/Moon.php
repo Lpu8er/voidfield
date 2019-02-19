@@ -24,5 +24,17 @@ class Moon extends Celestial {
      * @ORM\ManyToOne(targetEntity="Planet")
      * @ORM\JoinColumn(name="centerplanet_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    protected $centeredOn; // planet
+    protected $centeredOn;
+
+    public function getCenteredOn(): ?Planet
+    {
+        return $this->centeredOn;
+    }
+
+    public function setCenteredOn(?Planet $centeredOn): self
+    {
+        $this->centeredOn = $centeredOn;
+
+        return $this;
+    } // planet
 }

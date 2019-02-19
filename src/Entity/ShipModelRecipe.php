@@ -38,5 +38,53 @@ class ShipModelRecipe {
      * @var int
      * @ORM\Column(type="integer")
      */
-    protected $recyclable; // resource that can be taken back if prod is cancelled
+    protected $recyclable;
+
+    public function getNb(): ?int
+    {
+        return $this->nb;
+    }
+
+    public function setNb(int $nb): self
+    {
+        $this->nb = $nb;
+
+        return $this;
+    }
+
+    public function getRecyclable(): ?int
+    {
+        return $this->recyclable;
+    }
+
+    public function setRecyclable(int $recyclable): self
+    {
+        $this->recyclable = $recyclable;
+
+        return $this;
+    }
+
+    public function getShipModel(): ?ShipModel
+    {
+        return $this->shipModel;
+    }
+
+    public function setShipModel(?ShipModel $shipModel): self
+    {
+        $this->shipModel = $shipModel;
+
+        return $this;
+    }
+
+    public function getResource(): ?Resource
+    {
+        return $this->resource;
+    }
+
+    public function setResource(?Resource $resource): self
+    {
+        $this->resource = $resource;
+
+        return $this;
+    } // resource that can be taken back if prod is cancelled
 }

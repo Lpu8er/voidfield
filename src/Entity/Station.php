@@ -36,5 +36,41 @@ class Station extends Celestial {
      * @var int
      * @ORM\Column(type="decimal", precision=10, scale=5)
      */
-    protected $taxDailyColony; // tax by person per colony
+    protected $taxDailyColony;
+
+    public function getTaxStartColony(): ?int
+    {
+        return $this->taxStartColony;
+    }
+
+    public function setTaxStartColony(int $taxStartColony): self
+    {
+        $this->taxStartColony = $taxStartColony;
+
+        return $this;
+    }
+
+    public function getTaxDailyColony()
+    {
+        return $this->taxDailyColony;
+    }
+
+    public function setTaxDailyColony($taxDailyColony): self
+    {
+        $this->taxDailyColony = $taxDailyColony;
+
+        return $this;
+    }
+
+    public function getOwner(): ?System
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?System $owner): self
+    {
+        $this->owner = $owner;
+
+        return $this;
+    } // tax by person per colony
 }

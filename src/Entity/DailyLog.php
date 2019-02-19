@@ -153,4 +153,247 @@ class DailyLog {
      * @ORM\Column(type="integer")
      */
     protected $partisansAfter = 0;
+
+    public function getY(): ?int
+    {
+        return $this->y;
+    }
+
+    public function getM(): ?int
+    {
+        return $this->m;
+    }
+
+    public function getD(): ?int
+    {
+        return $this->d;
+    }
+
+    public function getLogDate(): ?\DateTimeInterface
+    {
+        return $this->logDate;
+    }
+
+    public function setLogDate(\DateTimeInterface $logDate): self
+    {
+        $this->logDate = $logDate;
+
+        return $this;
+    }
+
+    public function getDailyTax()
+    {
+        return $this->dailyTax;
+    }
+
+    public function setDailyTax($dailyTax): self
+    {
+        $this->dailyTax = $dailyTax;
+
+        return $this;
+    }
+
+    public function getIncome(): ?int
+    {
+        return $this->income;
+    }
+
+    public function setIncome(int $income): self
+    {
+        $this->income = $income;
+
+        return $this;
+    }
+
+    public function getMoneyBefore(): ?int
+    {
+        return $this->moneyBefore;
+    }
+
+    public function setMoneyBefore(int $moneyBefore): self
+    {
+        $this->moneyBefore = $moneyBefore;
+
+        return $this;
+    }
+
+    public function getMoneyAfter(): ?int
+    {
+        return $this->moneyAfter;
+    }
+
+    public function setMoneyAfter(int $moneyAfter): self
+    {
+        $this->moneyAfter = $moneyAfter;
+
+        return $this;
+    }
+
+    public function getSatisfactionModifier()
+    {
+        return $this->satisfactionModifier;
+    }
+
+    public function setSatisfactionModifier($satisfactionModifier): self
+    {
+        $this->satisfactionModifier = $satisfactionModifier;
+
+        return $this;
+    }
+
+    public function getSatisfactionDeriv()
+    {
+        return $this->satisfactionDeriv;
+    }
+
+    public function setSatisfactionDeriv($satisfactionDeriv): self
+    {
+        $this->satisfactionDeriv = $satisfactionDeriv;
+
+        return $this;
+    }
+
+    public function getPopulationBefore(): ?int
+    {
+        return $this->populationBefore;
+    }
+
+    public function setPopulationBefore(int $populationBefore): self
+    {
+        $this->populationBefore = $populationBefore;
+
+        return $this;
+    }
+
+    public function getHostilesBefore(): ?int
+    {
+        return $this->hostilesBefore;
+    }
+
+    public function setHostilesBefore(int $hostilesBefore): self
+    {
+        $this->hostilesBefore = $hostilesBefore;
+
+        return $this;
+    }
+
+    public function getBaddiesBefore(): ?int
+    {
+        return $this->baddiesBefore;
+    }
+
+    public function setBaddiesBefore(int $baddiesBefore): self
+    {
+        $this->baddiesBefore = $baddiesBefore;
+
+        return $this;
+    }
+
+    public function getGoodiesBefore(): ?int
+    {
+        return $this->goodiesBefore;
+    }
+
+    public function setGoodiesBefore(int $goodiesBefore): self
+    {
+        $this->goodiesBefore = $goodiesBefore;
+
+        return $this;
+    }
+
+    public function getPartisansBefore(): ?int
+    {
+        return $this->partisansBefore;
+    }
+
+    public function setPartisansBefore(int $partisansBefore): self
+    {
+        $this->partisansBefore = $partisansBefore;
+
+        return $this;
+    }
+
+    public function getPopulationAfter(): ?int
+    {
+        return $this->populationAfter;
+    }
+
+    public function setPopulationAfter(int $populationAfter): self
+    {
+        $this->populationAfter = $populationAfter;
+
+        return $this;
+    }
+
+    public function getHostilesAfter(): ?int
+    {
+        return $this->hostilesAfter;
+    }
+
+    public function setHostilesAfter(int $hostilesAfter): self
+    {
+        $this->hostilesAfter = $hostilesAfter;
+
+        return $this;
+    }
+
+    public function getBaddiesAfter(): ?int
+    {
+        return $this->baddiesAfter;
+    }
+
+    public function setBaddiesAfter(int $baddiesAfter): self
+    {
+        $this->baddiesAfter = $baddiesAfter;
+
+        return $this;
+    }
+
+    public function getGoodiesAfter(): ?int
+    {
+        return $this->goodiesAfter;
+    }
+
+    public function setGoodiesAfter(int $goodiesAfter): self
+    {
+        $this->goodiesAfter = $goodiesAfter;
+
+        return $this;
+    }
+
+    public function getPartisansAfter(): ?int
+    {
+        return $this->partisansAfter;
+    }
+
+    public function setPartisansAfter(int $partisansAfter): self
+    {
+        $this->partisansAfter = $partisansAfter;
+
+        return $this;
+    }
+
+    public function getColony(): ?Colony
+    {
+        return $this->colony;
+    }
+
+    public function setColony(?Colony $colony): self
+    {
+        $this->colony = $colony;
+
+        return $this;
+    }
+
+    public function getPlayer(): ?User
+    {
+        return $this->player;
+    }
+
+    public function setPlayer(?User $player): self
+    {
+        $this->player = $player;
+
+        return $this;
+    }
 }

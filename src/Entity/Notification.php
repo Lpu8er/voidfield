@@ -26,4 +26,9 @@ class Notification {
     protected $content;
     protected $notifType;
     protected $targetPlayer;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 }

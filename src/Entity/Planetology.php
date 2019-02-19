@@ -28,4 +28,28 @@ class Planetology {
      */
     protected $zoology;
     protected $nb;
+
+    public function getPlanet(): ?Planet
+    {
+        return $this->planet;
+    }
+
+    public function setPlanet(?Planet $planet): self
+    {
+        $this->planet = $planet;
+
+        return $this;
+    }
+
+    public function getZoology(): ?Zoology
+    {
+        return $this->zoology;
+    }
+
+    public function setZoology(?Zoology $zoology): self
+    {
+        $this->zoology = $zoology;
+
+        return $this;
+    }
 }

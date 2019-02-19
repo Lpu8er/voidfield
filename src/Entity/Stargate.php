@@ -68,4 +68,100 @@ class Stargate extends Celestial {
      * @ORM\Column(type="bigint")
      */
     protected $jumpCost;
+
+    public function getTargetX(): ?int
+    {
+        return $this->targetX;
+    }
+
+    public function setTargetX(int $targetX): self
+    {
+        $this->targetX = $targetX;
+
+        return $this;
+    }
+
+    public function getTargetY(): ?int
+    {
+        return $this->targetY;
+    }
+
+    public function setTargetY(int $targetY): self
+    {
+        $this->targetY = $targetY;
+
+        return $this;
+    }
+
+    public function getTargetZ(): ?int
+    {
+        return $this->targetZ;
+    }
+
+    public function setTargetZ(int $targetZ): self
+    {
+        $this->targetZ = $targetZ;
+
+        return $this;
+    }
+
+    public function getTargetDeviation()
+    {
+        return $this->targetDeviation;
+    }
+
+    public function setTargetDeviation($targetDeviation): self
+    {
+        $this->targetDeviation = $targetDeviation;
+
+        return $this;
+    }
+
+    public function getJumpEnergyConsumption(): ?int
+    {
+        return $this->jumpEnergyConsumption;
+    }
+
+    public function setJumpEnergyConsumption(int $jumpEnergyConsumption): self
+    {
+        $this->jumpEnergyConsumption = $jumpEnergyConsumption;
+
+        return $this;
+    }
+
+    public function getJumpCost(): ?int
+    {
+        return $this->jumpCost;
+    }
+
+    public function setJumpCost(int $jumpCost): self
+    {
+        $this->jumpCost = $jumpCost;
+
+        return $this;
+    }
+
+    public function getTargetGalaxy(): ?Galaxy
+    {
+        return $this->targetGalaxy;
+    }
+
+    public function setTargetGalaxy(?Galaxy $targetGalaxy): self
+    {
+        $this->targetGalaxy = $targetGalaxy;
+
+        return $this;
+    }
+
+    public function getTargetSystem(): ?System
+    {
+        return $this->targetSystem;
+    }
+
+    public function setTargetSystem(?System $targetSystem): self
+    {
+        $this->targetSystem = $targetSystem;
+
+        return $this;
+    }
 }

@@ -2,6 +2,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -390,6 +391,121 @@ class Colony {
 
     public function setSearchqueue($searchqueue) {
         $this->searchqueue = $searchqueue;
+        return $this;
+    }
+
+    public function addStock(ColonyStock $stock): self
+    {
+        if (!$this->stocks->contains($stock)) {
+            $this->stocks[] = $stock;
+            $stock->setColony($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStock(ColonyStock $stock): self
+    {
+        if ($this->stocks->contains($stock)) {
+            $this->stocks->removeElement($stock);
+            // set the owning side to null (unless already changed)
+            if ($stock->getColony() === $this) {
+                $stock->setColony(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addBuilding(ColonyBuilding $building): self
+    {
+        if (!$this->buildings->contains($building)) {
+            $this->buildings[] = $building;
+            $building->setColony($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBuilding(ColonyBuilding $building): self
+    {
+        if ($this->buildings->contains($building)) {
+            $this->buildings->removeElement($building);
+            // set the owning side to null (unless already changed)
+            if ($building->getColony() === $this) {
+                $building->setColony(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addFleet(Fleet $fleet): self
+    {
+        if (!$this->fleets->contains($fleet)) {
+            $this->fleets[] = $fleet;
+            $fleet->setColony($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFleet(Fleet $fleet): self
+    {
+        if ($this->fleets->contains($fleet)) {
+            $this->fleets->removeElement($fleet);
+            // set the owning side to null (unless already changed)
+            if ($fleet->getColony() === $this) {
+                $fleet->setColony(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addBuildqueue(BuildQueue $buildqueue): self
+    {
+        if (!$this->buildqueue->contains($buildqueue)) {
+            $this->buildqueue[] = $buildqueue;
+            $buildqueue->setColony($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBuildqueue(BuildQueue $buildqueue): self
+    {
+        if ($this->buildqueue->contains($buildqueue)) {
+            $this->buildqueue->removeElement($buildqueue);
+            // set the owning side to null (unless already changed)
+            if ($buildqueue->getColony() === $this) {
+                $buildqueue->setColony(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addSearchqueue(ResearchQueue $searchqueue): self
+    {
+        if (!$this->searchqueue->contains($searchqueue)) {
+            $this->searchqueue[] = $searchqueue;
+            $searchqueue->setColony($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSearchqueue(ResearchQueue $searchqueue): self
+    {
+        if ($this->searchqueue->contains($searchqueue)) {
+            $this->searchqueue->removeElement($searchqueue);
+            // set the owning side to null (unless already changed)
+            if ($searchqueue->getColony() === $this) {
+                $searchqueue->setColony(null);
+            }
+        }
+
         return $this;
     }
 

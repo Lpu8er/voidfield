@@ -49,5 +49,70 @@ class Research {
      * @var int
      * @ORM\Column(type="integer")
      */
-    protected $points; // how many points (minutes) it needs
+    protected $points;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getBaseDuration(): ?string
+    {
+        return $this->baseDuration;
+    }
+
+    public function setBaseDuration(string $baseDuration): self
+    {
+        $this->baseDuration = $baseDuration;
+
+        return $this;
+    }
+
+    public function getSearchCost(): ?int
+    {
+        return $this->searchCost;
+    }
+
+    public function setSearchCost(int $searchCost): self
+    {
+        $this->searchCost = $searchCost;
+
+        return $this;
+    }
+
+    public function getPoints(): ?int
+    {
+        return $this->points;
+    }
+
+    public function setPoints(int $points): self
+    {
+        $this->points = $points;
+
+        return $this;
+    }
+
+    public function getReplacing(): ?self
+    {
+        return $this->replacing;
+    }
+
+    public function setReplacing(?self $replacing): self
+    {
+        $this->replacing = $replacing;
+
+        return $this;
+    } // how many points (minutes) it needs
 }

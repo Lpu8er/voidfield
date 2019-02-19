@@ -27,4 +27,28 @@ class HullCond {
      * @ORM\JoinColumn(name="target_id", referencedColumnName="id")
      */
     protected $target;
+
+    public function getNeed(): ?Research
+    {
+        return $this->need;
+    }
+
+    public function setNeed(?Research $need): self
+    {
+        $this->need = $need;
+
+        return $this;
+    }
+
+    public function getTarget(): ?Hull
+    {
+        return $this->target;
+    }
+
+    public function setTarget(?Hull $target): self
+    {
+        $this->target = $target;
+
+        return $this;
+    }
 }

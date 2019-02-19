@@ -28,4 +28,28 @@ class ResearchSkill {
      */
     protected $skill;
     protected $points;
+
+    public function getResearch(): ?Research
+    {
+        return $this->research;
+    }
+
+    public function setResearch(?Research $research): self
+    {
+        $this->research = $research;
+
+        return $this;
+    }
+
+    public function getSkill(): ?Skill
+    {
+        return $this->skill;
+    }
+
+    public function setSkill(?Skill $skill): self
+    {
+        $this->skill = $skill;
+
+        return $this;
+    }
 }

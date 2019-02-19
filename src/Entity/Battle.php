@@ -1,6 +1,8 @@
 <?php
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Description of Battle
  *
@@ -28,4 +30,21 @@ class Battle {
      * @ORM\Column(type="datetime") 
      */
     protected $startDate;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getStartDate(): ?\DateTimeInterface
+    {
+        return $this->startDate;
+    }
+
+    public function setStartDate(\DateTimeInterface $startDate): self
+    {
+        $this->startDate = $startDate;
+
+        return $this;
+    }
 }

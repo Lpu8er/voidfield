@@ -28,5 +28,29 @@ class ModuleRecipe {
      */
     protected $resource;
     protected $nb;
-    protected $recyclable; // resource that can be taken back if prod is cancelled
+    protected $recyclable;
+
+    public function getModule(): ?Module
+    {
+        return $this->module;
+    }
+
+    public function setModule(?Module $module): self
+    {
+        $this->module = $module;
+
+        return $this;
+    }
+
+    public function getResource(): ?Resource
+    {
+        return $this->resource;
+    }
+
+    public function setResource(?Resource $resource): self
+    {
+        $this->resource = $resource;
+
+        return $this;
+    } // resource that can be taken back if prod is cancelled
 }

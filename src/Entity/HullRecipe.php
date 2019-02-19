@@ -27,6 +27,64 @@ class HullRecipe {
      * @ORM\JoinColumn(name="resource_id", referencedColumnName="id")
      */
     protected $resource;
+    /**
+     *
+     * @var int
+     * @ORM\Column(type="integer")
+     */
     protected $nb;
-    protected $recyclable; // resource that can be taken back if prod is cancelled
+    /**
+     *
+     * @var int
+     * @ORM\Column(type="integer")
+     */
+    protected $recyclable;
+
+    public function getNb(): ?int
+    {
+        return $this->nb;
+    }
+
+    public function setNb(int $nb): self
+    {
+        $this->nb = $nb;
+
+        return $this;
+    }
+
+    public function getRecyclable(): ?int
+    {
+        return $this->recyclable;
+    }
+
+    public function setRecyclable(int $recyclable): self
+    {
+        $this->recyclable = $recyclable;
+
+        return $this;
+    }
+
+    public function getHull(): ?Hull
+    {
+        return $this->hull;
+    }
+
+    public function setHull(?Hull $hull): self
+    {
+        $this->hull = $hull;
+
+        return $this;
+    }
+
+    public function getResource(): ?Resource
+    {
+        return $this->resource;
+    }
+
+    public function setResource(?Resource $resource): self
+    {
+        $this->resource = $resource;
+
+        return $this;
+    } // resource that can be taken back if prod is cancelled
 }

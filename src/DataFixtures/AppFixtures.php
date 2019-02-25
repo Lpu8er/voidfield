@@ -189,6 +189,7 @@ class AppFixtures extends Fixture {
         }
         
         
+        
     }
     
     /**
@@ -440,8 +441,154 @@ class AppFixtures extends Fixture {
         return $s;
     }
     
-    protected function createResearch(ObjectManager $em, string $name, string $duration, int $points, int $cost, array $skills = [], string $replacing = null, array $conditions = []) {
+    /**
+     * 
+     * @param ObjectManager $em
+     * @param string $name
+     * @param string $duration
+     * @param int $points
+     * @param int $cost
+     * @param array $recipe
+     * @param array $skills
+     * @param string $replacing
+     * @param array $conditions
+     * @return \App\Entity\Research
+     */
+    protected function createResearch(ObjectManager $em, string $name, string $duration, int $points, int $cost, array $recipe = [], array $skills = [], string $replacing = null, array $conditions = []) {
         $r = new \App\Entity\Research;
+        $r->setName($name);
+        $r->setBaseDuration($duration);
+        $r->setPoints($points);
+        $r->setSearchCost($cost);
+        $r->setReplacing(empty($replacing)? null:$this->getReference($replacing));
+        $em->persist($r);
+        $em->flush();
         
+        $needsSomeFlush = false;
+        // skills first
+        foreach($skills as $skillKey => $skillPoints) {
+            $rs = new \App\Entity\ResearchSkill;
+            $rs->setResearch($r);
+            $rs->setSkill($this->getReference($skillKey));
+            $rs->setPoints($skillPoints);
+            $em->persist($rs);
+            $needsSomeFlush = true;
+        }
+        // recipe then
+        foreach($recipe as $resKey => $resCount) {
+            $rr = new \App\Entity\ResearchRecipe;
+            $rr->setResearch($r);
+            $rr->setResource($this->getReference($resKey));
+            $rr->setNb($resCount);
+            $em->persist($rr);
+            $needsSomeFlush = true;
+        }
+        // conditions last
+        foreach($conditions as $neededResearch) {
+            $rc = new \App\Entity\ResearchCond;
+            $rc->setTarget($r);
+            $rc->setNeed($this->getReference($neededResearch));
+            $em->persist($rc);
+            $needsSomeFlush = true;
+        }
+        if($needsSomeFlush) {
+            $em->flush();
+        }
+        
+        return $r;
+    }
+    
+    protected function createBuilding(ObjectManager $em, string $name, string $duration, int $points, string $description,
+            int $size, string $restrictedTo, string $special, int $hitpoints,
+            int $cost, int $workers, int $workersConsumption, int $workersStock,
+            int $energyConsumption, int $energyProd, int $energyStock,
+            array $conds, array $recipe,
+            array $production = [], array $consumption = [], array $extraction = [], array $skills = [],
+            string $assaultType = null, int $assaultValue = 0, string $replacing = null) {
+        $b = new \App\Entity\Building;
+        // not at first
+        $b->setAirToxicity(0);
+        $b->setEarthToxicity(0);
+        $b->setWaterToxicity(0);
+        
+        $b->setAlwaysVisible(empty($replacing));
+        $b->setAssaultType($assaultType);
+        $b->setAssaultValue($assaultValue);
+        $b->setBaseDuration($duration);
+        $b->setBuildCost($cost);
+        $b->setBuildWorkersNeeds($workers);
+        $b->setDescription($description);
+        
+        $b->setEnergyConsumption($energyConsumption);
+        $b->setEnergyProd($energyProd);
+        $b->setEnergyStock($energyStock);
+        $b->setHitpoints($hitpoints);
+        $b->setName($name);
+        $b->setPoints($points);
+        $b->setReplacing($b);
+        $b->setRestrictedTo($restrictedTo);
+        $b->setSize($size);
+        $b->setSpecial($special);
+        
+        $b->setWorkers($workersConsumption);
+        $b->setWorkersStock($workersStock);
+        
+        $em->persist($b);
+        $em->flush();
+        
+        $needsSomeFlush = false;
+        foreach($recipe as $resKey => $nb) {
+            $br = new \App\Entity\BuildRecipe;
+            $br->setBuilding($b);
+            $br->setResource($this->getReference($resKey));
+            $br->setNb($nb);
+            $em->persist($br);
+            $needsSomeFlush = true;
+        }
+        foreach($production as $resKey => $nb) {
+            $bp = new \App\Entity\BuildingProduction;
+            $bp->setBuilding($b);
+            $bp->setResource($this->getReference($resKey));
+            $bp->setNb($nb);
+            $em->persist($bp);
+            $needsSomeFlush = true;
+        }
+        foreach($consumption as $resKey => $nb) {
+            $bc = new \App\Entity\BuildingConsumption;
+            $bc->setBuilding($b);
+            $bc->setResource($this->getReference($resKey));
+            $bc->setNb($nb);
+            $em->persist($bc);
+            $needsSomeFlush = true;
+        }
+        foreach($extraction as $resKey => $nb) {
+            $bx = new \App\Entity\BuildingExtraction;
+            $bx->setBuilding($b);
+            $bx->setResource($this->getReference($resKey));
+            $bx->setNb($nb);
+            $em->persist($bx);
+            $needsSomeFlush = true;
+        }
+        foreach($conds as $resKey => $nb) {
+            $bk = new \App\Entity\BuildingCond;
+            $bk->setTarget($b);
+            $bk->setNeed($this->getReference($resKey));
+            $bk->setNb($nb);
+            $em->persist($bk);
+            $needsSomeFlush = true;
+        }
+        foreach($skills as $skillKey => $nb) {
+            $bl = new \App\Entity\BuildingSkill;
+            $bl->setBuilding($b);
+            $bl->setSkill($this->getReference($skillKey));
+            $bl->setPoints($nb);
+            $em->persist($bl);
+            $needsSomeFlush = true;
+        }
+        if($needsSomeFlush) {
+            $em->flush();
+        }
+        
+        return $b;
     }
 }

@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
  * Description of BattlePart
  *
  * @author lpu8er
+ * @ORM\Entity()
+ * @ORM\Table(name="battleparts")
  */
 class BattlePart {
     /**

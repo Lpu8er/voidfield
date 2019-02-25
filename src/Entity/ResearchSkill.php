@@ -27,6 +27,11 @@ class ResearchSkill {
      * @ORM\JoinColumn(name="skill_id", referencedColumnName="id")
      */
     protected $skill;
+    /**
+     *
+     * @var int
+     * @ORM\Column(type="integer")
+     */
     protected $points;
 
     public function getResearch(): ?Research
@@ -49,6 +54,18 @@ class ResearchSkill {
     public function setSkill(?Skill $skill): self
     {
         $this->skill = $skill;
+
+        return $this;
+    }
+
+    public function getPoints(): ?int
+    {
+        return $this->points;
+    }
+
+    public function setPoints(int $points): self
+    {
+        $this->points = $points;
 
         return $this;
     }

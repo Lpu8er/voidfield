@@ -155,7 +155,8 @@ class Building {
      */
     protected $size;
     /**
-     *
+     * Force visibility even if prerequesites are not unlocked.
+     * Most of the buildings of first level have prolly this one at true
      * @var bool
      * @ORM\Column(type="boolean")
      */

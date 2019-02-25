@@ -27,8 +27,18 @@ class ResearchRecipe {
      * @ORM\JoinColumn(name="resource_id", referencedColumnName="id")
      */
     protected $resource;
+    /**
+     *
+     * @var int
+     * @ORM\Column(type="bigint")
+     */
     protected $nb;
-    protected $recyclable;
+    /**
+     *
+     * @var int
+     * @ORM\Column(type="bigint")
+     */
+    protected $recyclable = 0;
 
     public function getResearch(): ?Research
     {
@@ -50,6 +60,30 @@ class ResearchRecipe {
     public function setResource(?Resource $resource): self
     {
         $this->resource = $resource;
+
+        return $this;
+    }
+
+    public function getNb(): ?int
+    {
+        return $this->nb;
+    }
+
+    public function setNb(int $nb): self
+    {
+        $this->nb = $nb;
+
+        return $this;
+    }
+
+    public function getRecyclable(): ?int
+    {
+        return $this->recyclable;
+    }
+
+    public function setRecyclable(int $recyclable): self
+    {
+        $this->recyclable = $recyclable;
 
         return $this;
     } // resource that can be taken back if research is cancelled

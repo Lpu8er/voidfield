@@ -11,6 +11,30 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="skills")
  */
 class Skill {
+    /**
+     * attack	Modifie l'attaque d'un ou de tous les attributs
+     * defense	Modifie la défense face à un ou tous les attributs
+     * production	Modifie la production pure d'une ou toutes les ressources
+     * stocksize	Le stock en taille possible d'une ou toutes les ressources
+     * stockmass	Le stock en masse possible d'une ou toutes les ressources
+     * speed	Vitesse des flottes
+     * energyconso	Consommation en énergie
+     * energyprod	Production d'énergie
+     * energystock	Stockage d'énergie
+     * morale	Modificateur de morale, en % de population influé
+     * dailycost	Modificateur global de coût en pognon journalier des infra
+     * buildcost	Modificateur global de coût de construction en pognon
+     * prodspeed	Modificateur de vitesse de production d'une ou toutes les ressources
+     * buildspeed	Modificateur de vitesse de construction
+     * zoology	Modificateur d'influence négative des zoologies
+     * researchspeed	Modificateur global de vitesse de recherche
+     * workersconso	Modificateur d'utilisation des travailleurs
+     * workersprod	Modificateur de production des travailleurs
+     * workersstock	Modificateur de stock des travailleurs
+     * scanstrength	Force de scan (radar...)
+     * dailyincome	Modificateur du revenu journalier via taxe
+     * act	Modifie l'extraction d'une ou toutes les ressources
+     */
     const ATTRIBUTE_ATTACK = 'attack';
     const ATTRIBUTE_DEFENSE = 'defense';
     const ATTRIBUTE_PRODUCTION = 'production';

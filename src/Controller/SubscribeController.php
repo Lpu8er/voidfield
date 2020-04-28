@@ -2,13 +2,13 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Utils\Random;
+use App\Utils\REST;
 use Swift_Mailer;
 use Swift_Message;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-
-use App\Utils\REST;
 
 class SubscribeController extends GlobalController {
     /**
@@ -39,21 +39,9 @@ class SubscribeController extends GlobalController {
                 if($this->getDoctrine()->getRepository(User::class)->searchAnyEmailUsername($params['email'], $params['username'])) {
                     $this->addMessage('error', 'Cet email et/ou cet identifiant d\'utilisateur est déjà utilisé !');
                 } else {
-                    // generate random pwd
-                    // pwd are actually predictable, that may lead to issues if we got heavy traffic
-                    // that shouldn't be an issue at first, but we'll need to fix it if the game works well
-                    // @TODO
-                    $clearPwd = sha1(uniqid(uniqid(md5($params['username'])), true));
+                    $clearPwd = Random::factory()->pwd($params['username']);
                     // register
-                    $u = new User;
-                    $u->setAdmin(false);
-                    $u->setEmail($params['email']);
-                    $u->setMoney(0.00); // @TODO
-                    $u->setPwd($encoder->encodePassword($u, $clearPwd));
-                    $u->setStatus(User::STATUS_ACTIVE);
-                    $u->setUsername($params['username']);
-                    $this->getDoctrine()->getManager()->persist($u);
-                    $this->getDoctrine()->getManager()->flush();
+                    $u = $this->getDoctrine()->getRepository(User::class)->createUser($params['username'], $params['email'], $clearPwd);
                     // mail
                     $mailContent = (new Swift_Message('Register'))
                             ->setFrom($this->getParameter('mail.register.sender'))

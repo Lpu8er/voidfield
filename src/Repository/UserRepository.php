@@ -31,4 +31,23 @@ class UserRepository extends ServiceEntityRepository {
         return !empty($r);
     }
     
+    /**
+     * 
+     * @param string $username
+     * @param string $email
+     * @param string $pwd
+     * @return User
+     */
+    public function createUser(string $username, string $email, string $pwd): User {
+        $u = new User;
+        $u->setAdmin(false);
+        $u->setEmail($email);
+        $u->setMoney(0.00); // @TODO
+        $u->setPwd($encoder->encodePassword($u, $pwd));
+        $u->setStatus(User::STATUS_ACTIVE);
+        $u->setUsername($username);
+        $this->getDoctrine()->getManager()->persist($u);
+        $this->getDoctrine()->getManager()->flush();
+        return $u;
+    }
 }

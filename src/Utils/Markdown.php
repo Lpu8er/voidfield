@@ -8,6 +8,8 @@ namespace App\Utils;
  * @author lpu8er
  */
 class Markdown {
+    use tFactory;
+    
     /**
      * 
      * @param string $content
@@ -15,15 +17,6 @@ class Markdown {
      */
     public static function instant(string $content): string {
         return static::factory()->parse($content);
-    }
-    
-    /**
-     * 
-     * @return $this
-     */
-    public static function factory() {
-        $cls = get_called_class();
-        return new $cls;
     }
     
     /**

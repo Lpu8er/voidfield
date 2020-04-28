@@ -5,6 +5,8 @@ use App\Entity\Building;
 use App\Entity\Colony;
 use App\Entity\Technology;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
+use PDO;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -17,7 +19,7 @@ class BuildingRepository extends ServiceEntityRepository {
      * 
      * @param RegistryInterface $registry
      */
-    public function __construct(RegistryInterface $registry) {
+    public function __construct(ManagerRegistry $registry) {
         parent::__construct($registry, Building::class);
     }
     
@@ -49,7 +51,7 @@ EOQ;
         $stmt = $sql->prepare($q);
         $stmt->bindValue('c', $colony->getId());
         $stmt->execute();
-        $ls = $stmt->fetchAll(\PDO::FETCH_ASSOC); // we have a small subset of results that we need to format
+        $ls = $stmt->fetchAll(PDO::FETCH_ASSOC); // we have a small subset of results that we need to format
         foreach($ls as $l) {
             $bids[$l['id']] = $l['id']; // avoid duplicates
         }

@@ -5,6 +5,7 @@ use App\Entity\Technology;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -17,7 +18,7 @@ class TechnologyRepository extends ServiceEntityRepository {
      * 
      * @param RegistryInterface $registry
      */
-    public function __construct(RegistryInterface $registry) {
+    public function __construct(ManagerRegistry $registry) {
         parent::__construct($registry, Technology::class);
     }
     

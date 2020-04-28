@@ -1,3 +1,4 @@
+
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
@@ -6,10 +7,12 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
-/nbproject/private/
-*.lock
+
 ###> symfony/phpunit-bridge ###
 .phpunit
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
+
+/nbproject/private/
+*.lock

@@ -14,12 +14,18 @@ class BattlePart {
     /**
      *
      * @var Battle
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="Battle")
+     * @ORM\JoinColumn(name="battle_id", referencedColumnName="id")
      */
     protected $battle;
     
     /**
      *
      * @var Fleet
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="Fleet")
+     * @ORM\JoinColumn(name="fleet_id", referencedColumnName="id")
      */
     protected $fleet;
     

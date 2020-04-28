@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author lpu8er
  */
-abstract class GlobalController extends Controller {
+abstract class GlobalController extends AbstractController {
     /**
      *
      * @var string 

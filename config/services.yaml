@@ -1,7 +1,8 @@
 parameters:
     character.startskillpoints: 10
     recaptcha.uri: '%env(GOOGLE_RECAPTCHA_URI)%'
-    recaptcha.key: '%env(GOOGLE_RECAPTCHA_KEY)%'
+    recaptcha.public_key: '%env(GOOGLE_RECAPTCHA_PUBLIC_KEY)%'
+    recaptcha.private_key: '%env(GOOGLE_RECAPTCHA_PRIVATE_KEY)%'
     mail.register.sender: 'register@lpu8er.net'
 
 services:

@@ -18,6 +18,7 @@ class SubscribeController extends GlobalController {
         $params = [
             'email' => '',
             'username' => '',
+            'recaptcha_public_key' => $this->getParameter('recaptcha.public_key'),
         ];
         if($request->request->has('register')
                 && $request->request->has('email')
@@ -27,7 +28,7 @@ class SubscribeController extends GlobalController {
                 && $request->request->has('g-recaptcha-response')) {
             
             $r = REST::jPost($this->getParameter('recaptcha.uri'), [
-                'secret' => $this->getParameter('recaptcha.key'),
+                'secret' => $this->getParameter('recaptcha.private_key'),
                 'response' => strval($request->request->get('g-recaptcha-response')),
                 'remoteip' => $request->getClientIp(),
             ]);
@@ -41,7 +42,11 @@ class SubscribeController extends GlobalController {
                 } else {
                     $clearPwd = Random::factory()->pwd($params['username']);
                     // register
-                    $u = $this->getDoctrine()->getRepository(User::class)->createUser($params['username'], $params['email'], $clearPwd);
+                    $this->getDoctrine()->getRepository(User::class)->createUser(
+                            $params['username'],
+                            $params['email'],
+                            $clearPwd,
+                            $encoder);
                     // mail
                     $mailContent = (new Swift_Message('Register'))
                             ->setFrom($this->getParameter('mail.register.sender'))

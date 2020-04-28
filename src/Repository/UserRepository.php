@@ -5,6 +5,7 @@ use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserRepository extends ServiceEntityRepository {
     /**
@@ -36,18 +37,20 @@ class UserRepository extends ServiceEntityRepository {
      * @param string $username
      * @param string $email
      * @param string $pwd
+     * @param UserPasswordEncoderInterface $encoder
+     * @param float $startMoney
      * @return User
      */
-    public function createUser(string $username, string $email, string $pwd): User {
+    public function createUser(string $username, string $email, string $pwd, UserPasswordEncoderInterface $encoder, float $startMoney = 0.00): User {
         $u = new User;
         $u->setAdmin(false);
         $u->setEmail($email);
-        $u->setMoney(0.00); // @TODO
+        $u->setMoney($startMoney);
         $u->setPwd($encoder->encodePassword($u, $pwd));
         $u->setStatus(User::STATUS_ACTIVE);
         $u->setUsername($username);
-        $this->getDoctrine()->getManager()->persist($u);
-        $this->getDoctrine()->getManager()->flush();
+        $this->getEntityManager()->persist($u);
+        $this->getEntityManager()->flush();
         return $u;
     }
 }

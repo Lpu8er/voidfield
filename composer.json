@@ -26,7 +26,8 @@
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.0",
         "symfony/dotenv": "^4.1",
-        "symfony/profiler-pack": "^1.0"
+        "symfony/profiler-pack": "^1.0",
+        "symfony/web-server-bundle": "^4.2.7"
     },
     "config": {
         "preferred-install": {

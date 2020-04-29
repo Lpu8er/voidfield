@@ -4,6 +4,8 @@ parameters:
     recaptcha.public_key: '%env(GOOGLE_RECAPTCHA_PUBLIC_KEY)%'
     recaptcha.private_key: '%env(GOOGLE_RECAPTCHA_PRIVATE_KEY)%'
     mail.register.sender: 'register@lpu8er.net'
+    websocks.commands:
+        ping: App\Utils\WebsockMessage\Ping
 
 services:
     # default configuration for services in *this* file
@@ -33,4 +35,12 @@ services:
     encoder:
         alias: Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface
         public: true
+    
+    App\Service\WebsockMessageHandler:
+        arguments:
+            $commands: '%websocks.commands%'
+    
+    App\Command\ShokoCommand:
+        tags:
+            - { name: 'console.command', command: 'voidfield:overlord:shoko' }
     

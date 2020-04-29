@@ -24,7 +24,6 @@
         "symfony/yaml": "^5.0"
     },
     "require-dev": {
-        "dama/doctrine-test-bundle": "^6.3",
         "doctrine/doctrine-fixtures-bundle": "^3.0",
         "symfony/phpunit-bridge": "^5.0",
         "symfony/profiler-pack": "^1.0"

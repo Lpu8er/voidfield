@@ -14,7 +14,7 @@ class SubscribeController extends GlobalController {
     /**
      * @Route("/register", name="register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $encoder, Swift_Mailer $mailer) {
+    public function register(Request $request, Swift_Mailer $mailer) {
         $params = [
             'email' => '',
             'username' => '',
@@ -46,7 +46,7 @@ class SubscribeController extends GlobalController {
                             $params['username'],
                             $params['email'],
                             $clearPwd,
-                            $encoder);
+                            $this->get('encoder'));
                     // mail
                     $mailContent = (new Swift_Message('Register'))
                             ->setFrom($this->getParameter('mail.register.sender'))

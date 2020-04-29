@@ -28,3 +28,9 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    
+    # encoder for default encoder service but also for unit tests
+    encoder:
+        alias: Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface
+        public: true
+    

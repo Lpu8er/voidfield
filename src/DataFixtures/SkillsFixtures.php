@@ -281,7 +281,7 @@ class SkillsFixtures extends AbstractUtilitiesFixtures implements DependentFixtu
         ];
         foreach($skills as $sn => $skill) {
             $this->setReference('skill-'.$sn,
-                    $this->createSkill($manager, $skill['name'], $skill['attr'], $skill['val'], $skill['dtype'], $skill['res'], $skill['uc']));
+                    $this->createSkill($manager, $skill['name'], $skill['attr'], $skill['val'], $skill['dtype'], empty($skill['res'])? null:$this->getReference('res-'.$skill['res']), $skill['uc']));
         }
     }
     

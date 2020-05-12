@@ -21,3 +21,7 @@
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
+
+# for now, ignore docker stuff
+Dockerfile
+docker-compose.yml

@@ -14,12 +14,12 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="users")
  */
 class User implements \Symfony\Component\Security\Core\User\UserInterface, \Serializable {
-    const STATUS_ACTIVE = 'active';
-    const STATUS_INACTIVE = 'inactive';
-    const STATUS_SHADOW = 'shadow';
-    const STATUS_BOT = 'bot';
-    const STATUS_HOLIDAY = 'holiday';
-    const STATUS_BAN = 'ban';
+    const STATUS_ACTIVE = 'active'; // normal accounts
+    const STATUS_INACTIVE = 'inactive'; // inactive accounts (disabled)
+    const STATUS_SHADOW = 'shadow'; // shadow accounts (technical stuff)
+    const STATUS_BOT = 'bot'; // bot accounts
+    const STATUS_HOLIDAY = 'holiday'; // accounts on long-time hold
+    const STATUS_BAN = 'ban'; // well, rip.
     
     /**
      * 

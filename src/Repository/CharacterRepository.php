@@ -48,8 +48,8 @@ class CharacterRepository extends ServiceEntityRepository {
         $c->setRace($race);
         $c->setBaseSkillPoints($baseSkillPoints);
         $c->setUsedSkillPoints($usedSkillPoints);
-        $this->getDoctrine()->getManager()->persist($c);
-        $this->getDoctrine()->getManager()->flush();
+        $this->_em->persist($c);
+        $this->_em->flush();
         return $c;
     }
 }

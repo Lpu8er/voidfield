@@ -27,7 +27,9 @@ class BuildingRepository extends ServiceEntityRepository {
      * @param Colony $colony
      * @return Building[]
      */
-    public function visibleList(Colony $colony) {
+    public function visibleList(Colony $colony): array {
+        $returns = [];
+        
         $bids = [];
         // first of all, retrieves a flat list of known technologies
         $technologies = $this->getEntityManager()->getRepository(Technology::class)->retrieveFlatList($colony->getOwner());
@@ -56,8 +58,11 @@ EOQ;
         }
         
         // here we go to grab doctrine objects
-        $qb = $this->createQueryBuilder('b');
-        $qb->where($qb->expr()->in('b.id', $bids));
-        return $qb->getQuery()->getResult(); // hydrate with buildings : we're good
+        if(!empty($bids)) {
+            $qb = $this->createQueryBuilder('b');
+            $qb->where($qb->expr()->in('b.id', $bids));
+            $returns = $qb->getQuery()->getResult(); // hydrate with buildings : we're good
+        }
+        return $returns;
     }
 }

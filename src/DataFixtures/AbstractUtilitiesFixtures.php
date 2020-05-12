@@ -1,9 +1,21 @@
 <?php
 namespace App\DataFixtures;
 
+use App\Entity\Building;
+use App\Entity\BuildingCond;
+use App\Entity\BuildingConsumption;
+use App\Entity\BuildingExtraction;
+use App\Entity\BuildingProduction;
+use App\Entity\BuildingSkill;
+use App\Entity\BuildRecipe;
 use App\Entity\Galaxy;
 use App\Entity\Planet;
+use App\Entity\Research;
+use App\Entity\ResearchCond;
+use App\Entity\ResearchRecipe;
+use App\Entity\ResearchSkill;
 use App\Entity\Resource;
+use App\Entity\Skill;
 use App\Entity\Star;
 use App\Entity\System;
 use App\Entity\User;
@@ -36,7 +48,7 @@ abstract class AbstractUtilitiesFixtures extends Fixture {
      * @param string $status
      * @return User
      */
-    protected function createUser($em, $username, $mail, $pwd, $status) {
+    protected function createUser($em, string $username, string $mail, string $pwd, string $status): User {
         $user = new User;
         $user->setUsername($username);
         $user->setEmail($mail);
@@ -57,7 +69,7 @@ abstract class AbstractUtilitiesFixtures extends Fixture {
      * @param float $nutritive
      * @return Resource
      */
-    protected function createResource($em, $name, $mass, $size, $nutritive) {
+    protected function createResource($em, string $name, float $mass, float $size, float $nutritive): Resource {
         $res = new Resource;
         $res->setName($name);
         $res->setMass($mass);
@@ -75,7 +87,7 @@ abstract class AbstractUtilitiesFixtures extends Fixture {
      * @param string $name
      * @return Galaxy
      */
-    protected function createGalaxy($em, $name) {
+    protected function createGalaxy($em, string $name): Galaxy {
         $g = new Galaxy();
         $g->setName($name);
         $em->persist($g);
@@ -93,7 +105,7 @@ abstract class AbstractUtilitiesFixtures extends Fixture {
      * @param Galaxy $galaxy
      * @return System
      */
-    protected function createSystem($em, $name, $x, $y, $z, $galaxy) {
+    protected function createSystem($em, string $name, int $x, int $y, int $z, Galaxy $galaxy): System {
         $sys = new System();
         $sys->setName($name);
         $sys->setCenterX($x);
@@ -114,7 +126,7 @@ abstract class AbstractUtilitiesFixtures extends Fixture {
      * @param int $energyStrength
      * @return Star
      */
-    protected function createStandardStar($em, $galaxy, $system, $name, $energyStrength) {
+    protected function createStandardStar($em, Galaxy $galaxy, System $system, string $name, int $energyStrength): Star {
         $s = new Star;
         $s->setAirToxicity(0);
         $s->setEarthToxicity(0);
@@ -170,24 +182,24 @@ abstract class AbstractUtilitiesFixtures extends Fixture {
      * @return Planet
      */
     protected function createPlanet($em,
-            $galaxy,
-            $system,
-            $star,
-            $name,
-            $earthToxicity,
-            $waterToxicity,
-            $airToxicity,
-            $waterPercent,
-            $waterViability,
-            $medWind,
-            $derivWind,
-            $dist,
-            $grav,
-            $tempMin,
-            $tempMax,
-            $radius,
-            $spin,
-            $resources = []) {
+            Galaxy $galaxy,
+            System $system,
+            Star $star,
+            string $name,
+            float $earthToxicity,
+            float $waterToxicity,
+            float $airToxicity,
+            float $waterPercent,
+            float $waterViability,
+            float $medWind,
+            float $derivWind,
+            float $dist,
+            float $grav,
+            float $tempMin,
+            float $tempMax,
+            float $radius,
+            float $spin,
+            array $resources = []): Planet {
         $p = new Planet;
         $p->setGalaxy($galaxy);
         $p->setSystem($system);
@@ -260,10 +272,10 @@ abstract class AbstractUtilitiesFixtures extends Fixture {
      * @param string $damageType
      * @param Resource $resource
      * @param bool $usableOnCharacter
-     * @return \App\Entity\Skill
+     * @return Skill
      */
-    protected function createSkill(ObjectManager $em, string $name, string $attribute, $value, string $damageType = null, Resource $resource = null, bool $usableOnCharacter = false) {
-        $s = new \App\Entity\Skill();
+    protected function createSkill(ObjectManager $em, string $name, string $attribute, $value, string $damageType = null, Resource $resource = null, bool $usableOnCharacter = false): Skill {
+        $s = new Skill();
         $s->setName($name);
         $s->setAttribute($attribute);
         $s->setValue($value);
@@ -287,10 +299,10 @@ abstract class AbstractUtilitiesFixtures extends Fixture {
      * @param array $skills
      * @param string $replacing
      * @param array $conditions
-     * @return \App\Entity\Research
+     * @return Research
      */
-    protected function createResearch(ObjectManager $em, string $name, string $duration, int $points, int $cost, array $recipe = [], array $skills = [], string $replacing = null, array $conditions = []) {
-        $r = new \App\Entity\Research;
+    protected function createResearch(ObjectManager $em, string $name, string $duration, int $points, int $cost, array $recipe = [], array $skills = [], string $replacing = null, array $conditions = []): Research {
+        $r = new Research;
         $r->setName($name);
         $r->setBaseDuration($duration);
         $r->setPoints($points);
@@ -302,7 +314,7 @@ abstract class AbstractUtilitiesFixtures extends Fixture {
         $needsSomeFlush = false;
         // skills first
         foreach($skills as $skillKey => $skillPoints) {
-            $rs = new \App\Entity\ResearchSkill;
+            $rs = new ResearchSkill;
             $rs->setResearch($r);
             $rs->setSkill($this->getReference($skillKey));
             $rs->setPoints($skillPoints);
@@ -311,7 +323,7 @@ abstract class AbstractUtilitiesFixtures extends Fixture {
         }
         // recipe then
         foreach($recipe as $resKey => $resCount) {
-            $rr = new \App\Entity\ResearchRecipe;
+            $rr = new ResearchRecipe;
             $rr->setResearch($r);
             $rr->setResource($this->getReference($resKey));
             $rr->setNb($resCount);
@@ -320,7 +332,7 @@ abstract class AbstractUtilitiesFixtures extends Fixture {
         }
         // conditions last
         foreach($conditions as $neededResearch) {
-            $rc = new \App\Entity\ResearchCond;
+            $rc = new ResearchCond;
             $rc->setTarget($r);
             $rc->setNeed($this->getReference($neededResearch));
             $em->persist($rc);
@@ -360,7 +372,7 @@ abstract class AbstractUtilitiesFixtures extends Fixture {
      * @param string $assaultType
      * @param int $assaultValue
      * @param string $replacing
-     * @return \App\Entity\Building
+     * @return Building
      */
     protected function createBuilding(ObjectManager $em, string $name, string $duration, int $points, string $description,
             int $size, string $restrictedTo, string $special, int $hitpoints,
@@ -368,8 +380,8 @@ abstract class AbstractUtilitiesFixtures extends Fixture {
             int $energyConsumption, int $energyProd, int $energyStock,
             array $conds, array $recipe,
             array $production = [], array $consumption = [], array $extraction = [], array $skills = [],
-            string $assaultType = null, int $assaultValue = 0, string $replacing = null) {
-        $b = new \App\Entity\Building;
+            string $assaultType = null, int $assaultValue = 0, string $replacing = null): Building {
+        $b = new Building;
         // not at first
         $b->setAirToxicity(0);
         $b->setEarthToxicity(0);
@@ -402,7 +414,7 @@ abstract class AbstractUtilitiesFixtures extends Fixture {
         
         $needsSomeFlush = false;
         foreach($recipe as $resKey => $nb) {
-            $br = new \App\Entity\BuildRecipe;
+            $br = new BuildRecipe;
             $br->setBuilding($b);
             $br->setResource($this->getReference($resKey));
             $br->setNb($nb);
@@ -410,7 +422,7 @@ abstract class AbstractUtilitiesFixtures extends Fixture {
             $needsSomeFlush = true;
         }
         foreach($production as $resKey => $nb) {
-            $bp = new \App\Entity\BuildingProduction;
+            $bp = new BuildingProduction;
             $bp->setBuilding($b);
             $bp->setResource($this->getReference($resKey));
             $bp->setNb($nb);
@@ -418,7 +430,7 @@ abstract class AbstractUtilitiesFixtures extends Fixture {
             $needsSomeFlush = true;
         }
         foreach($consumption as $resKey => $nb) {
-            $bc = new \App\Entity\BuildingConsumption;
+            $bc = new BuildingConsumption;
             $bc->setBuilding($b);
             $bc->setResource($this->getReference($resKey));
             $bc->setNb($nb);
@@ -426,7 +438,7 @@ abstract class AbstractUtilitiesFixtures extends Fixture {
             $needsSomeFlush = true;
         }
         foreach($extraction as $resKey => $nb) {
-            $bx = new \App\Entity\BuildingExtraction;
+            $bx = new BuildingExtraction;
             $bx->setBuilding($b);
             $bx->setResource($this->getReference($resKey));
             $bx->setNb($nb);
@@ -434,7 +446,7 @@ abstract class AbstractUtilitiesFixtures extends Fixture {
             $needsSomeFlush = true;
         }
         foreach($conds as $resKey => $nb) {
-            $bk = new \App\Entity\BuildingCond;
+            $bk = new BuildingCond;
             $bk->setTarget($b);
             $bk->setNeed($this->getReference($resKey));
             $bk->setNb($nb);
@@ -442,7 +454,7 @@ abstract class AbstractUtilitiesFixtures extends Fixture {
             $needsSomeFlush = true;
         }
         foreach($skills as $skillKey => $nb) {
-            $bl = new \App\Entity\BuildingSkill;
+            $bl = new BuildingSkill;
             $bl->setBuilding($b);
             $bl->setSkill($this->getReference($skillKey));
             $bl->setPoints($nb);

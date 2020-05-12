@@ -76,31 +76,28 @@ class HomeController extends InternalController {
                     && $request->request->has('lastName')
                     && $request->request->has('firstName')) {
                 // generate first character
-                $c = new Character;
-                $c->setBirthDate((new DateTime)->sub(new DateInterval('P20Y')));
-                $c->setLvl(1);
-                $c->setXp(0);
-                $c->setHealth(100);
-                $c->setStamina(100);
-                $c->setIsMain(true);
-                $c->setFirstName($request->request->get('firstName'));
-                $c->setLastName($request->request->get('lastName'));
-                $c->setGivenName($request->request->get('givenName', ''));
-                $c->setGender(Character::GENDER_M); // @TODO
-                $c->setRace(Character::RACE_HUMAN); // @TODO
+                
                 // if there is something fishy with skillpoints, let them at 0
-                $c->setBaseSkillPoints($startSkillPoints);
+                $usedSkillPoints = 0;
                 $usedSkills = $this->filterByAllowedSkills(array_map('intval', $request->request->get('skill')), $skills);
                 $usedPoints = intval(array_sum($usedSkills));
                 if($startSkillPoints < $usedPoints) {
-                    $c->setUsedSkillPoints(0);
                     $usedSkills = [];
                     $this->addFlash('warn', 'Quelque chose d\'étrange a été détecté concernant les skillpoints, et leur choix a été remis à plus tard.');
                 } else {
-                    $c->setUsedSkillPoints($usedPoints);
+                    $usedSkillPoints = $usedPoints;
                 }
-                $this->getDoctrine()->getManager()->persist($c);
-                $this->getDoctrine()->getManager()->flush();
+                
+                $c = $this->getDoctrine()->getManager()->getRepository(Character::class)->generateMain(
+                        $request->request->get('firstName'),
+                        $request->request->get('lastName'),
+                        $request->request->get('givenName', ''),
+                        $startSkillPoints,
+                        $usedSkillPoints,
+                        20,
+                        Character::GENDER_M,
+                        Character::RACE_HUMAN);
+                
                 // inject skills
                 foreach($usedSkills as $sk => $sv) {
                     $cs = new CharacterSkill;

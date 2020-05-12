@@ -66,7 +66,7 @@ class HomeController extends InternalController {
      */
     public function createCharacter(Request $request) {
         $mc = $this->getUser()->getMainCharacter();
-        if(!empty($mc)) {
+        if(!empty($mc)) { // already got a main character
             $returns = $this->redirectToRoute('home');
         } else {
             $startSkillPoints = $this->getParameter('character.startskillpoints');
@@ -75,6 +75,7 @@ class HomeController extends InternalController {
                     && $this->isCsrfTokenValid('user-character', $request->request->get('_csrf'))
                     && $request->request->has('lastName')
                     && $request->request->has('firstName')) {
+                // generate first character
                 $c = new Character;
                 $c->setBirthDate((new DateTime)->sub(new DateInterval('P20Y')));
                 $c->setLvl(1);

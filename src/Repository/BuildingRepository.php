@@ -7,7 +7,6 @@ use App\Entity\Technology;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use PDO;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * Description of BuildingRepository
@@ -17,7 +16,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 class BuildingRepository extends ServiceEntityRepository {
     /**
      * 
-     * @param RegistryInterface $registry
+     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry) {
         parent::__construct($registry, Building::class);

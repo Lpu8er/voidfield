@@ -8,7 +8,6 @@ use App\Entity\ColonyStock;
 use App\Entity\Resource;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * Description of ColonyRepository
@@ -18,7 +17,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 class ColonyRepository extends ServiceEntityRepository {
     /**
      * 
-     * @param RegistryInterface $registry
+     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry) {
         parent::__construct($registry, Colony::class);

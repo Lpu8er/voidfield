@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Description of Character
  *
  * @author lpu8er
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\CharacterRepository")
  * @ORM\Table(name="characters")
  */
 class Character {

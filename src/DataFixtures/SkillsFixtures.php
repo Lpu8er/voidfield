@@ -278,6 +278,22 @@ class SkillsFixtures extends AbstractUtilitiesFixtures implements DependentFixtu
                 'res' => 'water',
                 'uc' => true,
             ],
+            'stargate-discover' => [
+                'name' => 'Découverte des portes des étoiles',
+                'attr' => Skill::ATTRIBUTE_SPECIAL_STARGATE_DISCOVER,
+                'val' => 1.00,
+                'dtype' => null,
+                'res' => null,
+                'uc' => false,
+            ],
+            'stargate-use' => [
+                'name' => 'Utilisation des portes des étoiles',
+                'attr' => Skill::ATTRIBUTE_SPECIAL_STARGATE_USE,
+                'val' => 1.00,
+                'dtype' => null,
+                'res' => null,
+                'uc' => false,
+            ],
         ];
         foreach($skills as $sn => $skill) {
             $this->setReference('skill-'.$sn,

@@ -409,7 +409,8 @@ abstract class AbstractUtilitiesFixtures extends Fixture {
             int $energyConsumption, int $energyProd, int $energyStock,
             array $conds, array $recipe,
             array $production = [], array $consumption = [], array $extraction = [], array $skills = [],
-            string $assaultType = null, int $assaultValue = 0, string $replacing = null): Building {
+            string $assaultType = null, int $assaultValue = 0, string $replacing = null,
+            int $maxNb = 1): Building {
         $b = new Building;
         // not at first
         $b->setAirToxicity(0);
@@ -430,13 +431,15 @@ abstract class AbstractUtilitiesFixtures extends Fixture {
         $b->setHitpoints($hitpoints);
         $b->setName($name);
         $b->setPoints($points);
-        $b->setReplacing($b);
+        $b->setReplacing(empty($replacing)? null:$this->getReference($replacing));
         $b->setRestrictedTo($restrictedTo);
         $b->setSize($size);
         $b->setSpecial($special);
         
         $b->setWorkers($workersConsumption);
         $b->setWorkersStock($workersStock);
+        
+        $b->setMaxNb($maxNb);
         
         $em->persist($b);
         $em->flush();

@@ -19,6 +19,15 @@ class Building {
     const RESTRICT_ATMOSPHERIC = 4;
     const RESTRICT_ORBITAL = 8;
     
+    const SPECIAL_NONE = null;
+    const SPECIAL_GOV = 'gov'; // government : can use actions tied to this
+    const SPECIAL_SPACEPORT = 'spaceport'; // spaceport : large or special ships can sail
+    const SPECIAL_SPACEFACTORY = 'spacefactory'; // spacefactory : able to build large ships
+    const SPECIAL_STARGATE = 'stargate'; // stargate : special
+    const SPECIAL_RESEARCH = 'research'; // research : can start searches
+    const SPECIAL_BANK = 'bank'; // bank : can use banking actions
+    const SPECIAL_SCAN = 'scan'; // scan : can scan fleets
+    
     /**
      * 
      * @var int
@@ -161,6 +170,12 @@ class Building {
      * @ORM\Column(type="boolean")
      */
     protected $alwaysVisible = true;
+    /**
+     *
+     * @var int
+     * @ORM\Column(type="integer")
+     */
+    protected $maxNb = 1;
     
     /**
      *
@@ -264,6 +279,10 @@ class Building {
 
     public function getAlwaysVisible() {
         return $this->alwaysVisible;
+    }
+    
+    public function getMaxNb() {
+        return $this->maxNb;
     }
 
     public function setId($id) {
@@ -380,7 +399,12 @@ class Building {
         $this->alwaysVisible = $alwaysVisible;
         return $this;
     }
-
+    
+    public function setMaxNb($maxNb) {
+        $this->maxNb = $maxNb;
+        return $this;
+    }
+    
     public function getRecipe(): array {
         return $this->recipe;
     }

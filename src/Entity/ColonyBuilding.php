@@ -39,6 +39,12 @@ class ColonyBuilding {
      * @ORM\Column(type="integer") 
      */
     protected $integrity = 100;
+    /**
+     *
+     * @var int
+     * @ORM\Column(type="integer") 
+     */
+    protected $level = 1;
 
     public function getRunning(): ?int
     {
@@ -87,4 +93,16 @@ class ColonyBuilding {
 
         return $this;
     } // percent of integrity, lower the func
+    
+    public function getLevel(): ?int
+    {
+        return $this->level;
+    }
+
+    public function setLevel(int $level): self
+    {
+        $this->level = $level;
+
+        return $this;
+    }
 }

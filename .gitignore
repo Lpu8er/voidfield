@@ -14,5 +14,10 @@
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
 
-/nbproject/private/
+/nbproject/*
 *.lock
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###

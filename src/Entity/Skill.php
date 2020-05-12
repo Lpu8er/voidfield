@@ -33,7 +33,7 @@ class Skill {
      * workersstock	Modificateur de stock des travailleurs
      * scanstrength	Force de scan (radar...)
      * dailyincome	Modificateur du revenu journalier via taxe
-     * act	Modifie l'extraction d'une ou toutes les ressources
+     * extract	Modifie l'extraction d'une ou toutes les ressources
      */
     const ATTRIBUTE_ATTACK = 'attack';
     const ATTRIBUTE_DEFENSE = 'defense';
@@ -56,6 +56,7 @@ class Skill {
     const ATTRIBUTE_WORKERSSTOCK = 'workersstock';
     const ATTRIBUTE_SCANSTRENGTH = 'scanstrength';
     const ATTRIBUTE_DAILYINCOME = 'dailyincome';
+    const ATTRIBUTE_EXTRACT = 'extract';
     
     /**
      * 

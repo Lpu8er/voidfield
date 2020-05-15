@@ -186,7 +186,7 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
                 'work-conso' => 75,
                 'energy-conso' => 100,
                 'skills' => [
-                    'skill-research-speed',
+                    'skill-research-speed' => 2,
                 ],
                 'special' => Building::SPECIAL_RESEARCH,
             ],

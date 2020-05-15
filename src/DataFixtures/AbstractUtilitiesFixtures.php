@@ -407,7 +407,7 @@ abstract class AbstractUtilitiesFixtures extends Fixture {
      * @return Building
      */
     protected function createBuilding(ObjectManager $em, string $name, string $duration, int $points, string $description,
-            int $size, string $restrictedTo, string $special, int $hitpoints,
+            int $size, ?int $restrictedTo, ?string $special, int $hitpoints,
             int $cost, int $workers, int $workersConsumption, int $workersStock,
             int $energyConsumption, int $energyProd, int $energyStock,
             array $conds, array $recipe,

@@ -140,7 +140,7 @@ class ResearchFixtures extends AbstractUtilitiesFixtures implements DependentFix
                 'cost' => 2500,
                 'recipe' => [],
                 'skills' => [
-                    'skill-stargate-discover',
+                    'skill-stargate-discover' => 1,
                 ],
                 'replacing' => null,
                 'conditions' => [
@@ -154,7 +154,7 @@ class ResearchFixtures extends AbstractUtilitiesFixtures implements DependentFix
                 'cost' => 5000,
                 'recipe' => [],
                 'skills' => [
-                    'skill-stargate-use',
+                    'skill-stargate-use' => 1,
                 ],
                 'replacing' => null,
                 'conditions' => [
@@ -454,7 +454,7 @@ class ResearchFixtures extends AbstractUtilitiesFixtures implements DependentFix
             ],
             'ship-laser-2' => [
                 'name'=> 'Laser vert',
-                'duration' => 'PT1H20',
+                'duration' => 'PT1H20M',
                 'points' => null,
                 'cost' => 16000,
                 'recipe' => [],
@@ -490,7 +490,7 @@ class ResearchFixtures extends AbstractUtilitiesFixtures implements DependentFix
             ],
             'ship-rail-2' => [
                 'name'=> 'Railgun (40mm)',
-                'duration' => 'PT2H40',
+                'duration' => 'PT2H40M',
                 'points' => null,
                 'cost' => 24000,
                 'recipe' => [],

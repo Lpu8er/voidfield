@@ -51,9 +51,9 @@ class Building {
     /**
      *
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    protected $restrictedTo;
+    protected $restrictedTo = null;
     /**
      *
      * @var int
@@ -82,9 +82,9 @@ class Building {
     /**
      *
      * @var string 
-     * @ORM\Column(type="string", length=200)
+     * @ORM\Column(type="string", length=200, nullable=true)
      */
-    protected $special = '';
+    protected $special = null;
     /**
      *
      * @var int
@@ -201,7 +201,7 @@ class Building {
         return $this->description;
     }
 
-    public function getRestrictedTo() {
+    public function getRestrictedTo(): ?int {
         return $this->restrictedTo;
     }
 
@@ -300,7 +300,7 @@ class Building {
         return $this;
     }
 
-    public function setRestrictedTo($restrictedTo) {
+    public function setRestrictedTo(?int $restrictedTo = null): self {
         $this->restrictedTo = $restrictedTo;
         return $this;
     }
@@ -310,7 +310,7 @@ class Building {
         return $this;
     }
 
-    public function setReplacing(Building $replacing) {
+    public function setReplacing(?Building $replacing = null): self {
         $this->replacing = $replacing;
         return $this;
     }
@@ -325,7 +325,7 @@ class Building {
         return $this;
     }
 
-    public function setSpecial($special) {
+    public function setSpecial(?string $special = null): self {
         $this->special = $special;
         return $this;
     }

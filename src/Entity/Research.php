@@ -109,7 +109,7 @@ class Research {
         return $this->replacing;
     }
 
-    public function setReplacing(?self $replacing): self
+    public function setReplacing(?self $replacing = null): self
     {
         $this->replacing = $replacing;
 

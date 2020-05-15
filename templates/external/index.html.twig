@@ -11,17 +11,19 @@
                     <input type="text"
                            name="_username"
                            class="form-control form-control-sm"
+                           tabindex="0"
                            placeholder="Identifiant" />
                     <input type="password"
                            name="_password"
                            class="form-control form-control-sm"
+                           tabindex="0"
                            placeholder="Mot de passe" />
                 </div>
                 <div class="input-group mb-2 mr-sm-2 small">
-                    <a href="">Mot de passe oublié ?</a>
+                    <a href="{{ path('pwd') }}" tabindex="50">Mot de passe oublié ?</a>
                 </div>
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
-                <button type="submit" class="btn btn-sm btn-primary mb-2">Connexion</button>
+                <button type="submit" class="btn btn-sm btn-primary mb-2" tabindex="0">Connexion</button>
             </form>
         </div>
     </div>

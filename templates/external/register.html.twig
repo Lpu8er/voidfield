@@ -11,6 +11,7 @@
                        name="email"
                        required="required"
                        class="form-control"
+                       tabindex="0"
                        id="registerEmail"
                        aria-describedby="email"
                        placeholder="Adresse email"
@@ -25,6 +26,7 @@
                        name="username"
                        required="required"
                        class="form-control"
+                       tabindex="0"
                        id="registerUsername"
                        aria-describedby="username"
                        placeholder="Identifiant d'utilisateur"
@@ -39,6 +41,7 @@
                     <input type="checkbox"
                            name="cgu"
                            class="form-check-input"
+                       tabindex="0"
                            id="registerCgu" />
                     <label class="form-check-label"
                            for="registerCgu">
@@ -54,6 +57,7 @@
                    value="{{ csrf_token('user-register') }}" />
             <button type="submit"
                     name="register"
+                    tabindex="0"
                     class="btn btn-primary">S'enregister</button>
         </form>
     </div>

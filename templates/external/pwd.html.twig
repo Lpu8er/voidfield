@@ -17,6 +17,7 @@
                 <input type="email"
                        name="email"
                        class="form-control"
+                       tabindex="0"
                        id="pwdEmail"
                        aria-describedby="email"
                        placeholder="Adresse email" />
@@ -30,6 +31,7 @@
                 <input type="text"
                        name="username"
                        class="form-control"
+                       tabindex="0"
                        id="registerUsername"
                        aria-describedby="username"
                        placeholder="" />
@@ -42,6 +44,7 @@
                    name="_csrf"
                    value="{{ csrf_token('user-pwd') }}" />
             <button type="submit"
+                    tabindex="0"
                     class="btn btn-primary">Envoyer la demande de mot de passe temporaire</button>
         </form>
     </div>

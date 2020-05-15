@@ -11,9 +11,10 @@
                        name="_username"
                        required="required"
                        class="form-control"
+                       tabindex="0"
                        id="loginUsername"
                        placeholder="Identifiant utilisateur" />
-                <a href="{{ path('register') }}" class="form-text">
+                <a href="{{ path('register') }}" class="form-text" tabindex="50">
                     Pas encore inscrit ?
                 </a>
             </div>
@@ -23,14 +24,15 @@
                        name="_password"
                        required="required"
                        class="form-control"
+                       tabindex="0"
                        id="loginPwd"
                        placeholder="Mot de passe" />
-                <a href="{{ path('pwd') }}" class="form-text">
+                <a href="{{ path('pwd') }}" class="form-text" tabindex="50">
                     Mot de passe oublié ?
                 </a>
             </div>
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
-            <button type="submit" class="btn btn-primary">Connexion</button>
+            <button type="submit" class="btn btn-primary" tabindex="0">Connexion</button>
         </form>
     </div>
 {% endblock %}

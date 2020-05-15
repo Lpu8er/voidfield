@@ -208,6 +208,7 @@ abstract class AbstractUtilitiesFixtures extends Fixture {
      * @param float $radius
      * @param float $spin
      * @param array $resources
+     * @param bool $startable
      * @return Planet
      */
     protected function createPlanet($em,
@@ -228,7 +229,8 @@ abstract class AbstractUtilitiesFixtures extends Fixture {
             float $tempMax,
             float $radius,
             float $spin,
-            array $resources = []): Planet {
+            array $resources = [],
+            bool $startable = false): Planet {
         $p = new Planet;
         $p->setGalaxy($galaxy);
         $p->setSystem($system);
@@ -247,6 +249,7 @@ abstract class AbstractUtilitiesFixtures extends Fixture {
         $p->setMaxTemp($tempMax);
         $p->setRadius($radius);
         $p->setSpin($spin);
+        $p->setStartable($startable);
         // computed values
         // usable surfaces
         $totalSurface = 4 * pi() * ($radius ** 2);

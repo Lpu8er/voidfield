@@ -71,6 +71,7 @@ class GalaxyFixtures extends AbstractUtilitiesFixtures implements DependentFixtu
                 'tempMax' => 60.0,
                 'medWind' => 80,
                 'derivWind' => 80,
+                'start' => true,
             ],
             'mars' => [
                 'name' => 'Mars',
@@ -146,7 +147,9 @@ class GalaxyFixtures extends AbstractUtilitiesFixtures implements DependentFixtu
                     array_key_exists('tempMin', $pd)? $pd['tempMin']:0,
                     array_key_exists('tempMax', $pd)? $pd['tempMax']:0,
                     array_key_exists('radius', $pd)? $pd['radius']:0,
-                    array_key_exists('spin', $pd)? $pd['spin']:0);
+                    array_key_exists('spin', $pd)? $pd['spin']:0,
+                    array_key_exists('resources', $pd)? $pd['resources']:[],
+                    !empty($pd['start']));
             $this->setReference('planet-'.$kp, $planet);
         }
     }

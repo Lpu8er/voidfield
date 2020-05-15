@@ -1,6 +1,9 @@
 <?php
 namespace App\Utils;
 
+use App\Entity\Building;
+use App\Entity\Colony;
+
 /**
  * Description of Toolbox
  *
@@ -25,5 +28,41 @@ class Toolbox {
             }
         }
         return $target;
+    }
+    
+    /**
+     * 
+     * @return array
+     */
+    public static function getCtypes(): array {
+        return [
+            Colony::CTYPE_WATER => Building::RESTRICT_LAND,
+            Colony::CTYPE_WATER => Building::RESTRICT_WATER,
+            Colony::CTYPE_AIR => Building::RESTRICT_ATMOSPHERIC,
+            Colony::CTYPE_SPACE => Building::RESTRICT_ORBITAL,
+        ];
+    }
+    
+    /**
+     * 
+     * @param string $ctype
+     * @return int
+     */
+    public static function getRestrictedBits(string $ctype): int {
+        $mp = static::getCtypes();
+        return array_key_exists($ctype, $mp)? $mp[$ctype]:0;
+    }
+    
+    /**
+     * 
+     * @return string[]
+     */
+    public static function sqlCtypes(): array {
+        $returns = [];
+        $mp = static::getCtypes();
+        foreach($mp as $c => $r) {
+            $returns[] = "when '".preg_replace('`[^a-z]`', '', $c)."' then ".strval(intval($r));
+        }
+        return $returns;
     }
 }

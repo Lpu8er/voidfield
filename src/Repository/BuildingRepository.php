@@ -6,6 +6,7 @@ use App\Entity\Colony;
 use App\Entity\Skill;
 use App\Entity\Technology;
 use App\Entity\VirtualBuilding;
+use App\Utils\Toolbox;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use PDO;
@@ -56,11 +57,13 @@ left join buildingconds ubc on ubc.target_id=b.id {$techiesClause}
 left join colonybuildings cb on cb.building_id=b.replacing_id and cb.colony_id=:c
 where ubc.target_id is null
     and (b.replacing_id is null or cb.colony_id is not null)
+    and (b.restricted_to is null or (b.restricted_to & :t))
 EOQ;
         
         $sql = $this->getEntityManager()->getConnection(); // we got an usual PDO object there
         $stmt = $sql->prepare($q);
         $stmt->bindValue('c', $colony->getId());
+        $stmt->bindValue('t', Toolbox::getRestrictedBits($colony->getCtype()));
         $stmt->execute();
         $ls = $stmt->fetchAll(PDO::FETCH_ASSOC); // we have a small subset of results that we need to format
         foreach($ls as $l) {

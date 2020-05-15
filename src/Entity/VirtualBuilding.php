@@ -1,6 +1,8 @@
 <?php
 namespace App\Entity;
 
+use App\Utils\Toolbox;
+
 /**
  * Description of VirtualBuilding
  *
@@ -8,7 +10,7 @@ namespace App\Entity;
  */
 class VirtualBuilding extends Building {
     public static function factory(Building $b): self {
-        
+        return Toolbox::shallow($b, new VirtualBuilding);
     }
     
     public function setId($id): self {
@@ -25,6 +27,11 @@ class VirtualBuilding extends Building {
      * @var string 
      */
     protected $duration;
+    /**
+     *
+     * @var int 
+     */
+    protected $builtLevel = 0;
     
     public function getCost(): float {
         return $this->cost;
@@ -43,4 +50,14 @@ class VirtualBuilding extends Building {
         $this->duration = $duration;
         return $this;
     }
+    
+    public function getBuiltLevel(): int {
+        return $this->builtLevel;
+    }
+
+    public function setBuiltLevel(int $builtLevel) {
+        $this->builtLevel = $builtLevel;
+        return $this;
+    }
+    
 }

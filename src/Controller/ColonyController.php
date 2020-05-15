@@ -30,4 +30,20 @@ class ColonyController extends InternalController {
         }
         return $returns;
     }
+    
+    /**
+     * 
+     * @Route("/colony/{cid}/build", name="colony_build", requirements={"cid"="\d+"}, methods={"POST"})
+     */
+    public function build(\Symfony\Component\HttpFoundation\Request $request, $cid) {
+        if(!empty($bid)
+                && $request->request->has('_csrf')
+                && $this->isCsrfTokenValid('colony-'.$cid.'-build', $request->request->get('_csrf'))) {
+            // double check if it can be built
+            
+        }
+        return $this->redirectToRoute('colony_detail', [
+            'cid' => $cid,
+        ]);
+    }
 }

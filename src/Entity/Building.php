@@ -209,7 +209,7 @@ class Building {
         return $this->buildCost;
     }
 
-    public function getReplacing(): Building {
+    public function getReplacing(): ?Building {
         return $this->replacing;
     }
 

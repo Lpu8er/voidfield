@@ -4,6 +4,8 @@ namespace App\Repository;
 use App\Entity\Building;
 use App\Entity\Colony;
 use App\Entity\Technology;
+use App\Entity\VirtualBuilding;
+use App\Utils\Toolbox;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use PDO;
@@ -58,11 +60,17 @@ EOQ;
         }
         
         // here we go to grab doctrine objects
+        $buildings = [];
         if(!empty($bids)) {
             $qb = $this->createQueryBuilder('b');
             $qb->where($qb->expr()->in('b.id', $bids));
-            $returns = $qb->getQuery()->getResult(); // hydrate with buildings : we're good
+            $buildings = $qb->getQuery()->getResult(); // hydrate with buildings : we're good
         }
+        
+        foreach($buildings as $building) {
+            $returns[] = Toolbox::shallow($building, new VirtualBuilding());
+        }
+        
         return $returns;
     }
 }

@@ -21,14 +21,6 @@
                         <a class="nav-link"
                            href="{{ path('home') }}">Empire{% if current is not defined or 'home' == current %}<span class="sr-only">(current)</span>{% endif %}</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="#">Informations{% if current is defined and 'infos' == current %}<span class="sr-only">(current)</span>{% endif %}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="{{ path('register') }}">Inscription{% if current is defined and 'register' == current %}<span class="sr-only">(current)</span>{% endif %}</a>
-                    </li>
                 </ul>
             </div>
             <div id="secMenu">

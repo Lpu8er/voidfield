@@ -9,3 +9,7 @@
     z-index: 3000;
     opacity: 0.9;
 }
+
+.vf-small {
+    font-size: 85%;
+}

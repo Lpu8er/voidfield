@@ -12,56 +12,67 @@
     </div>
     <form action="{{ path('character') }}" method="post">
         <div class="form-group">
-            <label for="characterLastName">Nom du personnage</label>
-            <input type="text"
-                   name="lastName"
-                   required="required"
-                   class="form-control"
-                   id="characterLastName"
-                   placeholder="Nom de famille"
-                   value="{{ lastName|default('') }}" />
-            <small class="form-text text-muted">
-                Pourquoi pas
-                <a href="#"
-                   class="click-to-complete"
-                   data-target="characterLastName">{{ random.lastName }}</a>
-                ?
-            </small>
+            <div class="form-row">
+                <p class="col-xs-4">
+                    <label for="characterLastName">Nom du personnage</label>
+                    <input type="text"
+                           name="lastName"
+                           autofocus="autofocus"
+                           tabindex="0"
+                           required="required"
+                           class="form-control"
+                           id="characterLastName"
+                           placeholder="Nom de famille"
+                           value="{{ lastName|default('') }}" />
+                    <small class="form-text text-muted">
+                        Pourquoi pas
+                        <a href="#"
+                           class="click-to-complete"
+                           tabindex="50"
+                           data-target="characterLastName">{{ random.lastName }}</a>
+                        ?
+                    </small>
+                </p>
+                <p class="col-xs-4">
+                    <label for="characterFirstName">Prénom du personnage</label>
+                    <input type="text"
+                           name="firstName"
+                           tabindex="0"
+                           required="required"
+                           class="form-control"
+                           id="characterFirstName"
+                           placeholder="Prénom"
+                           value="{{ firstName|default('') }}" />
+                    <small class="form-text text-muted">
+                        Pourquoi pas
+                        <a href="#"
+                           class="click-to-complete"
+                           tabindex="50"
+                           data-target="characterFirstName">{{ random.firstName }}</a>
+                        ?
+                    </small>
+                </p>
+                <p class="col-xs-4">
+                    <label for="characterGivenName">Surnom du personnage</label>
+                    <input type="text"
+                           name="givenName"
+                           tabindex="0"
+                           class="form-control"
+                           id="characterGivenName"
+                           placeholder="Surnom"
+                           value="{{ givenName|default('') }}" />
+                    <small class="form-text text-muted">
+                        Pourquoi pas
+                        <a href="#"
+                           class="click-to-complete"
+                           tabindex="50"
+                           data-target="characterGivenName">{{ random.givenName }}</a>
+                        ?
+                    </small>
+                </p>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="characterFirstName">Prénom du personnage</label>
-            <input type="text"
-                   name="firstName"
-                   required="required"
-                   class="form-control"
-                   id="characterFirstName"
-                   placeholder="Prénom"
-                   value="{{ firstName|default('') }}" />
-            <small class="form-text text-muted">
-                Pourquoi pas
-                <a href="#"
-                   class="click-to-complete"
-                   data-target="characterFirstName">{{ random.firstName }}</a>
-                ?
-            </small>
-        </div>
-        <div class="form-group">
-            <label for="characterGivenName">Surnom du personnage</label>
-            <input type="text"
-                   name="givenName"
-                   class="form-control"
-                   id="characterGivenName"
-                   placeholder="Surnom"
-                   value="{{ givenName|default('') }}" />
-            <small class="form-text text-muted">
-                Pourquoi pas
-                <a href="#"
-                   class="click-to-complete"
-                   data-target="characterGivenName">{{ random.givenName }}</a>
-                ?
-            </small>
-        </div>
-        <div class="form-group">
+        <div class="form-group form-group-sm">
             <div class="form-row">
                 <p class="form-col alert alert-info" role="alert"">
                     Vous pouvez conserver des points pour plus tard.
@@ -71,15 +82,16 @@
                     points à attribuer.
                 </p>
             </div>
-            <div class="form-row">
+            <div class="form-row vf-small">
                 {% for skill in skills %}
-                <p>
+                <p class="col-xs-1">
                     <input type="number"
                            min="0"
                            step="1"
                            max="{{ startSkillPoints }}"
                            name="skill[{{ skill.id }}]"
-                           class="form-control whole-control-number"
+                           tabindex="0"
+                           class="form-control input-sm whole-control-number"
                            data-whole="skillpoints"
                            value="0"
                            id="characterSkill_{{ skill.id }}" />
@@ -95,6 +107,7 @@
                value="{{ csrf_token('user-character') }}" />
         <button type="submit"
                 name="createCharacter"
+                tabindex="0"
                 class="btn btn-primary">Créer ce premier personnage</button>
     </form>
 {% endblock %}

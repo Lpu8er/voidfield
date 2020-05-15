@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\DiscriminatorMap({"star" = "Star", "planet" = "Planet", "moon" = "Moon", "station" = "Station", "stargate" = "Stargate"})
  */
 abstract class Celestial {
+    const AU = 149597870;
     const CTYPE_STAR = 'star';
     const CTYPE_PLANET = 'planet';
     const CTYPE_MOON = 'moon';
@@ -171,6 +172,14 @@ abstract class Celestial {
     
     abstract public function getCType(): string;
     abstract public function colonisable(): bool;
+    
+    /**
+     * 
+     * @return int
+     */
+    public function getAu(): int {
+        return static::AU;
+    }
     
     public function getId() {
         return $this->id;

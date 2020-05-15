@@ -1,6 +1,7 @@
 <?php
 namespace App\DataFixtures;
 
+use App\Entity\Celestial;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -10,8 +11,6 @@ use Doctrine\Common\Persistence\ObjectManager;
  * @author lpu8er
  */
 class GalaxyFixtures extends AbstractUtilitiesFixtures implements DependentFixtureInterface {
-    const AU = 149597870;
-    
     public function load(ObjectManager $manager) {
         // generate galaxy / systems
         $g = $this->createGalaxy($manager, 'Andromeda');
@@ -142,7 +141,7 @@ class GalaxyFixtures extends AbstractUtilitiesFixtures implements DependentFixtu
                     array_key_exists('waterViability', $pd)? $pd['waterViability']:0,
                     array_key_exists('medWind', $pd)? $pd['medWind']:0,
                     array_key_exists('derivWind', $pd)? $pd['derivWind']:0,
-                    static::AU * (array_key_exists('dist', $pd)? $pd['dist']:0),
+                    Celestial::AU * (array_key_exists('dist', $pd)? $pd['dist']:0),
                     array_key_exists('grav', $pd)? $pd['grav']:0,
                     array_key_exists('tempMin', $pd)? $pd['tempMin']:0,
                     array_key_exists('tempMax', $pd)? $pd['tempMax']:0,

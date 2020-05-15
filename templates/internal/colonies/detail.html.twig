@@ -199,7 +199,34 @@
                             <legend>
                                 {{ colony.celestial.fullName }}
                             </legend>
-                            
+                            <div class="row">
+                                <fieldset class="col-md-2">
+                                    <legend>Description</legend>
+                                    <p>
+                                        {{ colony.celestial.description }}
+                                    </p>
+                                </fieldset>
+                                <fieldset class="col-md-2">
+                                    <legend>Dimensions</legend>
+                                    <p>
+                                        Rayon {{ colony.celestial.radius }} km<br />
+                                        Distance de l'étoile {{ colony.celestial.ellipticCenterDistance / colony.celestial.au }} km
+                                    </p>
+                                </fieldset>
+                                <fieldset class="col-md-2">
+                                    <legend>Dynamique</legend>
+                                    <p>
+                                        Rotation {{ colony.celestial.spin }} m.s<sup>-1</sup><br />
+                                        Gravité {{ colony.celestial.gravity }} G<br />
+                                    </p>
+                                </fieldset>
+                                <fieldset class="col-md-2">
+                                    <legend>Climat</legend>
+                                    <p>
+                                        etc.
+                                    </p>
+                                </fieldset>
+                            </div>
                         </fieldset>
                     </div>
                     <div class="tab-pane"
@@ -210,11 +237,31 @@
                             <legend>
                                 Batiments
                             </legend>
-                            <div class="d-flex flex-wrap">
+                            <div class="row row-cols-1 row-cols-md-2">
                                 {% for building in buildable %}
-                                    <div>
-                                        <h5>{{ building.name }}</h5>
-                                        <p></p>
+                                    <div class="col mb-4">
+                                        <div class="card">
+                                            <img src="..." class="card-img-top" alt="...">
+                                            <div class="card-body">
+                                                <h5 class="card-title">
+                                                    {{ building.name }}
+                                                </h5>
+                                                <p class="card-text">
+                                                    {{ building.description }}
+                                                </p>
+                                            </div>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item">
+                                                    💰 {{ building.build_cost }}
+                                                </li>
+                                                <li class="list-group-item">
+                                                    ⏲ {{ building.base_duration|duration }}
+                                                </li>
+                                            </ul>
+                                            <div class="card-body">
+                                                
+                                            </div>
+                                        </div>
                                     </div>
                                 {% endfor %}
                             </div>

@@ -512,6 +512,46 @@ class ResearchFixtures extends AbstractUtilitiesFixtures implements DependentFix
                     'research-ship-rail-2',
                 ],
             ],
+            'archeology' => [
+                'name'=> 'Archéologie',
+                'duration' => 'PT15M',
+                'points' => null,
+                'cost' => 2500,
+                'recipe' => [],
+                'skills' => [
+                    'skill-planetology' => 25,
+                ],
+                'replacing' => null,
+                'conditions' => [],
+            ],
+            'geology' => [
+                'name'=> 'Géologie',
+                'duration' => 'PT30M',
+                'points' => null,
+                'cost' => 5000,
+                'recipe' => [],
+                'skills' => [
+                    'skill-planetology' => 25,
+                ],
+                'replacing' => null,
+                'conditions' => [
+                    'research-archeology',
+                ],
+            ],
+            'planetology' => [
+                'name'=> 'Planétologie',
+                'duration' => 'PT1H',
+                'points' => null,
+                'cost' => 50000,
+                'recipe' => [],
+                'skills' => [
+                    'skill-planetology' => 25,
+                ],
+                'replacing' => null,
+                'conditions' => [
+                    'research-geology',
+                ],
+            ],
         ];
         foreach($researches as $rn => $research) {
             $this->setReference('research-'.$rn,

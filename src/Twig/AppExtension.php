@@ -7,10 +7,10 @@ use Twig\TwigFilter;
 class AppExtension extends AbstractExtension {
     public function getFilters()
     {
-        return array(
-            new TwigFilter('duration', array($this, 'durationFilter')),
-            new TwigFilter('nformat', array($this, 'nformatFilter')),
-        );
+        return [
+            new TwigFilter('duration', [$this, 'durationFilter',]),
+            new TwigFilter('nformat', [$this, 'nformatFilter',]),
+        ];
     }
     
     /**

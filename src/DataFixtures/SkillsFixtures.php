@@ -294,6 +294,14 @@ class SkillsFixtures extends AbstractUtilitiesFixtures implements DependentFixtu
                 'res' => null,
                 'uc' => false,
             ],
+            'planetology' => [
+                'name' => 'Planétologie',
+                'attr' => Skill::ATTRIBUTE_PLANETOLOGY,
+                'val' => 1.00,
+                'dtype' => null,
+                'res' => null,
+                'uc' => false,
+            ],
         ];
         foreach($skills as $sn => $skill) {
             $this->setReference('skill-'.$sn,

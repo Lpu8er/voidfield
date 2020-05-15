@@ -58,6 +58,7 @@ class Skill {
     const ATTRIBUTE_SCANSTRENGTH = 'scanstrength';
     const ATTRIBUTE_DAILYINCOME = 'dailyincome';
     const ATTRIBUTE_EXTRACT = 'extract';
+    const ATTRIBUTE_PLANETOLOGY = 'planetology';
     const ATTRIBUTE_SPECIAL_STARGATE_DISCOVER = 'stargate-discover';
     const ATTRIBUTE_SPECIAL_STARGATE_USE = 'stargate-use';
     

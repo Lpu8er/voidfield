@@ -10,9 +10,9 @@ class Toolbox {
     /**
      * Deep-copy an object
      * Both obects HAS to have for each getter of $source, a setter of $target
-     * @param \stdClass $source
-     * @param \stdClass $target
-     * @return \stdClass
+     * @param object $source
+     * @param object $target
+     * @return object
      */
     public static function shallow(object $source, object $target): object {
         $sourceMethods = get_class_methods($source);

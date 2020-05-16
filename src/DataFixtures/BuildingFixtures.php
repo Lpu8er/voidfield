@@ -61,6 +61,7 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
                 'work-conso' => 25,
                 'energy-conso' => 20,
                 'habs' => 500,
+                'restrict' => Building::RESTRICT_LAND,
             ],
             'hab-e-2' => [
                 'name' => 'Gratte-ciel',
@@ -70,6 +71,7 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
                 'work-conso' => 50,
                 'energy-conso' => 30,
                 'habs' => 1500,
+                'restrict' => Building::RESTRICT_LAND,
             ],
             'hab-w-1' => [
                 'name' => 'Quartier flottant',
@@ -79,6 +81,7 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
                 'work-conso' => 25,
                 'energy-conso' => 20,
                 'habs' => 500,
+                'restrict' => Building::RESTRICT_WATER,
             ],
             'hab-w-2' => [
                 'name' => 'Immeuble flottant',
@@ -88,6 +91,7 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
                 'work-conso' => 50,
                 'energy-conso' => 30,
                 'habs' => 1500,
+                'restrict' => Building::RESTRICT_WATER,
             ],
             'hab-a-1' => [
                 'name' => 'Quartier aérien',
@@ -97,6 +101,7 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
                 'work-conso' => 20,
                 'energy-conso' => 20,
                 'habs' => 500,
+                'restrict' => Building::RESTRICT_ATMOSPHERIC,
             ],
             'hab-a-2' => [
                 'name' => 'Immeuble graviton',
@@ -106,6 +111,7 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
                 'work-conso' => 45,
                 'energy-conso' => 30,
                 'habs' => 1500,
+                'restrict' => Building::RESTRICT_ATMOSPHERIC,
             ],
             'hab-s-1' => [
                 'name' => 'Quartier spatiaux',
@@ -115,6 +121,7 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
                 'work-conso' => 30,
                 'energy-conso' => 20,
                 'habs' => 500,
+                'restrict' => Building::RESTRICT_ORBITAL,
             ],
             'hab-s-2' => [
                 'name' => 'Medina',
@@ -124,6 +131,7 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
                 'work-conso' => 55,
                 'energy-conso' => 30,
                 'habs' => 1500,
+                'restrict' => Building::RESTRICT_ORBITAL,
             ],
             'hostel' => [
                 'name' => 'Hôtel',

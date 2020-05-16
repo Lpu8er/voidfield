@@ -2,7 +2,7 @@
     {% if _title is defined %}<caption>{{ _title }}</caption>{% endif %}
     <tbody>
         {% for line in _values %}
-            <tr>
+            <tr class="resource-line{% if _insufficient and attribute(_insufficient, line.resource.id) is defined %} resource-insufficient{% endif %}">
                 <th>{{ line.resource.name }}</th>
                 <td>{{ line.nb }}</td>
             </tr>

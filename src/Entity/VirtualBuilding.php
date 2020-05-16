@@ -18,6 +18,16 @@ class VirtualBuilding extends Building {
     }
     
     /**
+     * To allow deep-copy
+     * @param array $recipe
+     * @return $this
+     */
+    public function setRecipe($recipe): self {
+        $this->recipe = $recipe;
+        return $this;
+    }
+    
+    /**
      *
      * @var float 
      */

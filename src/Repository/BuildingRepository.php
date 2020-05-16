@@ -104,6 +104,7 @@ EOQ;
             $insufficientResources = $this->checkEnoughResources($building, $colony);
             $vb->setInsufficientResources($insufficientResources);
             $vb->setCanBeBuilt(empty($insufficientResources));
+            $vb->setRecipe($building->getRecipe());
             $returns[] = $vb;
         }
         
@@ -141,7 +142,7 @@ EOQ;
             $rid = $recipe->getResource()->getId();
             if(!array_key_exists($rid, $resBulk) || ($resBulk[$rid] < $recipe->getNb())) {
                 $returns[$rid] = [
-                    'actual' => $resBulk[$rid],
+                    'actual' => empty($resBulk[$rid])? 0:$resBulk[$rid],
                     'need' => $recipe->getNb(),
                 ];
             }

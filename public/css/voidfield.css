@@ -13,3 +13,11 @@
 .vf-small {
     font-size: 85%;
 }
+
+.resource-line {
+    
+}
+
+.resource-insufficient {
+    color: darkred;
+}

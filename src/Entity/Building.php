@@ -405,7 +405,7 @@ class Building {
         return $this;
     }
     
-    public function getRecipe(): array {
+    public function getRecipe() {
         return $this->recipe;
     }
 

@@ -1,5 +1,22 @@
-<div>
-    <h5>{{ building.name }}</h5>
-    <p>{{ building.description }}</p>
-    {% include 'comps/resources-table.html.twig' with {'_values': building.recipe } %}
+<div class="card">
+    <img src="..." class="card-img-top" alt="...">
+    <div class="card-body">
+        <h5 class="card-title">
+            {{ building.name }}
+        </h5>
+        <p class="card-text">
+            {{ building.description }}
+        </p>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            💰 {{ building.buildCost }}
+        </li>
+        <li class="list-group-item">
+            ⏲ {{ building.baseDuration|duration(complex=1) }}
+        </li>
+    </ul>
+    <div class="card-body">
+        {% include 'comps/resources-table.html.twig' with {'_values': building.recipe } %}
+    </div>
 </div>

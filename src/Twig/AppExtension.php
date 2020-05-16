@@ -16,9 +16,11 @@ class AppExtension extends AbstractExtension {
     /**
      * 
      * @param string $duration
+     * @param bool $complex
+     * @param bool $short
      * @return string
      */
-    public function durationFilter($duration) {
+    public function durationFilter(string $duration, bool $complex = false, bool $short = false): string {
         $str = 'Instantané';
         if(!empty($duration)) {
             try {
@@ -29,7 +31,34 @@ class AppExtension extends AbstractExtension {
                         $str = $d->days.' jour';
                         if(1 < $d->days) { $str .= 's'; }
                     }
-                    $str.= ' '.str_pad($d->h, 2, '0', STR_PAD_LEFT).':'.str_pad($d->i, 2, '0', STR_PAD_LEFT).':'.str_pad($d->s, 2, '0', STR_PAD_LEFT);
+                    if($complex) {
+                        if($short) {
+                            if(0 < $d->h) {
+                                $str .= strval($d->h).' heure';
+                                if(1 < $d->h) { $str .= 's'; }
+                            }
+                            if(0 < $d->i) {
+                                $str .= strval($d->i).' minute';
+                                if(1 < $d->i) { $str .= 's'; }
+                            }
+                            if(0 < $d->s) {
+                                $str .= strval($d->s).' seconde';
+                                if(1 < $d->s) { $str .= 's'; }
+                            }
+                        } else {
+                            if(0 < $d->h) {
+                                $str .= strval($d->h).'h';
+                            }
+                            if(0 < $d->i) {
+                                $str .= strval($d->i).'m';
+                            }
+                            if(0 < $d->s) {
+                                $str .= strval($d->s).'s';
+                            }
+                        }
+                    } else {
+                        $str.= ' '.str_pad($d->h, 2, '0', STR_PAD_LEFT).':'.str_pad($d->i, 2, '0', STR_PAD_LEFT).':'.str_pad($d->s, 2, '0', STR_PAD_LEFT);
+                    }
                 }
             } catch (Exception $ex) { }
         }

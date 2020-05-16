@@ -16,7 +16,14 @@
             ⏲ {{ building.baseDuration|duration(complex=1) }}
         </li>
     </ul>
-    <div class="card-body">
-        {% include 'comps/resources-table.html.twig' with {'_values': building.recipe } %}
-    </div>
+    {% if not building.emptyRecipe %}<div class="card-body">
+        {% include 'comps/resources-table.html.twig' with {'_values': building.recipe, '_insufficient': building.insufficientResources } %}
+    </div>{% endif %}{% if building.canBeBuilt %}
+    <form method="post" action="{{ path('colony_build', {'cid': colony.id}) }}">
+        <div class="card-body">
+            <input type="hidden" name="_csrf" value="{{ csrf_token('colony-' ~ colony.id ~ '-build-' ~ building.id) }}" />
+            <input type="hidden" name="bid" value="{{ building.id }}" />
+            <input type="submit" class="btn btn-primary" name="submitBuild" value="Construire" />
+        </div>
+    </form>{% endif %}
 </div>

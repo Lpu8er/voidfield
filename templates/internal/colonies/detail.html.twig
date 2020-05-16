@@ -240,7 +240,7 @@
                             <div class="row row-cols-1 row-cols-md-2">
                                 {% for building in buildable %}
                                     <div class="col mb-4">
-                                        {% include 'internal/colonies/building.html.twig' with {'building': building } %}
+                                        {% include 'internal/colonies/building.html.twig' with {'building': building, 'colony': colony} %}
                                     </div>
                                 {% endfor %}
                             </div>

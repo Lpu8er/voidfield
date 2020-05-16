@@ -34,7 +34,7 @@ class BuildingRepository extends ServiceEntityRepository {
     }
     
     /**
-     * Retrieve all buildings that can be built
+     * Retrieve all buildings that can be built (or not, depending on resources)
      * @param Colony $colony
      * @return Building[]
      */
@@ -101,9 +101,51 @@ EOQ;
             } else {
                 $vb->setDuration($building->getBaseDuration()); // good
             }
+            $insufficientResources = $this->checkEnoughResources($building, $colony);
+            $vb->setInsufficientResources($insufficientResources);
+            $vb->setCanBeBuilt(empty($insufficientResources));
             $returns[] = $vb;
         }
         
+        return $returns;
+    }
+    
+    protected $cacheResourcesBulk = null;
+    
+    /**
+     * 
+     * @param bool $ignoreCache
+     * @return array
+     */
+    protected function reworkResourceBulk(Colony $colony, bool $ignoreCache = false): array {
+        if($ignoreCache || (null === $this->cacheResourcesBulk)) {
+            $this->cacheResourcesBulk = [];
+            foreach($colony->getStocks() as $stock) {
+                $this->cacheResourcesBulk[$stock->getResource()->getId()] = $stock->getStocks();
+            }
+        }
+        return $this->cacheResourcesBulk;
+    }
+    
+    /**
+     * Check if colony has enough resources to build, returns an array of insufficient resources if not
+     * @param Building $building
+     * @param Colony $colony
+     * @return array
+     */
+    protected function checkEnoughResources(Building $building, Colony $colony): array {
+        $returns = [];
+        // rework colony resource list, in order to optimize the search
+        $resBulk = $this->reworkResourceBulk($colony);
+        foreach($building->getRecipe() as $recipe) {
+            $rid = $recipe->getResource()->getId();
+            if(!array_key_exists($rid, $resBulk) || ($resBulk[$rid] < $recipe->getNb())) {
+                $returns[$rid] = [
+                    'actual' => $resBulk[$rid],
+                    'need' => $recipe->getNb(),
+                ];
+            }
+        }
         return $returns;
     }
 }

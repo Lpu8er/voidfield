@@ -32,6 +32,26 @@ class VirtualBuilding extends Building {
      * @var int 
      */
     protected $builtLevel = 0;
+    /**
+     *
+     * @var bool 
+     */
+    protected $canBeBuilt = false;
+    /**
+     *
+     * @var array 
+     */
+    protected $insufficientResources = [];
+    
+    /**
+     * Virtual shorthand method
+     * @return bool
+     */
+    public function getEmptyRecipe(): bool {
+        $isEmpty = true;
+        foreach($this->getRecipe() as $recipe) { $isEmpty = false; break; }
+        return $isEmpty;
+    }
     
     public function getCost(): float {
         return $this->cost;
@@ -60,4 +80,21 @@ class VirtualBuilding extends Building {
         return $this;
     }
     
+    public function getCanBeBuilt(): bool {
+        return $this->canBeBuilt;
+    }
+
+    public function getInsufficientResources(): array {
+        return $this->insufficientResources;
+    }
+
+    public function setCanBeBuilt(bool $canBeBuilt) {
+        $this->canBeBuilt = $canBeBuilt;
+        return $this;
+    }
+
+    public function setInsufficientResources(array $insufficientResources) {
+        $this->insufficientResources = $insufficientResources;
+        return $this;
+    }
 }

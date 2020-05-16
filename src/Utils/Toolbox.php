@@ -36,7 +36,7 @@ class Toolbox {
      */
     public static function getCtypes(): array {
         return [
-            Colony::CTYPE_WATER => Building::RESTRICT_LAND,
+            Colony::CTYPE_EARTH => Building::RESTRICT_LAND,
             Colony::CTYPE_WATER => Building::RESTRICT_WATER,
             Colony::CTYPE_AIR => Building::RESTRICT_ATMOSPHERIC,
             Colony::CTYPE_SPACE => Building::RESTRICT_ORBITAL,

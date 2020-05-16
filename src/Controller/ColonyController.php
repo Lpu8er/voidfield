@@ -16,7 +16,7 @@ class ColonyController extends InternalController {
     /**
      * @Route("/colony/{cid}", name="colony_detail", requirements={"cid"="\d+"})
      */
-    public function detail($cid) {
+    public function detail(\Symfony\Component\HttpFoundation\Request $request, $cid) {
         $returns = null;
         $colony = $this->getDoctrine()->getRepository(Colony::class)->find($cid);
         if(!empty($colony) && ($this->getUser()->getId() === $colony->getOwner()->getId())) {
@@ -46,6 +46,7 @@ class ColonyController extends InternalController {
         }
         return $this->redirectToRoute('colony_detail', [
             'cid' => $cid,
+            '_fragment' => 'buildings-tabpane',
         ]);
     }
 }

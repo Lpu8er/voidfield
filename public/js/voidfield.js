@@ -48,6 +48,27 @@ voidfield.WholeNumber.prototype.bindEvents = function(){
 
 /**
  * 
+ * @param {String} tab
+ * @returns {undefined}
+ */
+voidfield.showTab = function(tab) {
+    jQuery('.nav-tabs a[href="#' + tab + '"]').tab('show');
+};
+
+/**
+ * 
+ * @returns {undefined}
+ */
+voidfield.loadTabFromUri = function() {
+    let url = document.location.toString();
+    let xs = url.split('#');
+    if(xs.length) {
+        voidfield.showTab(xs[1]);
+    }
+};
+
+/**
+ * 
  * @returns {Boolean}
  */
 voidfield.WholeNumber.prototype.recompute = function(){
@@ -82,4 +103,6 @@ jQuery(function(){
         let cc = new voidfield.ClickToComplete($(this));
         cc.bindEvent();
     });
+    
+    voidfield.loadTabFromUri();
 });

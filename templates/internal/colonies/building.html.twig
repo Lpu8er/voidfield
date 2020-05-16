@@ -9,16 +9,16 @@
         </p>
     </div>
     <ul class="list-group list-group-flush">
-        <li class="list-group-item">
+        {% if building.buildCost %}<li class="list-group-item">
             💰 {{ building.buildCost }}
-        </li>
+        </li>{% endif %}
         <li class="list-group-item">
             ⏲ {{ building.baseDuration|duration(complex=1) }}
         </li>
     </ul>
-    {% if not building.emptyRecipe %}<div class="card-body">
-        {% include 'comps/resources-table.html.twig' with {'_values': building.recipe, '_insufficient': building.insufficientResources } %}
-    </div>{% endif %}{% if building.canBeBuilt %}
+    {% if not building.emptyRecipe %}
+    {% include 'comps/resources-list.html.twig' with {'_values': building.recipe, '_insufficient': building.insufficientResources } %}
+    {% endif %}{% if building.canBeBuilt %}
     <form method="post" action="{{ path('colony_build', {'cid': colony.id}) }}">
         <div class="card-body">
             <input type="hidden" name="_csrf" value="{{ csrf_token('colony-' ~ colony.id ~ '-build-' ~ building.id) }}" />

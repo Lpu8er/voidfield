@@ -1,11 +1,9 @@
 <?php
 namespace App\DataFixtures;
 
-use App\Entity\User;
 use DateInterval;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
@@ -49,26 +47,5 @@ abstract class AbstractUtilitiesFixtures extends Fixture {
     
     public function __construct(UserPasswordEncoderInterface $encoder = null) {
         $this->encoder = $encoder;
-    }
-    
-    /**
-     * 
-     * @param ObjectManager $em
-     * @param string $username
-     * @param string $mail
-     * @param string $pwd
-     * @param string $status
-     * @return User
-     */
-    protected function createUser($em, string $username, string $mail, string $pwd, string $status): User {
-        $user = new User;
-        $user->setUsername($username);
-        $user->setEmail($mail);
-        $user->setStatus($status);
-        $encoded = $this->encoder->encodePassword($user, $pwd);
-        $user->setPwd($encoded);
-        $em->persist($user);
-        $em->flush();
-        return $user;
     }
 }

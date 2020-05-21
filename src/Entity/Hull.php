@@ -11,25 +11,18 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="hulls")
  */
 class Hull {
-    const SLOTTYPE_ENGINE = 'engine';
-    const SLOTTYPE_PROP = 'prop';
-    const SLOTTYPE_EXTEQP = 'exteqp';
-    const SLOTTYPE_EXTUTIL = 'extutil';
-    const SLOTTYPE_INTEQP = 'inteqp';
-    const SLOTTYPE_INTUTIL = 'intutil';
-    
     /**
      * 
      * @return string[]
      */
     public static function listSlots(): array {
         return [
-            static::SLOTTYPE_ENGINE,
-            static::SLOTTYPE_PROP,
-            static::SLOTTYPE_EXTEQP,
-            static::SLOTTYPE_EXTUTIL,
-            static::SLOTTYPE_INTEQP,
-            static::SLOTTYPE_INTUTIL,
+            Module::SLOT_INTERNAL_ENGINE,
+            Module::SLOT_PROPULSION,
+            Module::SLOT_EXTERNAL_EQUIPMENT,
+            Module::SLOT_EXTERNAL_UTILITY,
+            Module::SLOT_INTERNAL_EQUIPMENT,
+            Module::SLOT_INTERNAL_UTILITY,
         ];
     }
     
@@ -68,39 +61,39 @@ class Hull {
     /**
      *
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"default" : 0})
      */
-    protected $exteqpSlots;
+    protected $exteqpSlots = 0;
     /**
      *
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"default" : 0})
      */
-    protected $extutilSlots;
+    protected $extutilSlots = 0;
     /**
      *
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"default" : 0})
      */
-    protected $engineSlots;
+    protected $engineSlots = 0;
     /**
      *
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"default" : 0})
      */
-    protected $inteqpSlots;
+    protected $inteqpSlots = 0;
     /**
      *
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"default" : 0})
      */
-    protected $intutilSlots;
+    protected $intutilSlots = 0;
     /**
      *
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"default" : 0})
      */
-    protected $propSlots;
+    protected $propSlots = 0;
     /**
      *
      * @var int

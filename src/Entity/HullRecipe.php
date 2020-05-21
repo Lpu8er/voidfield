@@ -36,9 +36,9 @@ class HullRecipe {
     /**
      *
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"default" : 0})
      */
-    protected $recyclable;
+    protected $recyclable = 0;
 
     public function getNb(): ?int
     {

@@ -1,6 +1,7 @@
 <?php
 namespace App\DataFixtures;
 
+use App\Entity\Resource;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -34,5 +35,26 @@ class ResourcesFixtures extends AbstractUtilitiesFixtures implements DependentFi
         return [
             AppFixtures::class
         ];
+    }
+    
+    /**
+     * 
+     * @param ObjectManager $em
+     * @param string $name
+     * @param float $mass
+     * @param float $size
+     * @param float $nutritive
+     * @return Resource
+     */
+    protected function createResource($em, string $name, float $mass, float $size, float $nutritive): Resource {
+        $res = new Resource;
+        $res->setName($name);
+        $res->setMass($mass);
+        $res->setSize($size);
+        $res->setNutritive($nutritive);
+        $res->setRestricted(Resource::RESTRICT_AIR | Resource::RESTRICT_WATER | Resource::RESTRICT_EARTH);
+        $em->persist($res);
+        $em->flush();
+        return $res;
     }
 }

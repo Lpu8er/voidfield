@@ -2,6 +2,10 @@
 namespace App\DataFixtures;
 
 use App\Entity\Celestial;
+use App\Entity\Galaxy;
+use App\Entity\Planet;
+use App\Entity\Star;
+use App\Entity\System;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -158,5 +162,190 @@ class GalaxyFixtures extends AbstractUtilitiesFixtures implements DependentFixtu
             AppFixtures::class,
             ResourcesFixtures::class,
         ];
+    }
+    
+    /**
+     * 
+     * @param ObjectManager $em
+     * @param string $name
+     * @return Galaxy
+     */
+    protected function createGalaxy($em, string $name): Galaxy {
+        $g = new Galaxy();
+        $g->setName($name);
+        $em->persist($g);
+        $em->flush();
+        return $g;
+    }
+    
+    /**
+     * 
+     * @param ObjectManager $em
+     * @param string $name
+     * @param int $x
+     * @param int $y
+     * @param int $z
+     * @param Galaxy $galaxy
+     * @return System
+     */
+    protected function createSystem($em, string $name, int $x, int $y, int $z, Galaxy $galaxy): System {
+        $sys = new System();
+        $sys->setName($name);
+        $sys->setCenterX($x);
+        $sys->setCenterY($y);
+        $sys->setCenterZ($z);
+        $sys->setGalaxy($galaxy);
+        $em->persist($sys);
+        $em->flush();
+        return $sys;
+    }
+    
+    /**
+     * 
+     * @param ObjectManager $em
+     * @param Galaxy $galaxy
+     * @param System $system
+     * @param string $name
+     * @param int $energyStrength
+     * @return Star
+     */
+    protected function createStandardStar($em, Galaxy $galaxy, System $system, string $name, int $energyStrength): Star {
+        $s = new Star;
+        $s->setAirToxicity(0);
+        $s->setEarthToxicity(0);
+        $s->setWaterToxicity(0);
+        $s->setWaterPercent(0);
+        $s->setWaterViability(0);
+        $s->setMedWindSpeed(1260000);
+        $s->setDerivWindSpeed(1000000);
+        $s->setDescription('');
+        $s->setEllipticCenterDistance(0);
+        $s->setEnergyStrength($energyStrength);
+        $s->setEol(null);
+        $s->setGalaxy($galaxy);
+        $s->setGravity(28);
+        $s->setMinTemp(3500);
+        $s->setMaxTemp(6000);
+        $s->setRadius(696000);
+        $s->setRgb('250,225,75');
+        $s->setSpin(7000000);
+        $s->setSystem($system);
+        $s->setName($name);
+        $s->setX(0);
+        $s->setY(0);
+        $s->setZ(0);
+        $em->persist($s);
+        $em->flush();
+        return $s;
+    }
+    
+    /**
+     * 
+     * @TODO compute usableLandSurface depending on other shit
+     * 
+     * @param ObjectManager $em
+     * @param Galaxy $galaxy
+     * @param System $system
+     * @param Star $star
+     * @param string $name
+     * @param float $earthToxicity
+     * @param float $waterToxicity
+     * @param float $airToxicity
+     * @param float $waterPercent
+     * @param float $waterViability
+     * @param float $medWind
+     * @param float $derivWind
+     * @param float $dist
+     * @param float $grav
+     * @param float $tempMin
+     * @param float $tempMax
+     * @param float $radius
+     * @param float $spin
+     * @param array $resources
+     * @param bool $startable
+     * @return Planet
+     */
+    protected function createPlanet($em,
+            Galaxy $galaxy,
+            System $system,
+            Star $star,
+            string $name,
+            float $earthToxicity,
+            float $waterToxicity,
+            float $airToxicity,
+            float $waterPercent,
+            float $waterViability,
+            float $medWind,
+            float $derivWind,
+            float $dist,
+            float $grav,
+            float $tempMin,
+            float $tempMax,
+            float $radius,
+            float $spin,
+            array $resources = [],
+            bool $startable = false): Planet {
+        $p = new Planet;
+        $p->setGalaxy($galaxy);
+        $p->setSystem($system);
+        $p->setCenteredOn($star);
+        $p->setName($name);
+        $p->setEarthToxicity($earthToxicity);
+        $p->setWaterToxicity($waterToxicity);
+        $p->setAirToxicity($airToxicity);
+        $p->setWaterPercent($waterPercent);
+        $p->setWaterViability($waterViability);
+        $p->setMedWindSpeed($medWind);
+        $p->setDerivWindSpeed($derivWind);
+        $p->setEllipticCenterDistance($dist);
+        $p->setGravity($grav);
+        $p->setMinTemp($tempMin);
+        $p->setMaxTemp($tempMax);
+        $p->setRadius($radius);
+        $p->setSpin($spin);
+        $p->setStartable($startable);
+        // computed values
+        // usable surfaces
+        $totalSurface = 4 * pi() * ($radius ** 2);
+        $waterSurface = round($totalSurface * $waterPercent / 100);
+        $earthSurface = floor($totalSurface - ($waterSurface * mt_rand(1.009, 1.1)));
+        $p->setUsableLandSurface($earthSurface);
+        $p->setUsableWaterSurface($waterSurface);
+        $p->setUsableAtmosphericSurface($totalSurface * 1.5); // @TODO
+        // coords
+        $ox = $star->getX();
+        $oy = $star->getY();
+        $oz = $star->getZ();
+        $sx = ((mt_rand(0,1)? -1:1) * mt_rand(pow($dist, 1/5), pow($dist, 1/2)));
+        $sy = ((mt_rand(0,1)? -1:1) * mt_rand(pow($dist, 1/5), pow($dist, 1/2)));
+        $sz = ((mt_rand(0,1)? -1:1) * mt_rand(pow($dist, 1/5), pow($dist, 1/2)));
+        $nx = $ox + $sx;
+        $ny = $oy + $sy;
+        $nz = $oz + $sz;
+        // randomly move one of the 3 to adjust dist
+        $wh = mt_rand(0,2);
+        // $dist**2 = ($nx - $ox)**2 + ($ny - $oy)**2 + ($nz - $oz)**2
+        if($wh >= 2) { // z
+            $nz = sqrt($dist**2 - (($nx - $ox)**2 + ($ny - $oy)**2)) + $oz;
+        } elseif($wh >= 1) { // y
+            $ny = sqrt($dist**2 - (($nx - $ox)**2 + ($nz - $oz)**2)) + $oy;
+        } else { // x
+            $nx = sqrt($dist**2 - (($ny - $oy)**2 + ($nz - $oz)**2)) + $ox;
+        }
+        $p->setX($nx);
+        $p->setY($ny);
+        $p->setZ($nz);
+        echo '=========================='.PHP_EOL;
+        echo $name.PHP_EOL;
+        echo 'Sun : '.$ox.','.$oy.','.$oz.PHP_EOL;
+        echo 'Distance : '.$dist.PHP_EOL;
+        echo 'Position finale : '.$nx.','.$ny.','.$nz.PHP_EOL;
+        echo '=========================='.PHP_EOL;
+        $em->persist($p);
+        $em->flush();
+        // generate resources
+        
+        
+        return $p;
     }
 }

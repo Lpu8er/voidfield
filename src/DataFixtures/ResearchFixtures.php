@@ -1,6 +1,10 @@
 <?php
 namespace App\DataFixtures;
 
+use App\Entity\Research;
+use App\Entity\ResearchCond;
+use App\Entity\ResearchRecipe;
+use App\Entity\ResearchSkill;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -573,5 +577,62 @@ class ResearchFixtures extends AbstractUtilitiesFixtures implements DependentFix
             ResourcesFixtures::class,
             SkillsFixtures::class,
         ];
+    }
+    
+    /**
+     * 
+     * @param ObjectManager $em
+     * @param string $name
+     * @param string $duration
+     * @param int $points
+     * @param int $cost
+     * @param array $recipe
+     * @param array $skills
+     * @param string $replacing
+     * @param array $conditions
+     * @return Research
+     */
+    protected function createResearch(ObjectManager $em, string $name, string $duration, int $points, int $cost, array $recipe = [], array $skills = [], string $replacing = null, array $conditions = []): Research {
+        $r = new Research;
+        $r->setName($name);
+        $r->setBaseDuration($duration);
+        $r->setPoints($points);
+        $r->setSearchCost($cost);
+        $r->setReplacing(empty($replacing)? null:$this->getReference($replacing));
+        $em->persist($r);
+        $em->flush();
+        
+        $needsSomeFlush = false;
+        // skills first
+        foreach($skills as $skillKey => $skillPoints) {
+            $rs = new ResearchSkill;
+            $rs->setResearch($r);
+            $rs->setSkill($this->getReference($skillKey));
+            $rs->setPoints($skillPoints);
+            $em->persist($rs);
+            $needsSomeFlush = true;
+        }
+        // recipe then
+        foreach($recipe as $resKey => $resCount) {
+            $rr = new ResearchRecipe;
+            $rr->setResearch($r);
+            $rr->setResource($this->getReference($resKey));
+            $rr->setNb($resCount);
+            $em->persist($rr);
+            $needsSomeFlush = true;
+        }
+        // conditions last
+        foreach($conditions as $neededResearch) {
+            $rc = new ResearchCond;
+            $rc->setTarget($r);
+            $rc->setNeed($this->getReference($neededResearch));
+            $em->persist($rc);
+            $needsSomeFlush = true;
+        }
+        if($needsSomeFlush) {
+            $em->flush();
+        }
+        
+        return $r;
     }
 }

@@ -2,6 +2,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Module;
+use App\Entity\Resource;
 use App\Entity\Skill;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -314,5 +315,30 @@ class SkillsFixtures extends AbstractUtilitiesFixtures implements DependentFixtu
             AppFixtures::class,
             ResourcesFixtures::class,
         ];
+    }
+    
+    /**
+     * 
+     * @param ObjectManager $em
+     * @param string $name
+     * @param string $attribute
+     * @param type $value
+     * @param string $damageType
+     * @param Resource $resource
+     * @param bool $usableOnCharacter
+     * @return Skill
+     */
+    protected function createSkill(ObjectManager $em, string $name, string $attribute, $value, string $damageType = null, Resource $resource = null, bool $usableOnCharacter = false): Skill {
+        $s = new Skill();
+        $s->setName($name);
+        $s->setAttribute($attribute);
+        $s->setValue($value);
+        $s->setDamageType($damageType);
+        $s->setResource($resource);
+        $s->setUsableOnCharacter($usableOnCharacter);
+        $em->persist($s);
+        $em->flush();
+        
+        return $s;
     }
 }

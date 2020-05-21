@@ -2,6 +2,12 @@
 namespace App\DataFixtures;
 
 use App\Entity\Building;
+use App\Entity\BuildingCond;
+use App\Entity\BuildingConsumption;
+use App\Entity\BuildingExtraction;
+use App\Entity\BuildingProduction;
+use App\Entity\BuildingSkill;
+use App\Entity\BuildRecipe;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
@@ -256,5 +262,131 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
         return [
             SkillsFixtures::class,
         ];
+    }
+    
+    /**
+     * 
+     * @param ObjectManager $em
+     * @param string $name
+     * @param string $duration
+     * @param int $points
+     * @param string $description
+     * @param int $size
+     * @param string $restrictedTo
+     * @param string $special
+     * @param int $hitpoints
+     * @param int $cost
+     * @param int $workers
+     * @param int $workersConsumption
+     * @param int $workersStock
+     * @param int $energyConsumption
+     * @param int $energyProd
+     * @param int $energyStock
+     * @param array $conds
+     * @param array $recipe
+     * @param array $production
+     * @param array $consumption
+     * @param array $extraction
+     * @param array $skills
+     * @param string $assaultType
+     * @param int $assaultValue
+     * @param string $replacing
+     * @return Building
+     */
+    protected function createBuilding(ObjectManager $em, string $name, string $duration, int $points, string $description,
+            int $size, ?int $restrictedTo, ?string $special, int $hitpoints,
+            int $cost, int $workers, int $workersConsumption, int $workersStock,
+            int $energyConsumption, int $energyProd, int $energyStock,
+            array $conds, array $recipe,
+            array $production = [], array $consumption = [], array $extraction = [], array $skills = [],
+            string $assaultType = null, int $assaultValue = 0, string $replacing = null,
+            int $maxNb = 1): Building {
+        $b = new Building;
+        // not at first
+        $b->setAirToxicity(0);
+        $b->setEarthToxicity(0);
+        $b->setWaterToxicity(0);
+        
+        $b->setAlwaysVisible(empty($replacing));
+        $b->setAssaultType($assaultType);
+        $b->setAssaultValue($assaultValue);
+        $b->setBaseDuration($duration);
+        $b->setBuildCost($cost);
+        $b->setBuildWorkersNeeds($workers);
+        $b->setDescription($description);
+        
+        $b->setEnergyConsumption($energyConsumption);
+        $b->setEnergyProd($energyProd);
+        $b->setEnergyStock($energyStock);
+        $b->setHitpoints($hitpoints);
+        $b->setName($name);
+        $b->setPoints($points);
+        $b->setReplacing(empty($replacing)? null:$this->getReference($replacing));
+        $b->setRestrictedTo($restrictedTo);
+        $b->setSize($size);
+        $b->setSpecial($special);
+        
+        $b->setWorkers($workersConsumption);
+        $b->setWorkersStock($workersStock);
+        
+        $b->setMaxNb($maxNb);
+        
+        $em->persist($b);
+        $em->flush();
+        
+        $needsSomeFlush = false;
+        foreach($recipe as $resKey => $nb) {
+            $br = new BuildRecipe;
+            $br->setBuilding($b);
+            $br->setResource($this->getReference($resKey));
+            $br->setNb($nb);
+            $em->persist($br);
+            $needsSomeFlush = true;
+        }
+        foreach($production as $resKey => $nb) {
+            $bp = new BuildingProduction;
+            $bp->setBuilding($b);
+            $bp->setResource($this->getReference($resKey));
+            $bp->setNb($nb);
+            $em->persist($bp);
+            $needsSomeFlush = true;
+        }
+        foreach($consumption as $resKey => $nb) {
+            $bc = new BuildingConsumption;
+            $bc->setBuilding($b);
+            $bc->setResource($this->getReference($resKey));
+            $bc->setNb($nb);
+            $em->persist($bc);
+            $needsSomeFlush = true;
+        }
+        foreach($extraction as $resKey => $nb) {
+            $bx = new BuildingExtraction;
+            $bx->setBuilding($b);
+            $bx->setResource($this->getReference($resKey));
+            $bx->setNb($nb);
+            $em->persist($bx);
+            $needsSomeFlush = true;
+        }
+        foreach($conds as $resKey => $nb) {
+            $bk = new BuildingCond;
+            $bk->setTarget($b);
+            $bk->setNeed($this->getReference($resKey));
+            $bk->setNb($nb);
+            $em->persist($bk);
+            $needsSomeFlush = true;
+        }
+        foreach($skills as $skillKey => $nb) {
+            $bl = new BuildingSkill;
+            $bl->setBuilding($b);
+            $bl->setSkill($this->getReference($skillKey));
+            $bl->setPoints($nb);
+            $em->persist($bl);
+            $needsSomeFlush = true;
+        }
+        if($needsSomeFlush) {
+            $em->flush();
+        }
+        
+        return $b;
     }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,19 +37,19 @@ class BuildQueue {
     protected $player;
     /**
      *
-     * @var \DateTime
+     * @var DateTime
      * @ORM\Column(type="datetime") 
      */
     protected $startDate;
     /**
      *
-     * @var \DateTime
+     * @var DateTime
      * @ORM\Column(type="datetime") 
      */
     protected $estimatedEndDate;
     /**
-     *
-     * @var \DateTime
+     * Last time queue was checked, will be used as `points -= (now()-lastQueueCheckDate)`
+     * @var DateTime
      * @ORM\Column(type="datetime") 
      */
     protected $lastQueueCheckDate;
@@ -71,15 +72,15 @@ class BuildQueue {
         return $this->player;
     }
 
-    public function getStartDate(): \DateTime {
+    public function getStartDate(): DateTime {
         return $this->startDate;
     }
 
-    public function getEstimatedEndDate(): \DateTime {
+    public function getEstimatedEndDate(): DateTime {
         return $this->estimatedEndDate;
     }
 
-    public function getLastQueueCheckDate(): \DateTime {
+    public function getLastQueueCheckDate(): DateTime {
         return $this->lastQueueCheckDate;
     }
 
@@ -102,17 +103,17 @@ class BuildQueue {
         return $this;
     }
 
-    public function setStartDate(\DateTime $startDate) {
+    public function setStartDate(DateTime $startDate) {
         $this->startDate = $startDate;
         return $this;
     }
 
-    public function setEstimatedEndDate(\DateTime $estimatedEndDate) {
+    public function setEstimatedEndDate(DateTime $estimatedEndDate) {
         $this->estimatedEndDate = $estimatedEndDate;
         return $this;
     }
 
-    public function setLastQueueCheckDate(\DateTime $lastQueueCheckDate) {
+    public function setLastQueueCheckDate(DateTime $lastQueueCheckDate) {
         $this->lastQueueCheckDate = $lastQueueCheckDate;
         return $this;
     }

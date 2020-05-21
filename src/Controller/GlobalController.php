@@ -24,7 +24,7 @@ abstract class GlobalController extends AbstractController {
     
     /**
      * 
-     * @param string $type
+     * @param string $type (use notice, warning, error, success... see alert-cls)
      * @param string $message
      * @param bool $delayed
      * @return $this

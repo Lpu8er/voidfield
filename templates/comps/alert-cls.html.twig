@@ -1,1 +1,5 @@
-{% if _p == 'error' %}alert-danger{% elseif _p == 'warn' %}alert-warning{% elseif _p == 'success' %}alert-success{% endif %}
+{% if _p in ['ko', 'error', 'danger'] %}alert-danger
+{% elseif _p in ['warn', 'warning'] %}alert-warning
+{% elseif _p in ['info', 'notice'] %}alert-info
+{% elseif _p in ['ok', 'success'] %}alert-success
+{% endif %}

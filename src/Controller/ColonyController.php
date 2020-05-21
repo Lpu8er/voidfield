@@ -42,8 +42,18 @@ class ColonyController extends InternalController {
             if(!empty($bid)
                 && $request->request->has('_csrf')
                 && $this->isCsrfTokenValid('colony-'.$cid.'-build-'.strval($bid), $request->request->get('_csrf'))) {
-                
+                $colony = $this->getDoctrine()->getRepository(Colony::class)->find($cid);
+                $building = $this->getDoctrine()->getRepository(Building::class)->find($bid);
+                if($this->getDoctrine()->getRepository(Building::class)->build($building, $colony)) {
+                    $this->addMessage('ok', 'ok !', true);
+                } else {
+                    $this->addMessage('error', 'oopsie', true);
+                }
+            } else {
+                $this->addMessage('error', 'XSRF error', true);
             }
+        } else {
+            $this->addMessage('error', 'No building IG provided', true);
         }
         return $this->redirectToRoute('colony_detail', [
             'cid' => $cid,

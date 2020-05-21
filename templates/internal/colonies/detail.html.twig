@@ -245,6 +245,25 @@
                                 {% endfor %}
                             </div>
                         </fieldset>
+                        <fieldset class="container-fluid">
+                            <legend>
+                                En cours de construction
+                            </legend>
+                            <div class="row row-cols-1 row-cols-md-2">
+                                {% for bq in colony.buildQueue %}
+                                    <div class="col mb-4">
+                                        <h3>{{ bq.building.name }}</h3>
+                                        <meter min="0" max="{{ bq.building.points }}" value="{{ bq.building.points - bq.points }}"></meter>
+                                        <p>
+                                            Démarré au
+                                            {{ bq.startDate|date('d/m/Y @ H:i') }}
+                                            fin estimé au
+                                            {{ bq.estimatedEndDate|date('d/m/Y @ H:i') }}
+                                        </p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </fieldset>
                     </div>
                 </div>
             </div>

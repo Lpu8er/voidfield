@@ -2,13 +2,17 @@
 namespace App\Repository;
 
 use App\Entity\Building;
+use App\Entity\BuildQueue;
 use App\Entity\Colony;
 use App\Entity\Skill;
 use App\Entity\Technology;
 use App\Entity\VirtualBuilding;
 use App\Utils\Toolbox;
+use DateInterval;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 use PDO;
 
 /**
@@ -55,7 +59,9 @@ select b.id
 from buildings b
 left join buildingconds ubc on ubc.target_id=b.id {$techiesClause}
 left join colonybuildings cb on cb.building_id=b.replacing_id and cb.colony_id=:c
+left join buildqueues bq on bq.building_id=b.id and bq.colony_id=:c
 where ubc.target_id is null
+    and bq.user_id is null
     and (b.replacing_id is null or cb.colony_id is not null)
     and (b.restricted_to is null or (b.restricted_to & :t))
 EOQ;
@@ -79,18 +85,9 @@ EOQ;
         }
         
         // grab skills that may change things here
-        $moneySkills = $this->getEntityManager()->getRepository(Skill::class)->grabMergedSkillsForColony($colony, true, Skill::ATTRIBUTE_BUILDCOST);
-        $durationSkills = $this->getEntityManager()->getRepository(Skill::class)->grabMergedSkillsForColony($colony, true, Skill::ATTRIBUTE_BUILDSPEED);
-        
-        $costDivider = 1.00;
-        foreach($moneySkills as $moneySkill) {
-            $costDivider *= pow($moneySkill['skill']->getValue(), $moneySkill['points']); // pow(1.02, 12) => 127% environ
-        }
-        
-        $durationDivider = 1.00;
-        foreach($durationSkills as $durationSkill) {
-            $durationDivider *= pow($durationSkill['skill']->getValue(), $durationSkill['points']); // pow(1.02, 12) => 127% environ
-        }
+        $dividers = $this->computeSignificantDividers($colony);
+        $costDivider = $dividers['cost'];
+        $durationDivider = $dividers['duration'];
         
         foreach($buildings as $building) {
             $vb = VirtualBuilding::factory($building);
@@ -109,6 +106,32 @@ EOQ;
         }
         
         return $returns;
+    }
+    
+    /**
+     * 
+     * @param Colony $colony
+     * @return array['duration', 'cost']
+     */
+    protected function computeSignificantDividers(Colony $colony): array {
+        // grab skills that may change things here
+        $moneySkills = $this->getEntityManager()->getRepository(Skill::class)->grabMergedSkillsForColony($colony, true, Skill::ATTRIBUTE_BUILDCOST);
+        $durationSkills = $this->getEntityManager()->getRepository(Skill::class)->grabMergedSkillsForColony($colony, true, Skill::ATTRIBUTE_BUILDSPEED);
+        
+        $costDivider = 1.00;
+        foreach($moneySkills as $moneySkill) {
+            $costDivider *= pow($moneySkill['skill']->getValue(), $moneySkill['points']); // pow(1.02, 12) => 127% environ
+        }
+        
+        $durationDivider = 1.00;
+        foreach($durationSkills as $durationSkill) {
+            $durationDivider *= pow($durationSkill['skill']->getValue(), $durationSkill['points']); // pow(1.02, 12) => 127% environ
+        }
+        
+        return [
+            'duration' => $durationDivider,
+            'cost' => $costDivider,
+        ];
     }
     
     protected $cacheResourcesBulk = null;
@@ -146,6 +169,38 @@ EOQ;
                     'need' => $recipe->getNb(),
                 ];
             }
+        }
+        return $returns;
+    }
+    
+    /**
+     * Starts the build. At this point, we consider it was checked in controller about ability to build or not.
+     * @param Colony $colony
+     * @return bool if built was started or this something went fubar
+     */
+    public function build(Building $building, Colony $colony): bool {
+        $returns = true;
+        try {
+            $dividers = $this->computeSignificantDividers($colony);
+            $costDivider = $dividers['cost'];
+            $durationDivider = $dividers['duration'];
+
+            $cost = $building->getBuildCost() / $costDivider;
+            $points = $building->getPoints() / $durationDivider;
+            $estimatedEndDate = (new DateTime())->add(new DateInterval('PT'.$points.'S'));
+
+            $bq = new BuildQueue();
+            $bq->setBuilding($building);
+            $bq->setColony($colony);
+            $bq->setPlayer($colony->getOwner());
+            $bq->setPoints($points);
+            $bq->setEstimatedEndDate($estimatedEndDate);
+            $bq->setStartDate(new DateTime);
+            $bq->setLastQueueCheckDate($bq->getStartDate());
+            $this->_em->persist($bq);
+            $this->_em->flush();
+        } catch(Exception $e) {
+            $returns = false;
         }
         return $returns;
     }

@@ -214,6 +214,9 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
                 'workers' => 200,
                 'work-conso' => 40,
                 'energy-conso' => 20,
+                'extract' => [
+                    'res-iron' => 100,
+                ],
                 'maxNb' => 10, // that number will impact other stats (duration : exp, cost : exp, and so on)
             ],
         ];

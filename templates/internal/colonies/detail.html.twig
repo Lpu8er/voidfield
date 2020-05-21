@@ -24,7 +24,7 @@
                     id="colonyTabs"
                     role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link"
+                        <a class="nav-link active"
                            id="general-tab"
                            data-toggle="tab"
                            href="#general-tabpane"
@@ -149,46 +149,40 @@
                         </fieldset>
                         <fieldset class="container-fluid">
                             <legend>Ressources</legend>
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Ressource</th>
-                                        <th>Stocks</th>
-                                        <th>% Maximum</th>
-                                        <th>Description</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for stock in stocks %}
-                                        <tr>
-                                            <th>{{ stock.resource.name }}</th>
-                                            <td>{{ stock.stocks|nformat }}</td>
-                                            <td>
-                                                &nbsp;{# @TODO #}
-                                            </td>
-                                        </tr>
-                                    {% endfor%}
-                                    <tr>
-                                        <th>Énergie</th>
-                                        <td>{{ colony.energy }}</td>
-                                        <td>
+                            <div class="row">
+                                {% for stock in stocks %}
+                                    <div class="card w-25">
+                                        <div class="card-header">{{ stock.resource.name }}</div>
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ stock.stocks|nformat }}</h5>
+                                            <p class="card-text">&nbsp;</p>
+                                        </div>
+                                    </div>
+                                {% endfor%}
+                                <div class="card w-25">
+                                    <div class="card-header">Énergie</div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ colony.energy }}</h5>
+                                        <p class="card-text">
                                             L'énergie est utilisée en continu
                                             par les batiments. Sa production est
                                             instantanée, soumise à un maximum.
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>Travailleurs</th>
-                                        <td>{{ colony.workers }}</td>
-                                        <td>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="card w-25">
+                                    <div class="card-header">Travailleurs</div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ colony.workers }}</h5>
+                                        <p class="card-text">
                                             Les travailleurs sont utilisés en continu
-                                            par les batiments et viennent directement
-                                            de votre population. Ils ne sont pas consommés,
-                                            mais sont occupés.
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                        par les batiments et viennent directement
+                                        de votre population. Ils ne sont pas consommés,
+                                        mais sont occupés.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </fieldset>
                     </div>
                     <div class="tab-pane"
@@ -265,6 +259,17 @@
                                 {% endfor %}
                             </div>
                         </fieldset>{% endif %}
+                    </div>
+                    <div class="tab-pane"
+                         id="extracts-tabpane"
+                         role="tabpanel"
+                         aria-labelledby="extracts-tabpane">
+                        <fieldset class="container-fluid">
+                            <legend>
+                                Extraction
+                            </legend>
+                        </fieldset>
+                        {% for extractor in extractors %}{% endfor %}
                     </div>
                 </div>
             </div>

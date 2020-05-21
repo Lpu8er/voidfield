@@ -188,6 +188,16 @@ EOQ;
             $cost = $building->getBuildCost() / $costDivider;
             $points = $building->getPoints() / $durationDivider;
             $estimatedEndDate = (new DateTime())->add(new DateInterval('PT'.$points.'S'));
+            
+            // force first this
+            $owner = $colony->getOwner();
+            $owner->setMoney($owner->getMoney() - $cost);
+            $this->_em->persist($owner);
+            $this->_em->flush();
+            $colonyRepository = $this->_em->getRepository(Colony::class);
+            foreach($building->getRecipe() as $recipe) {
+                $colonyRepository->reduceStock($colony, $recipe->getResource(), $recipe->getNb());
+            }
 
             $bq = new BuildQueue();
             $bq->setBuilding($building);
@@ -200,6 +210,7 @@ EOQ;
             $this->_em->persist($bq);
             $this->_em->flush();
         } catch(Exception $e) {
+            throw $e;
             $returns = false;
         }
         return $returns;

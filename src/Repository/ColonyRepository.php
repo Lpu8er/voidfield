@@ -120,4 +120,29 @@ class ColonyRepository extends ServiceEntityRepository {
     public function triggeredBuilt(BuildQueue $bq) {
         
     }
+    
+    /**
+     * Reduce resource from stock.
+     * Beware : it is controller duty to check if there is enough resource to reduce.
+     * @param Colony $colony
+     * @param Resource $res
+     * @param int $quantity
+     * @return bool
+     */
+    public function reduceStock(Colony $colony, Resource $res, int $quantity): bool {
+        $returns = true;
+        try {
+            $stock = $this->_em->getRepository(ColonyStock::class)->findOneBy([
+                'colony' => $colony->getId(),
+                'resource' => $res->getId(),
+            ]);
+            $stock->setStocks($stock->getStocks() - $quantity);
+            $this->_em->persist($stock);
+            $this->_em->flush();
+        } catch(Exception $e) {
+            throw $e;
+            $returns = false;
+        }
+        return $returns;
+    }
 }

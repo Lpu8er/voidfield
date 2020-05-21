@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Entity\Building;
 use App\Entity\Colony;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ColonyController extends InternalController {
@@ -16,7 +17,7 @@ class ColonyController extends InternalController {
     /**
      * @Route("/colony/{cid}", name="colony_detail", requirements={"cid"="\d+"})
      */
-    public function detail(\Symfony\Component\HttpFoundation\Request $request, $cid) {
+    public function detail(Request $request, $cid) {
         $returns = null;
         $colony = $this->getDoctrine()->getRepository(Colony::class)->find($cid);
         if(!empty($colony) && ($this->getUser()->getId() === $colony->getOwner()->getId())) {
@@ -35,7 +36,7 @@ class ColonyController extends InternalController {
      * 
      * @Route("/colony/{cid}/build", name="colony_build", requirements={"cid"="\d+"}, methods={"POST"})
      */
-    public function build(\Symfony\Component\HttpFoundation\Request $request, $cid) {
+    public function build(Request $request, $cid) {
         if($request->request->has('bid')) {
             $bid = intval($request->request->get('bid'));
             if(!empty($bid)

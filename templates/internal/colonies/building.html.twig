@@ -9,7 +9,7 @@
         </p>
     </div>
     <ul class="list-group list-group-flush">
-        {% if building.buildCost %}<li class="list-group-item">
+        {% if building.buildCost %}<li class="list-group-item {% if building.buildCost > colony.owner.money %} text-danger{% endif %}">
             💰 {{ building.buildCost }}
         </li>{% endif %}
         <li class="list-group-item">

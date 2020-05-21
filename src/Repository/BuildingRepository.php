@@ -103,7 +103,7 @@ EOQ;
             }
             $insufficientResources = $this->checkEnoughResources($building, $colony);
             $vb->setInsufficientResources($insufficientResources);
-            $vb->setCanBeBuilt(empty($insufficientResources));
+            $vb->setCanBeBuilt(empty($insufficientResources) && ($colony->getOwner()->getMoney() >= $vb->getCost()));
             $vb->setRecipe($building->getRecipe());
             $returns[] = $vb;
         }

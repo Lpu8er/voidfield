@@ -245,6 +245,7 @@
                                 {% endfor %}
                             </div>
                         </fieldset>
+                        {% if colony.buildQueue is not empty %}
                         <fieldset class="container-fluid">
                             <legend>
                                 En cours de construction
@@ -263,7 +264,7 @@
                                     </div>
                                 {% endfor %}
                             </div>
-                        </fieldset>
+                        </fieldset>{% endif %}
                     </div>
                 </div>
             </div>

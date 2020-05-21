@@ -11,6 +11,28 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="hulls")
  */
 class Hull {
+    const SLOTTYPE_ENGINE = 'engine';
+    const SLOTTYPE_PROP = 'prop';
+    const SLOTTYPE_EXTEQP = 'exteqp';
+    const SLOTTYPE_EXTUTIL = 'extutil';
+    const SLOTTYPE_INTEQP = 'inteqp';
+    const SLOTTYPE_INTUTIL = 'intutil';
+    
+    /**
+     * 
+     * @return string[]
+     */
+    public static function listSlots(): array {
+        return [
+            static::SLOTTYPE_ENGINE,
+            static::SLOTTYPE_PROP,
+            static::SLOTTYPE_EXTEQP,
+            static::SLOTTYPE_EXTUTIL,
+            static::SLOTTYPE_INTEQP,
+            static::SLOTTYPE_INTUTIL,
+        ];
+    }
+    
     /**
      * 
      * @var int

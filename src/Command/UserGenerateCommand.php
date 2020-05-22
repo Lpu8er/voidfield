@@ -41,6 +41,7 @@ EOT;
         $this->addArgument('name', InputArgument::REQUIRED, 'Username');
         $this->addArgument('pwd', InputArgument::REQUIRED, 'Password');
         $this->addArgument('email', InputArgument::OPTIONAL, 'Email address', static::DEFAULT_EMAIL);
+        $this->addOption('bot', 'b', InputOption::VALUE_NONE, 'If that user is a bot (not active)');
         $this->addOption('active', 'a', InputOption::VALUE_NONE, 'If that user is active (not a bot)');
     }
 
@@ -49,7 +50,8 @@ EOT;
         $pwd = $input->getArgument('pwd');
         $email = $input->getArgument('email');
         if(empty($email)) { $email = static::DEFAULT_EMAIL; }
-        $isActive = (false != $input->getOption('active'));
+        $isBot = (false != $input->getOption('bot'));
+        $isActive = !$isBot || (false != $input->getOption('active'));
         
         $user = new User;
         $user->setUsername($un);

@@ -1,8 +1,8 @@
 <?php
 namespace App\Repository;
 
-use App\Entity\Building;
 use App\Entity\Colony;
+use App\Entity\Skill;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,7 +19,7 @@ class SkillRepository extends ServiceEntityRepository {
      * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry) {
-        parent::__construct($registry, Building::class);
+        parent::__construct($registry, Skill::class);
     }
     
     /**

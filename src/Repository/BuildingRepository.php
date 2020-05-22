@@ -120,12 +120,12 @@ EOQ;
         
         $costDivider = 1.00;
         foreach($moneySkills as $moneySkill) {
-            $costDivider *= pow($moneySkill['skill']->getValue(), $moneySkill['points']); // pow(1.02, 12) => 127% environ
+            $costDivider *= pow($moneySkill['skill']->getValue(), $moneySkill['val']); // pow(1.02, 12) => 127% environ
         }
         
         $durationDivider = 1.00;
         foreach($durationSkills as $durationSkill) {
-            $durationDivider *= pow($durationSkill['skill']->getValue(), $durationSkill['points']); // pow(1.02, 12) => 127% environ
+            $durationDivider *= pow($durationSkill['skill']->getValue(), $durationSkill['val']); // pow(1.02, 12) => 127% environ
         }
         
         return [

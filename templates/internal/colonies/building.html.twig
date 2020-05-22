@@ -9,11 +9,11 @@
         </p>
     </div>
     <ul class="list-group list-group-flush">
-        {% if building.buildCost %}<li class="list-group-item {% if building.buildCost > colony.owner.money %} text-danger{% endif %}">
-            💰 {{ building.buildCost }}
+        {% if building.cost %}<li class="list-group-item {% if building.cost > colony.owner.money %} text-danger{% endif %}">
+            💰 {{ building.cost|number_format(2, ',', ' ') }}
         </li>{% endif %}
         <li class="list-group-item">
-            ⏲ {{ building.baseDuration|duration(complex=1) }}
+            ⏲ {{ building.duration|duration(complex=1) }}
         </li>
     </ul>
     {% if not building.emptyRecipe %}

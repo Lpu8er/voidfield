@@ -28,7 +28,7 @@ class SkillRepository extends ServiceEntityRepository {
      * @param array $qa
      * @return array
      */
-    protected function qf(string $q, array $qa = [], ?string $sk = null, ?string $v = null) {
+    protected function qf(string $q, array $qa = [], ?string $sk = null, ?string $sv = null) {
         $sql = $this->getEntityManager()->getConnection(); // we got an usual PDO object there
         $stmt = $sql->prepare($q);
         foreach($qa as $k => $v) {
@@ -38,9 +38,10 @@ class SkillRepository extends ServiceEntityRepository {
         if(empty($sk) || empty($sv)) {
             $returns = $stmt->fetchAll(PDO::FETCH_ASSOC);
         } else {
+            $returns = [];
             while($l = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 if(array_key_exists($sk, $l) && array_key_exists($sv, $l)) {
-                    $returns[$sk] = $l[$sv];
+                    $returns[$l[$sk]] = $l[$sv];
                 }
             }
         }
@@ -64,7 +65,7 @@ class SkillRepository extends ServiceEntityRepository {
                 . (empty($filter)? "":" and z.`attribute`=:flt");
         $qa = ['cid' => $user->getMainCharacter()->getId(),];
         if(!empty($filter)) { $qa['flt'] = $filter; }
-        $character = $this->qf($q, $qa);
+        $character = $this->qf($q, $qa, 'id', 'points');
         
         // then, about global researches
         $q = "select s.`skill_id` as id, sum(coalesce(s.`points`, 0)) as points "
@@ -76,7 +77,7 @@ class SkillRepository extends ServiceEntityRepository {
                 . " group by s.`skill_id` having points!=0 ";
         $qa = ['pid' => $user->getId(),];
         if(!empty($filter)) { $qa['flt'] = $filter; }
-        $techs = $this->qf($q, $qa);
+        $techs = $this->qf($q, $qa, 'id', 'points');
         
         foreach($character as $sid => $svl) {
             $returns[$sid] = [
@@ -122,7 +123,7 @@ class SkillRepository extends ServiceEntityRepository {
                     . (empty($filter)? "":" and z.`attribute`=:flt");
             $qa = ['cid' => $colony->getLeader()->getId(),];
             if(!empty($filter)) { $qa['flt'] = $filter; }
-            $leader = $this->qf($q, $qa);
+            $leader = $this->qf($q, $qa, 'id', 'points');
         }
         
         // then, the colony's buildings (we have a colonyskill entity, but i doubt it would help ? @TODO maybe delete it)
@@ -135,10 +136,9 @@ class SkillRepository extends ServiceEntityRepository {
                 . " group by s.`skill_id` having points!=0 ";
         $qa = ['cid' => $colony->getId(),];
         if(!empty($filter)) { $qa['flt'] = $filter; }
-        $builds = $this->qf($q, $qa);
+        $builds = $this->qf($q, $qa, 'id', 'points');
         
         // some special skills ? planets ? maybe @TODO
-        
         foreach($builds as $sid => $svl) {
             if(!array_key_exists($sid, $returns)) {
                 $returns[$sid] = [

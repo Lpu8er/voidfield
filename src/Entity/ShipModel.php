@@ -30,9 +30,9 @@ class ShipModel {
     /**
      * 
      * @var bool
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", options={"default" : 0})
      */
-    protected $deleted; // we don't delete a shipmodel : we deactive it.
+    protected $deleted = false; // we don't delete a shipmodel : we deactive it.
     /**
      *
      * @var Hull 
@@ -53,74 +53,82 @@ class ShipModel {
     /**
      *
      * @var integer
-     * @ORM\Column(type="bigint")
+     * @ORM\Column(type="bigint", options={"default" : 0})
      */
-    protected $baseCost;
+    protected $baseCost = 0;
     /**
      *
      * @var integer
-     * @ORM\Column(type="bigint")
+     * @ORM\Column(type="bigint", options={"default" : 0})
      */
-    protected $energyBuild;
+    protected $energyBuild = 0;
     /**
      * 
      * @var float
-     * @ORM\Column(type="decimal", precision=20, scale=5)
+     * @ORM\Column(type="decimal", precision=20, scale=5, options={"default" : 0})
      */
-    protected $speed;
+    protected $speed = 0.;
     /**
      * 
      * @var float
-     * @ORM\Column(type="decimal", precision=20, scale=5)
+     * @ORM\Column(type="decimal", precision=20, scale=5, options={"default" : 0})
      */
-    protected $mass;
+    protected $mass = 0.;
     /**
      * 
      * @var float
-     * @ORM\Column(type="decimal", precision=20, scale=5)
+     * @ORM\Column(type="decimal", precision=20, scale=5, options={"default" : 0})
      */
-    protected $size;
+    protected $size = 0.;
     /**
      *
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"default" : 0})
      */
-    protected $signature;
+    protected $signature = 0;
     /**
      *
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"default" : 0})
      */
-    protected $energyConsumation; // flat value of energy consuming
+    protected $energyConsumation = 0; // flat value of energy consuming
     /**
      *
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"default" : 0})
      */
-    protected $energyBase; // base energy apport
+    protected $energyBase = 0; // base energy apport
     /**
      *
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"default" : 0})
      */
-    protected $maxCargoMass;
+    protected $maxCargoMass = 0;
     /**
      *
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"default" : 0})
      */
-    protected $maxCargoSize;
+    protected $maxCargoSize = 0;
     /**
      *
      * @var User 
      * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", nullable=true)
      */
     protected $owner = null;
+    
+    /**
+     *
+     * @var ShipModelRecipe[]
+     * @ORM\OneToMany(targetEntity="ShipModelRecipe", mappedBy="shipModel")
+     */
+    protected $recipe;
 
     public function __construct()
     {
         $this->modules = new ArrayCollection();
+        $this->recipe = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -321,4 +329,30 @@ class ShipModel {
 
         return $this;
     } // if null, public/system model
+    
+    /**
+     * @return Collection|ShipModelRecipe[]
+     */
+    public function getRecipe(): Collection
+    {
+        return $this->recipe;
+    }
+
+    public function addRecipe(ShipModelRecipe $recipe): self
+    {
+        if (!$this->recipe->contains($recipe)) {
+            $this->recipe[] = $recipe;
+        }
+
+        return $this;
+    }
+
+    public function removeRecipe(ShipModelRecipe $recipe): self
+    {
+        if ($this->recipe->contains($recipe)) {
+            $this->recipe->removeElement($recipe);
+        }
+
+        return $this;
+    }
 }

@@ -15,7 +15,7 @@ class HullRecipe {
      *
      * @var Hull 
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="Hull")
+     * @ORM\ManyToOne(targetEntity="Hull", inversedBy="recipe")
      * @ORM\JoinColumn(name="hull_id", referencedColumnName="id")
      */
     protected $hull;

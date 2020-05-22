@@ -29,7 +29,7 @@ class ShipFixtures extends AbstractUtilitiesFixtures implements DependentFixture
                     'res-iron' => 1000,
                 ],
                 'conds' => [
-                    'aerospace',
+                    'research-aerospace',
                 ],
                 'slots' => [
                     Module::SLOT_EXTERNAL_UTILITY => 1,
@@ -60,8 +60,8 @@ class ShipFixtures extends AbstractUtilitiesFixtures implements DependentFixture
                 'name' => 'Sonde d\'exploration',
                 'hull' => 'hull-probe',
                 'modules' => [
-                    'radar',
-                    'combust',
+                    'mod-radar',
+                    'mod-combust',
                 ],
             ],
         ];

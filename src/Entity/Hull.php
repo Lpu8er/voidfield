@@ -1,6 +1,8 @@
 <?php
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -100,6 +102,16 @@ class Hull {
      * @ORM\Column(type="integer")
      */
     protected $hitpoints;
+    /**
+     *
+     * @var HullRecipe[]
+     * @ORM\OneToMany(targetEntity="HullRecipe", mappedBy="hull")
+     */
+    protected $recipe;
+    
+    public function __construct() {
+        $this->recipe = new ArrayCollection;
+    }
 
     public function getId(): ?int
     {
@@ -234,6 +246,32 @@ class Hull {
     public function setHitpoints(int $hitpoints): self
     {
         $this->hitpoints = $hitpoints;
+
+        return $this;
+    }
+    
+    /**
+     * @return Collection|HullRecipe[]
+     */
+    public function getRecipe(): Collection
+    {
+        return $this->recipe;
+    }
+
+    public function addRecipe(HullRecipe $recipe): self
+    {
+        if (!$this->recipe->contains($recipe)) {
+            $this->recipe[] = $recipe;
+        }
+
+        return $this;
+    }
+
+    public function removeRecipe(HullRecipe $recipe): self
+    {
+        if ($this->recipe->contains($recipe)) {
+            $this->recipe->removeElement($recipe);
+        }
 
         return $this;
     }

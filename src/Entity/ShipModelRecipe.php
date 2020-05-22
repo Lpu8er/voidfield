@@ -15,7 +15,7 @@ class ShipModelRecipe {
      *
      * @var ShipModel 
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="ShipModel")
+     * @ORM\ManyToOne(targetEntity="ShipModel", inversedBy="recipe")
      * @ORM\JoinColumn(name="shipmodel_id", referencedColumnName="id")
      */
     protected $shipModel;
@@ -36,9 +36,9 @@ class ShipModelRecipe {
     /**
      *
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"default" : 0})
      */
-    protected $recyclable;
+    protected $recyclable = 0;
 
     public function getNb(): ?int
     {

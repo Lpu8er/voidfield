@@ -1,6 +1,8 @@
 <?php
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -170,6 +172,16 @@ class Module {
      * @ORM\Column(type="integer", options={"default" : 0})
      */
     protected $maxCargoSize = 0;
+    /**
+     *
+     * @var ModuleRecipe[]
+     * @ORM\OneToMany(targetEntity="ModuleRecipe", mappedBy="module")
+     */
+    protected $recipe;
+    
+    public function __construct() {
+        $this->recipe = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -371,6 +383,32 @@ class Module {
 
     public function setMaxCargoSize(int $maxCargoSize) {
         $this->maxCargoSize = $maxCargoSize;
+        return $this;
+    }
+    
+    /**
+     * @return Collection|ModuleRecipe[]
+     */
+    public function getRecipe(): Collection
+    {
+        return $this->recipe;
+    }
+
+    public function addRecipe(ModuleRecipe $recipe): self
+    {
+        if (!$this->recipe->contains($recipe)) {
+            $this->recipe[] = $recipe;
+        }
+
+        return $this;
+    }
+
+    public function removeRecipe(ModuleRecipe $recipe): self
+    {
+        if ($this->recipe->contains($recipe)) {
+            $this->recipe->removeElement($recipe);
+        }
+
         return $this;
     }
 }

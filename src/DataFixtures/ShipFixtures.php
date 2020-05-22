@@ -31,12 +31,40 @@ class ShipFixtures extends AbstractUtilitiesFixtures implements DependentFixture
                 'conds' => [
                     'aerospace',
                 ],
+                'slots' => [
+                    Module::SLOT_EXTERNAL_UTILITY => 1,
+                    Module::SLOT_PROPULSION => 1,
+                ],
             ],
         ];
         
-        $modules = [];
+        $modules = [
+            'radar' => [
+                'name' => 'Radar',
+                'slot' => Module::SLOT_EXTERNAL_UTILITY,
+                'recipe' => [
+                    'res-iron' => 20,
+                ],
+            ],
+            'combust' => [
+                'name' => 'Moteur à combustion',
+                'slot' => Module::SLOT_PROPULSION,
+                'recipe' => [
+                    'res-iron' => 20,
+                ],
+            ],
+        ];
         
-        $models = [];
+        $models = [
+            'probe' => [
+                'name' => 'Sonde d\'exploration',
+                'hull' => 'hull-probe',
+                'modules' => [
+                    'radar',
+                    'combust',
+                ],
+            ],
+        ];
         
         foreach($hulls as $rh => $hull) {
             $this->setReference('hull-'.$rh,
@@ -49,6 +77,32 @@ class ShipFixtures extends AbstractUtilitiesFixtures implements DependentFixture
                     empty($hull['slots'])? []:$hull['slots'],
                     empty($hull['recipe'])? []:$hull['recipe'],
                     empty($hull['conds'])? []:$hull['conds']));
+        }
+        
+        foreach($modules as $mh => $module) {
+            $this->setReference('mod-'.$mh, $this->createModule($manager,
+                    $module['name'], $module['slot'],
+                    empty($module['size'])? 0:$module['size'], empty($module['mass'])? 0:$module['mass'],
+                    empty($module['sig'])? 0:$module['sig'], empty($module['conso'])? 0:$module['conso'],
+                    $module['recipe'],
+                    empty($module['conds'])? []:$module['conds'],
+                    empty($module['special'])? null:$module['special'],
+                    empty($module['energyBase'])? 0:$module['energyBase'],
+                    empty($module['energyModifier'])? null:$module['energyModifier'],
+                    empty($module['attackBase'])? 0:$module['attackBase'], empty($module['attackModifier'])? null:$module['attackModifier'], empty($module['attackType'])? null:$module['attackType'],
+                    empty($module['defenseBase'])? 0:$module['defenseBase'], empty($module['defenseModifier'])? null:$module['defenseModifier'], empty($module['defenseType'])? null:$module['defenseType'],
+                    empty($module['maxCargoMass'])? 0:$module['maxCargoMass'], empty($module['maxCargoSize'])? 0:$module['maxCargoSize'],
+                    empty($module['scanStrength'])? 0:$module['scanStrength'],
+                    empty($module['speedBase'])? 0:$module['speedBase'], empty($module['speedModifier'])? null:$module['speedModifier'],
+                    empty($module['slotUsage'])? null:$module['slotUsage']));
+        }
+        
+        foreach($models as $mh => $model) {
+            $this->setReference('model-'.$mh, $this->createModel($manager,
+                    $model['name'], $model['hull'],
+                    empty($model['cost'])? 0:$model['cost'],
+                    empty($model['energy'])? 0:$model['energy'],
+                    $model['modules']));
         }
     }
     

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Description of WsToken
  *
  * @author lpu8er
- * @ORM\Entity(repositoryClass="App\Repository\WsTokenRepository")
+ * @ORM\Entity()
  * @ORM\Table(name="wstokens")
  */
 class WsToken {

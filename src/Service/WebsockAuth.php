@@ -1,27 +1,26 @@
 <?php
-namespace App\Repository;
+namespace App\Service;
 
 use App\Entity\User;
 use App\Entity\WsToken;
 use DateInterval;
 use DateTime;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Description of WsTokenRepository
+ * Description of WebsockAuth
  *
  * @author lpu8er
  */
-class WsTokenRepository extends ServiceEntityRepository {
-    /**
-     * 
-     * @param ManagerRegistry $registry
-     */
-    public function __construct(ManagerRegistry $registry) {
-        parent::__construct($registry, WsToken::class);
+class WebsockAuth {
+    protected $doctrine = null;
+    protected $wsRepo = null;
+    
+    public function __construct(ManagerRegistry $doctrine) {
+        $this->doctrine = $doctrine;
+        $this->wsRepo = $this->doctrine->getRepository(WsToken::class);
     }
     
     /**
@@ -36,7 +35,7 @@ class WsTokenRepository extends ServiceEntityRepository {
             $returns = uniqid(md5(uniqid()), true);
             $w = null;
             try {
-                $w = $this->findOneBy([
+                $w = $this->wsRepo->findOneBy([
                     'token' => $returns,
                 ]);
             } catch(Exception $e) {
@@ -57,7 +56,7 @@ class WsTokenRepository extends ServiceEntityRepository {
         $ip = $request->getClientIp();
         if($request->request->has('token')) {
             $token = $request->request->get('token');
-            $wst = $this->findOneBy([
+            $wst = $this->wsRepo->findOneBy([
                 'token' => $token,
                 'ip' => $ip,
                 'status' => WsToken::STATUS_READY,
@@ -75,6 +74,8 @@ class WsTokenRepository extends ServiceEntityRepository {
             $wst->setIp($ip);
             $wst->setPlayer($user);
             $wst->setStatus(WsToken::STATUS_READY);
+            $this->doctrine->getManager()->persist($wst);
+            $this->doctrine->getManager()->flush();
         }
         return $wst;
     }

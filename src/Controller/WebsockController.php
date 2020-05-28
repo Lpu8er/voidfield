@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller;
 
-use App\Entity\WsToken;
+use App\Service\WebsockAuth;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,11 +16,11 @@ class WebsockController extends InternalController {
     /**
      * @Route("/auth", name="wsauth")
      */
-    public function auth(Request $request) {
+    public function auth(Request $request, WebsockAuth $wsAuth) {
         $returns = [];
         $status = 400;
-        if($this->isGranted('ROLE_VERIFIED')) { // only
-            $wsToken = $this->getDoctrine()->getRepository(WsToken::class)->auth($request, $this->getUser());
+        if($this->isGranted('ROLE_VERIFIED')) { // only (should be enforced by Sf security anyway)
+            $wsToken = $wsAuth->auth($request, $this->getUser());
             if(!empty($wsToken)) {
                 $returns['token'] = $wsToken->getToken();
                 $status = 401;
@@ -28,6 +28,6 @@ class WebsockController extends InternalController {
                 $status = 403;
             }
         }
-        return new JsonResponse($returns, $status, $headers);
+        return new JsonResponse($returns, $status);
     }
 }

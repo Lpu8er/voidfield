@@ -2,16 +2,22 @@
 namespace App\Service;
 
 use App\Utils\WebsockMessage;
+use Doctrine\Persistence\ManagerRegistry;
+
 
 /**
  * Transform an arbitrary structure received by websock to a WebsockMessage
  * @author lpu8er
  */
 class WebsockMessageHandler {
+    protected $doctrine = null;
+    protected $wsAuth = null;
     protected $commands = null;
     
-    public function __construct(array $commands) {
+    public function __construct(ManagerRegistry $doctrine, WebsockAuth $wsAuth, array $commands) {
+        $this->doctrine = $doctrine;
         $this->commands = $commands;
+        $this->wsAuth = $wsAuth;
     }
     
     /**

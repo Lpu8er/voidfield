@@ -1,8 +1,10 @@
 <?php
 namespace App\Service;
 
+use App\Utils\iWebsockAuthable;
 use App\Utils\WebsockMessage;
 use Doctrine\Persistence\ManagerRegistry;
+use Ratchet\ConnectionInterface;
 
 
 /**
@@ -25,13 +27,18 @@ class WebsockMessageHandler {
      * @param array $data
      * @return WebsockMessage|null
      */
-    public function parse($data): ?WebsockMessage {
+    public function parse($data, ConnectionInterface $connection): ?WebsockMessage {
         $returns = null;
         if(is_array($data)
                 && array_key_exists('cmd', $data)) {
             if(array_key_exists($data['cmd'], $this->commands)) {
                 $cls = $this->commands[$data['cmd']];
-                $returns = new $cls(array_key_exists('data', $data)? $data['data']:[]);
+                // auth ?
+                if(!is_a($cls, iWebsockAuthable::class)) {
+                    $returns = new $cls(array_key_exists('data', $data)? $data['data']:[]);
+                } elseif(!empty($data['token']) && ($wst = $this->wsAuth->checkAuth($data['token'], $connection))) {
+                    $returns = new $cls(array_key_exists('data', $data)? $data['data']:[], $wst);
+                }
             }
         }
         return $returns;

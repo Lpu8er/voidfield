@@ -19,12 +19,15 @@ class Websock {
     }
     
     public function init() {
-        $server = IoServer::factory(
-                new HttpServer(
-                        new WsServer(
-                                $this->ratchetHandler
-                            )
-                    ), 8080);
+        $server = IoServer::factory(new HttpServer(new WsServer($this->ratchetHandler)), 8080);
         $server->run();
+    }
+    
+    /**
+     * 
+     * @return RatchetHandler
+     */
+    public function handler() {
+        return $this->ratchetHandler;
     }
 }

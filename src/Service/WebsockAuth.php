@@ -7,6 +7,7 @@ use DateInterval;
 use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
+use Ratchet\ConnectionInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -78,5 +79,19 @@ class WebsockAuth {
             $this->doctrine->getManager()->flush();
         }
         return $wst;
+    }
+    
+    /**
+     * 
+     * @param string $token
+     * @param ConnectionInterface $ci
+     * @return WsToken|null
+     */
+    public function checkAuth(string $token, ConnectionInterface $ci): ?WsToken {
+        return $this->wsRepo->findOneBy([
+            'token' => $token,
+            'ip' => $this->remoteAddress,
+            'status' => WsToken::STATUS_READY,
+        ]);
     }
 }

@@ -97,6 +97,35 @@ voidfield.WholeNumber.prototype.recompute = function(){
     return returns;
 };
 
+voidfield.SocketHandler = function(){
+    this.conn = null;
+};
+
+voidfield.SocketHandler.prototype.init = function() {
+    let loc = window.location, new_uri;
+    if (loc.protocol === 'https:') {
+        new_uri = 'wss:';
+    } else {
+        new_uri = 'ws:';
+    }
+    new_uri += '//' + loc.host;
+    new_uri += ':8080';
+    this.connection = new WebSocket(new_uri);
+    this.connection.onopen = (e) => { return this.handleOpen(e); };
+    this.connection.onmessage = (e) => { return this.handleMessage(e); };
+};
+
+voidfield.SocketHandler.prototype.handleOpen = function(data) {
+    console.log('opened');
+    console.log(data);
+};
+
+voidfield.SocketHandler.prototype.handleMessage = function(data) {
+    console.log('message');
+    console.log(data);
+};
+
+voidfield.ws = new voidfield.SocketHandler();
 
 jQuery(function(){
     jQuery('.click-to-complete').each(function(){

@@ -29,7 +29,7 @@ class ChiakiCommand extends Command {
 This command manage the constant orchestration
 EOT;
         $this->setName('voidfield:overlord:chiaki')
-             ->setDescription('Constant')
+             ->setDescription('Constant orchestration')
              ->setHelp($help);
     }
 

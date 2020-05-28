@@ -3,19 +3,16 @@ namespace App\Command;
 
 use App\Service\Websock;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Description of ShokoCommand
+ * Description of BroadcastWebsockCommand
  *
  * @author lpu8er
  */
-class ShokoCommand extends Command {
-    /**
-     *
-     * @var Websock 
-     */
+class BroadcastWebsockCommand extends Command {
     protected $websock = null;
     
     public function __construct(Websock $websock) {
@@ -25,14 +22,17 @@ class ShokoCommand extends Command {
     
     protected function configure() {
         $help = <<<'EOT'
-Shoko listen to everything, even if you can't hear it.
+Broadcasts a message to every websocket client
 EOT;
-        $this->setName('voidfield:overlord:shoko')
-             ->setDescription('Websocket listener')
+        $this->setName('voidfield:ws:broadcast')
+             ->setDescription('Broadcast to websockets')
              ->setHelp($help);
+        $this->addArgument('msg', InputArgument::REQUIRED, 'Message');
     }
-
+    
     protected function execute(InputInterface $input, OutputInterface $output) {
-        $this->websock->init();
+        $msg = $input->getArgument('msg');
+        $this->websock->handler()->broadcast($msg);
+        return 0;
     }
 }

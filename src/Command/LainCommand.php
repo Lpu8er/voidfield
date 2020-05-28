@@ -28,7 +28,7 @@ class LainCommand extends Command {
 This command manage the daily orchestration
 EOT;
         $this->setName('voidfield:overlord:lain')
-             ->setDescription('Daily')
+             ->setDescription('Daily orchestration')
              ->setHelp($help);
     }
 

@@ -34,7 +34,7 @@ class RatchetHandler implements MessageComponentInterface {
     }
     
     public function onMessage(ConnectionInterface $from, $msg) {
-        $message = $this->messageHandler->parse(json_decode($msg, true));
+        $message = $this->messageHandler->parse(json_decode($msg, true), $from);
         if(!empty($message)) {
             $message->execute($this, $from);
         }
@@ -47,5 +47,11 @@ class RatchetHandler implements MessageComponentInterface {
     public function onError(ConnectionInterface $conn, Exception $e) {
         echo $e->getMessage()."\n".$e->getTraceAsString();
         $conn->close();
+    }
+    
+    public function broadcast($data) {
+        foreach($this->clients as $client) {
+            $client->send($data);
+        }
     }
 }

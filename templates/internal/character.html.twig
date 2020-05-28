@@ -3,13 +3,13 @@
     <h1>
         Création de votre personnage
     </h1>
-    <div class="alert alert-info" role="alert">
+    <p class="alert alert-info" role="alert">
         Votre personnage est l'élément le plus important de votre empire.
         Ses caractéristiques rayonnent à travers toutes vos colonies,
         vos flottes, et c'est ce personnage qui doit survivre à tout prix.<br />
         Ce personnage démarrera dans une flotte dans un système de départ.
         N'ayez crainte, l'USC empechera toute attaque pendant un temps.
-    </div>
+    </p>
     <form action="{{ path('character') }}" method="post">
         <div class="form-group">
             <div class="form-row">
@@ -102,6 +102,9 @@
                 </p>{% endfor %}
             </div>
         </div>
+        <p class="alert alert-warning" role="alert">
+            A la création de votre personnage principal, vous devrez vous reconnecter.
+        </p>
         <input type="hidden"
                name="_csrf"
                value="{{ csrf_token('user-character') }}" />

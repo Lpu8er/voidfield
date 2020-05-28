@@ -7,8 +7,8 @@ use App\Entity\Colony;
 use App\Entity\Fleet;
 use App\Entity\Planet;
 use App\Entity\Skill;
-use DateInterval;
-use DateTime;
+use App\Utils\TwigWrapper;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -34,6 +34,18 @@ class HomeController extends InternalController {
             ]);
         }
         return $returns;
+    }
+    
+    /**
+     * @Route("/ping", name="ping")
+     */
+    public function ping(Request $request) {
+        $returns = [];
+        $returns['now'] = microtime(true);
+        if($request->request->has('mct')) {
+            $returns['dif'] = $returns['now'] - floatval($request->request->get('mct'));
+        }
+        return new JsonResponse($returns);
     }
     
     /**
@@ -162,4 +174,14 @@ class HomeController extends InternalController {
     protected function randomFirstName(): string { return 'test1'; }
     protected function randomLastName(): string { return 'test2'; }
     protected function randomGivenName(): string { return 'test3'; }
+    
+    /**
+     * @Route("/money", name="money")
+     */
+    public function money(Request $request) {
+        $returns = [
+            'money' => TwigWrapper::nformat($this->getUser()->getMoney()),
+        ];
+        return new JsonResponse($returns);
+    }
 }

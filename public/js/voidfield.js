@@ -125,6 +125,58 @@ voidfield.SocketHandler.prototype.handleMessage = function(data) {
     console.log(data);
 };
 
+voidfield.merge = function(a, b) {
+    return Object.assign({}, a, b);
+};
+
+voidfield.AjaxHandler = function(uri, method = 'post', data = {}) {
+    this.uri = uri;
+    this.method = method;
+    this.xhr = new XMLHttpRequest();
+    this.data = data;
+};
+
+voidfield.AjaxHandler.prototype.query = function(data = {}) {
+    this.data = voidfield.merge(this.data, data);
+    this.promise = new Promise((resolve, reject) => {
+        this.xhr.open(this.method, this.uri);
+
+        this.xhr.onload = (e) => { resolve(this.xhr.response, e); };
+
+        this.xhr.onerror = (e) => { reject({
+                status: e.status,
+                statusText: this.xhr.statusText
+            }); };
+        
+        this.xhr.send(this.data);
+    });
+    return this.promise;
+};
+
+voidfield.timeoutRegister = {};
+
+voidfield.TimeoutHandler = function(name = null, time = 1000) {
+    this.time = time;
+    this.handler = null;
+    if(null !== name) {
+        voidfield.timeoutRegister[name] = this;
+    }
+};
+
+voidfield.TimeoutHandler.prototype.run = function() {
+    return new Promise((resolve, reject) => {
+        this.handler = window.setTimeout(() => {
+            resolve(this.run());
+        }, this.time);
+    });
+};
+
+voidfield.TimeoutHandler.prototype.cancel = function() {
+    if(null !== this.handler) {
+        window.clearInterval(this.handler);
+    }
+};
+
 voidfield.ws = new voidfield.SocketHandler();
 
 jQuery(function(){
@@ -134,4 +186,12 @@ jQuery(function(){
     });
     
     voidfield.loadTabFromUri();
+    
+    if(jQuery('#money').length) {
+        new voidfield.TimeoutHandler('money');
+        const moneyAjax = new voidfield.AjaxHandler('/money', 'get');
+        voidfield.timeoutRegister['money'].run()
+            .then(moneyAjax.query()
+                .then((r) => { console.log(r); jQuery('#money').text(r.money); }));
+    }
 });

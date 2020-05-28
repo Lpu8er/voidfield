@@ -27,7 +27,9 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="#">💰 {{ app.user.money|nformat }}</a>
+                           href="#">💰
+                            <span id="money">{{ app.user.money|nformat }}</span>
+                        </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"

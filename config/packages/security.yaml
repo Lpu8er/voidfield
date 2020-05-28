@@ -34,6 +34,7 @@ security:
         - { path: ^/cgu, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/pwd, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/home, roles: ROLE_USER }
+        - { path: ^/ping, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/character, roles: ROLE_USER }
         - { path: ^/preferences, roles: ROLE_USER }
         - { path: ^/logout, roles: ROLE_USER }

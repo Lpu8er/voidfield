@@ -185,6 +185,8 @@ jQuery(function(){
         cc.bindEvent();
     });
     
+    jQuery(document).on('change', '.instant-submit', function(){ jQuery(jQuery(this)[0].form).submit(); });
+    
     voidfield.loadTabFromUri();
     
     if(jQuery('#money').length) {
@@ -192,6 +194,12 @@ jQuery(function(){
         const moneyAjax = new voidfield.AjaxHandler('/money', 'get');
         voidfield.timeoutRegister['money'].run()
             .then(moneyAjax.query()
-                .then((r) => { console.log(r); jQuery('#money').text(r.money); }));
+                .then((r) => { jQuery('#money').text(r.money); }));
     }
+    
+    jQuery('.toast').toast({
+        'autohide': true,
+        'delay': 5000
+    });
+    jQuery('.toast').toast('show');
 });

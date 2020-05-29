@@ -89,6 +89,7 @@ class ColonyController extends InternalController {
                 $building = $buildRepo->find($bid);
                 try {
                     $colRepo->changeRunningBuilding($building, $colony, min(100, max(0, intval($request->request->get('val', 0)))));
+                    $this->addMessage('ok', 'ok', true);
                 } catch(Exception $e) {
                     $logger->error($e->getMessage());
                     $logger->error($e->getTraceAsString());

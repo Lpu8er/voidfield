@@ -1,7 +1,9 @@
 {% extends 'internal-base.html.twig' %}
 {% block content %}
     <div class="container-fluid">
-        <h2>{{ colony.name }}</h2>
+        <h2>
+            {{ colony.name }}
+        </h2>
         <div class="row">
             {% for stock in stocks %}
                 <div class="col-sm">

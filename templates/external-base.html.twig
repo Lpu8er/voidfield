@@ -34,24 +34,7 @@
         </nav>
     </header>
     {% if app.flashes is not empty or _messages is not empty %}
-        <div class="ghost-message-container">
-            {% for sts in [app.flashes, _messages] %}
-                {% for mtype, messages in sts %}
-                    {% for message in messages %}
-                        <div class="ghost-message flash-{{ mtype }} alert {% include 'comps/alert-cls.html.twig' with {'_p': mtype} %} alert-dismissable fade show">
-                            {{ message }}
-                            &nbsp;
-                            <button type="button"
-                                    class="close"
-                                    data-dismiss="alert"
-                                    aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    {% endfor %}
-                {% endfor %}
-            {% endfor %}
-        </div>
+        {% include 'comps/toast-area.html.twig' %}
     {% endif %}
     <section id="mainContent">
         {% block content %}{% endblock %}

@@ -48,16 +48,16 @@
                         <form method="post" action="{{ path('colony_building_toggle', {'cid': colony.id}) }}">
                             <div class="form-group">
                                 <div class="custom-control custom-switch">
-                                    <label class="custom-control-label"
-                                           for="buildingRunning_{{ bc.building.id }}">
-                                        Fonctionnement
-                                    </label>
                                     <input type="checkbox"
                                            class="custom-control-input instant-submit"
                                            id="buildingRunning_{{ bc.building.id }}"
                                            name="val"{% if bc.running > 0 %}
                                            checked="checked"{% endif %}
                                            value="100" />
+                                    <label class="custom-control-label"
+                                           for="buildingRunning_{{ bc.building.id }}">
+                                        Fonctionnement
+                                    </label>
                                 </div>
                             </div>
                         </form>

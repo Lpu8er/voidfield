@@ -241,38 +241,7 @@
                          id="buildings-tabpane"
                          role="tabpanel"
                          aria-labelledby="buildings-tabpane">
-                        <fieldset class="container-fluid">
-                            <legend>
-                                Batiments
-                            </legend>
-                            <div class="row row-cols-1 row-cols-md-2">
-                                {% for building in buildable %}
-                                    <div class="col mb-4">
-                                        {% include 'internal/colonies/building.html.twig' with {'building': building, 'colony': colony} %}
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        </fieldset>
-                        {% if colony.buildQueue is not empty %}
-                        <fieldset class="container-fluid">
-                            <legend>
-                                En cours de construction
-                            </legend>
-                            <div class="row row-cols-1 row-cols-md-2">
-                                {% for bq in colony.buildQueue %}
-                                    <div class="col mb-4">
-                                        <h3>{{ bq.building.name }}</h3>
-                                        <meter min="0" max="{{ bq.building.points }}" value="{{ bq.building.points - bq.points }}"></meter>
-                                        <p>
-                                            Démarré au
-                                            {{ bq.startDate|date('d/m/Y @ H:i') }}
-                                            fin estimé au
-                                            {{ bq.estimatedEndDate|date('d/m/Y @ H:i') }}
-                                        </p>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        </fieldset>{% endif %}
+                        {% include 'internal/colonies/buildings.html.twig' %}
                     </div>
                     <div class="tab-pane"
                          id="extracts-tabpane"

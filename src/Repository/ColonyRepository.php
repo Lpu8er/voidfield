@@ -198,4 +198,69 @@ class ColonyRepository extends ServiceEntityRepository {
         }
         return $returns;
     }
+    
+    /**
+     * Change the running value for a building, recompte all extractions/productions/skills table depending on building
+     * @param Colony $colony
+     * @param Building $building
+     * @param int $val
+     * @return \self
+     */
+    public function changeRunningBuilding(Colony $colony, Building $building, int $val): self {
+        $gotSkills = false;
+        $gotExtractionSkills = false;
+        $gotProductionSkills = false;
+        $isExtractor = false;
+        $isProductor = false;
+        
+        $colonyBuilding = $this->_em->getRepository(ColonyBuilding::class)->findOneBy([
+            'colony' => $colony->getId(),
+            'building' => $building->getId(),
+        ]); /** @var ColonyBuilding $colonyBuilding */
+        
+        if(!empty($colonyBuilding)) {
+            $bskRepo = $this->_em->getRepository(\App\Entity\BuildingSkill::class);
+            $bexRepo = $this->_em->getRepository(\App\Entity\BuildingExtraction::class);
+            $bprRepo = $this->_em->getRepository(\App\Entity\BuildingProduction::class);
+
+            $bskList = $bskRepo->findByBuilding($building->getId());
+            foreach($bskList as $bsk) { /** @var \App\Entity\BuildingSkill $bsk */
+                $gotSkills = true;
+                $gotExtractionSkills = $gotExtractionSkills || in_array($bsk->getSkill()->getAttribute(), [
+                    \App\Entity\Skill::ATTRIBUTE_EXTRACT,
+                ]);
+                $gotProductionSkills = $gotProductionSkills || in_array($bsk->getSkill()->getAttribute(), [
+                    \App\Entity\Skill::ATTRIBUTE_PRODSPEED,
+                    \App\Entity\Skill::ATTRIBUTE_PRODUCTION,
+                ]);
+                if($gotExtractionSkills && $gotProductionSkills) { break; } // no need to do more
+            }
+
+            if(!$gotExtractionSkills) { // if we don't have extraction skills, check if we really need to recompute extractors
+                $isExtractor = (0 < $bexRepo->count(['building' => $building->getId(),]));
+            }
+
+            if(!$gotProductionSkills) { // if we don't have extraction skills, check if we really need to recompute extractors
+                $isProductor = (0 < $bprRepo->count(['building' => $building->getId(),]));
+            }
+
+            // apply the value (finally !)
+            $colonyBuilding->setRunning($val);
+            $this->_em->persist($colonyBuilding);
+            $this->_em->flush();
+
+            // in any case, we'll recompute skills if that building got any skill
+            if($gotSkills) {
+                $this->recomputeSkills($colony);
+            }
+            // then, depending on what we need
+            if($isExtractor || $gotExtractionSkills) {
+                $this->recomputeExtraction($colony);
+            }
+            if($isProductor || $gotProductionSkills) {
+                $this->recomputeProduction($colony);
+            }
+        } // wtf ?
+        return $this;
+    }
 }

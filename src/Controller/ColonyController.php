@@ -72,4 +72,39 @@ class ColonyController extends InternalController {
             '_fragment' => 'buildings-tabpane',
         ]);
     }
+    
+    /**
+     * 
+     * @Route("/colony/{cid}/build", name="colony_build", requirements={"cid"="\d+"}, methods={"POST"})
+     */
+    public function changeRunningBuilding(Request $request, LoggerInterface $logger, $cid) {
+        if($request->request->has('bid')) {
+            $bid = intval($request->request->get('bid'));
+            if(!empty($bid)
+                && $request->request->has('_csrf')
+                && $this->isCsrfTokenValid('colony-'.$cid.'-running-'.strval($bid), $request->request->get('_csrf'))) {
+                $colony = $this->getDoctrine()->getRepository(Colony::class)->find($cid);
+                $building = $this->getDoctrine()->getRepository(Building::class)->find($bid);
+                try {
+                    if($this->getDoctrine()->getRepository(Building::class)->build($building, $colony)) {
+                        $this->addMessage('ok', 'ok !', true);
+                    } else {
+                        $this->addMessage('error', 'oopsie', true);
+                    }
+                } catch(Exception $e) {
+                    $logger->error($e->getMessage());
+                    $logger->error($e->getTraceAsString());
+                    $this->addMessage('error', 'Une erreur est apparue', true);
+                }
+            } else {
+                $this->addMessage('error', 'XSRF error', true);
+            }
+        } else {
+            $this->addMessage('error', 'No building IG provided', true);
+        }
+        return $this->redirectToRoute('colony_detail', [
+            'cid' => $cid,
+            '_fragment' => 'buildings-tabpane',
+        ]);
+    }
 }

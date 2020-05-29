@@ -13,53 +13,103 @@ use Doctrine\ORM\Mapping as ORM;
 class Skill {
     /**
      * attack	Modifie l'attaque d'un ou de tous les attributs
-     * defense	Modifie la défense face à un ou tous les attributs
-     * production	Modifie la production pure d'une ou toutes les ressources
-     * stocksize	Le stock en taille possible d'une ou toutes les ressources
-     * stockmass	Le stock en masse possible d'une ou toutes les ressources
-     * speed	Vitesse des flottes
-     * energyconso	Consommation en énergie
-     * energyprod	Production d'énergie
-     * energystock	Stockage d'énergie
-     * morale	Modificateur de morale, en % de population influé
-     * dailycost	Modificateur global de coût en pognon journalier des infra
-     * buildcost	Modificateur global de coût de construction en pognon
-     * prodspeed	Modificateur de vitesse de production d'une ou toutes les ressources
-     * buildspeed	Modificateur de vitesse de construction
-     * zoology	Modificateur d'influence négative des zoologies
-     * researchspeed	Modificateur global de vitesse de recherche
-     * workersconso	Modificateur d'utilisation des travailleurs
-     * workersprod	Modificateur de production des travailleurs
-     * workersstock	Modificateur de stock des travailleurs
-     * scanstrength	Force de scan (radar...)
-     * dailyincome	Modificateur du revenu journalier via taxe
-     * extract	Modifie l'extraction d'une ou toutes les ressources
-     * special  Well. Special.
      */
     const ATTRIBUTE_ATTACK = 'attack';
+    /**
+     * defense	Modifie la défense face à un ou tous les attributs
+     */
     const ATTRIBUTE_DEFENSE = 'defense';
+    /**
+     * production	Modifie la production pure d'une ou toutes les ressources
+     */
     const ATTRIBUTE_PRODUCTION = 'production';
+    /**
+     * stocksize	Le stock en taille possible d'une ou toutes les ressources
+     */
     const ATTRIBUTE_STOCKSIZE = 'stocksize';
+    /**
+     * stockmass	Le stock en masse possible d'une ou toutes les ressources
+     */
     const ATTRIBUTE_STOCKMASS = 'stockmass';
+    /**
+     * speed	Vitesse des flottes
+     */
     const ATTRIBUTE_SPEED = 'speed';
+    /**
+     * energyconso	Consommation en énergie
+     */
     const ATTRIBUTE_ENERGYCONSUMPTION = 'energyconso';
+    /**
+     * energyprod	Production d'énergie
+     */
     const ATTRIBUTE_ENERGYPROD = 'energyprod';
+    /**
+     * energystock	Stockage d'énergie
+     */
     const ATTRIBUTE_ENERGYSTOCK = 'energystock';
+    /**
+     * morale	Modificateur de morale, en % de population influé
+     */
     const ATTRIBUTE_MORALE = 'morale';
+    /**
+     * dailycost	Modificateur global de coût en pognon journalier des infra
+     */
     const ATTRIBUTE_DAILYCOST = 'dailycost';
+    /**
+     * buildcost	Modificateur global de coût de construction en pognon
+     */
     const ATTRIBUTE_BUILDCOST = 'buildcost';
+    /**
+     * prodspeed	Modificateur de vitesse de production d'une ou toutes les ressources
+     */
     const ATTRIBUTE_PRODSPEED = 'prodspeed';
+    /**
+     * buildspeed	Modificateur de vitesse de construction
+     */
     const ATTRIBUTE_BUILDSPEED = 'buildspeed';
+    /**
+     * zoology	Modificateur d'influence négative des zoologies
+     */
     const ATTRIBUTE_ZOOLOGY = 'zoology';
+    /**
+     * researchspeed	Modificateur global de vitesse de recherche
+     */
     const ATTRIBUTE_RESEARCHSPEED = 'researchspeed';
+    /**
+     * workersconso	Modificateur d'utilisation des travailleurs
+     */
     const ATTRIBUTE_WORKERSCONSUMPTION = 'workersconso';
+    /**
+     * workersprod	Modificateur de production des travailleurs
+     */
     const ATTRIBUTE_WORKERSPROD = 'workersprod';
+    /**
+     * workersstock	Modificateur de stock des travailleurs
+     */
     const ATTRIBUTE_WORKERSSTOCK = 'workersstock';
+    /**
+     * scanstrength	Force de scan (radar...)
+     */
     const ATTRIBUTE_SCANSTRENGTH = 'scanstrength';
+    /**
+     * dailyincome	Modificateur du revenu journalier via taxe
+     */
     const ATTRIBUTE_DAILYINCOME = 'dailyincome';
+    /**
+     * extract	Modifie l'extraction d'une ou toutes les ressources
+     */
     const ATTRIBUTE_EXTRACT = 'extract';
+    /**
+     * planetology  Etendue des informations disponibles sur la planète
+     */
     const ATTRIBUTE_PLANETOLOGY = 'planetology';
+    /**
+     * stargate-discover  Découverte des stargate, détection
+     */
     const ATTRIBUTE_SPECIAL_STARGATE_DISCOVER = 'stargate-discover';
+    /**
+     * stargate-use  Utilisation des stargate
+     */
     const ATTRIBUTE_SPECIAL_STARGATE_USE = 'stargate-use';
     
     /**

@@ -89,15 +89,52 @@ class ColonyRepository extends ServiceEntityRepository {
      * @param Colony $colony
      */
     public function recomputeSkills(Colony $colony) {
-        
+        $cskRepo = $this->_em->getRepository(\App\Entity\ColonySkill::class);
+        // empty the colony skills for this colony
+        $skills = $cskRepo->findByColony($colony->getId());
+        foreach($skills as $sk) {
+            $this->_em->remove($sk);
+        }
+        $this->_em->flush();
+        // blah blah doctrine.
+        // @TODO
     }
     
     /**
      * Recompute the ColonyExtraction table for a colony
+     * @depends recomputeSkills()
      * @param Colony $colony
+     * @param bool $useSkills @TODO that needs to break down that query into N query, one by resource
      */
-    public function recomputeExtraction(Colony $colony) {
-        
+    public function recomputeExtraction(Colony $colony, bool $useSkills = false) {
+        $cexRepo = $this->_em->getRepository(\App\Entity\ColonyExtraction::class);
+        // empty the colony extraction for this colony
+        $extractors = $cexRepo->findByColony($colony->getId());
+        foreach($extractors as $ex) {
+            $this->_em->remove($ex);
+        }
+        $this->_em->flush();
+        // because doctrine is a mess,
+        // we need to find first enabled buildings before searching which ones are extractors
+        // this is because if we add reverse link from buildings to colonybuildings
+        // it'll load all colonybuildings when we load a building through doctrine query builder
+        // So, just go through the native query.
+        $q = "insert into `colonyextractions` (`colony_id`, `resource_id`, `nb`) "
+                . " select :cid, be.`resource_id`, sum(floor(be.`nb` * (cb.`running` / 100))) "
+                . " from `buildingextractions` be "
+                . " left join `colonybuildings` cb on cb.`building_id`=be.`building_id` "
+                . " left join `colony` c on c.`id`=cb.`colony_id` "
+                . ($useSkills? (" left join `skills` sk on sk.`attribute`=:ska and sk.`resource_id`=br.`resource_id` " // we'll use skills 
+                . " left join `colonyskills` skb on skb.`colony_id`=c.`id` and skb.`skill_id`=sk.`id` " // buildings skills
+                . " left join `characterskills` skc on skc.`character_id`=c.`leader_id` and skc.`skill_id`=sk.`id` " // leader skills
+                . " left join `characterskills` skm on skm.`character_id`=:mid and skm.`skill_id`=sk.`id` " ):"")
+                . " where c.`id`=:cid and cb.`running`>0 "
+                . " group by be.`resource_id` ";
+        $this->_em->getConnection()->executeUpdate($q, [
+            'cid' => $colony->getId(),
+            'ska' => \App\Entity\Skill::ATTRIBUTE_EXTRACT,
+            'skm' => $colony->getOwner()->getMainCharacter()->getId(),
+            ]);
     }
     
     /**

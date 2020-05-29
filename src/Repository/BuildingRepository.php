@@ -58,13 +58,15 @@ class BuildingRepository extends ServiceEntityRepository {
 select b.id
 from buildings b
 left join buildingconds ubc on ubc.target_id=b.id {$techiesClause}
-left join colonybuildings cb on cb.building_id=b.replacing_id and cb.colony_id=:c
+left join colonybuildings cb on cb.building_id=b.id and cb.colony_id=:c
+left join colonybuildings rb on rb.building_id=b.replacing_id and rb.colony_id=:c
 left join buildqueues bq on bq.building_id=b.id and bq.colony_id=:c
 where ubc.target_id is null
     and bq.user_id is null
+    and cb.colony_id is null
     and (b.replacing_id is null or cb.colony_id is not null)
     and (b.restricted_to is null or (b.restricted_to & :t))
-EOQ;
+EOQ; // no missing tech, not already building it, not already built, not replacing something not build yet, not restricted to another colony type
         
         $sql = $this->getEntityManager()->getConnection(); // we got an usual PDO object there
         $stmt = $sql->prepare($q);

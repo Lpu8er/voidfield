@@ -2,9 +2,9 @@
     <legend>
         Construction possible
     </legend>
-    <div class="row row-cols-1 row-cols-md-2">
+    <div class="row row-cols-6">
         {% for building in buildable %}
-            <div class="col mb-4">
+            <div class="col-sm-2">
                 {% include 'internal/colonies/building.html.twig' with {'building': building, 'colony': colony} %}
             </div>
         {% endfor %}
@@ -15,7 +15,7 @@
     <legend>
         En cours de construction
     </legend>
-    <div class="row row-cols-1 row-cols-md-2">
+    <div class="row row-cols-6">
         {% for bq in colony.buildQueue %}
             <div class="col mb-4">
                 <h4>{{ bq.building.name }}</h4>
@@ -39,19 +39,40 @@
         {% for bc in colony.buildings %}
              <li class="list-group-item">
                 <h4>{{ bc.building.name }}</h4>
-                <form method="post" action="">
-                    <div class="row row-cols-8">
-                        <p class="col mb-3">
-                            Intégrité
-                            <meter min="0" max="100" value="{{ bc.integrity }}"></meter>
-                        </p>
-                        <p class="col mb-3">
-                            Fonctionnement
-                            <meter min="0" max="100" value="{{ bc.running }}"></meter>
-                        </p>
+                <div class="row row-cols-8">
+                    <div class="col mb-3">
+                        Intégrité
+                        <meter min="0" max="100" value="{{ bc.integrity }}"></meter>
                     </div>
-                </form>
+                    <div class="col mb-3">
+                        <form method="post" action="{{ path('colony_building_toggle', {'cid': colony.id}) }}">
+                            <div class="form-group">
+                                <div class="custom-control custom-switch">
+                                    <label class="custom-control-label"
+                                           for="buildingRunning_{{ bc.building.id }}">
+                                        Fonctionnement
+                                    </label>
+                                    <input type="checkbox"
+                                           class="custom-control-input instant-submit"
+                                           id="buildingRunning_{{ bc.building.id }}"
+                                           name="val"{% if bc.running > 0 %}
+                                           checked="checked"{% endif %}
+                                           value="100" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </li>
         {% endfor %}
     </ul>
+    <datalist id="runnningDataList">
+        <option value="0" />
+        <option value="1" />
+        <option value="10" />
+        <option value="25" />
+        <option value="50" />
+        <option value="75" />
+        <option value="100" />
+    </datalist>
 </fieldset>{% endif %}

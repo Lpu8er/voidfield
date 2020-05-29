@@ -75,7 +75,7 @@ class ColonyController extends InternalController {
     
     /**
      * 
-     * @Route("/colony/{cid}/build", name="colony_build", requirements={"cid"="\d+"}, methods={"POST"})
+     * @Route("/colony/{cid}/toggle", name="colony_building_toggle", requirements={"cid"="\d+"}, methods={"POST"})
      */
     public function changeRunningBuilding(Request $request, LoggerInterface $logger, $cid) {
         if($request->request->has('bid')) {
@@ -83,14 +83,12 @@ class ColonyController extends InternalController {
             if(!empty($bid)
                 && $request->request->has('_csrf')
                 && $this->isCsrfTokenValid('colony-'.$cid.'-running-'.strval($bid), $request->request->get('_csrf'))) {
-                $colony = $this->getDoctrine()->getRepository(Colony::class)->find($cid);
-                $building = $this->getDoctrine()->getRepository(Building::class)->find($bid);
+                $buildRepo = $this->getDoctrine()->getRepository(Building::class); /** @var \App\Repository\BuildingRepository $buildRepo */
+                $colRepo = $this->getDoctrine()->getRepository(Colony::class); /** @var \App\Repository\ColonyRepository $colRepo */
+                $colony = $colRepo->find($cid);
+                $building = $buildRepo->find($bid);
                 try {
-                    if($this->getDoctrine()->getRepository(Building::class)->build($building, $colony)) {
-                        $this->addMessage('ok', 'ok !', true);
-                    } else {
-                        $this->addMessage('error', 'oopsie', true);
-                    }
+                    $colRepo->changeRunningBuilding($building, $colony, min(100, max(0, intval($request->request->get('val', 0)))));
                 } catch(Exception $e) {
                     $logger->error($e->getMessage());
                     $logger->error($e->getTraceAsString());

@@ -111,7 +111,13 @@ class Colony {
      * @var int
      * @ORM\Column(type="integer")
      */
-    protected $energy = 0; // current stock
+    protected $energyStock = 0; // current stock
+    /**
+     *
+     * @var int
+     * @ORM\Column(type="integer")
+     */
+    protected $energyUsed = 0; // currently used
     /**
      *
      * @var int
@@ -220,10 +226,6 @@ class Colony {
         return $this->airToxicity;
     }
 
-    public function getEnergy() {
-        return $this->energy;
-    }
-
     public function getWorkers() {
         return $this->workers;
     }
@@ -299,11 +301,6 @@ class Colony {
 
     public function setAirToxicity($airToxicity) {
         $this->airToxicity = $airToxicity;
-        return $this;
-    }
-
-    public function setEnergy($energy) {
-        $this->energy = $energy;
         return $this;
     }
 
@@ -506,6 +503,24 @@ class Colony {
             }
         }
 
+        return $this;
+    }
+
+    public function getEnergyStock(): int {
+        return $this->energyStock;
+    }
+
+    public function getEnergyUsed(): int {
+        return $this->energyUsed;
+    }
+
+    public function setEnergyStock(int $energyStock) {
+        $this->energyStock = $energyStock;
+        return $this;
+    }
+
+    public function setEnergyUsed(int $energyUsed) {
+        $this->energyUsed = $energyUsed;
         return $this;
     }
 

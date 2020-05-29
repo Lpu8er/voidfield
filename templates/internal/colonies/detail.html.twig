@@ -12,10 +12,14 @@
             <div class="col-sm">
                 👷 Travailleurs
                 {{ colony.workers }}
+                /
+                {{ colony.population }}
             </div>
             <div class="col-sm">
                 🔋 Énergie
-                {{ colony.energy }}
+                {{ colony.energyUsed }}
+                /
+                {{ colony.energyStock }}
             </div>
         </div>
         <div class="row">
@@ -162,23 +166,33 @@
                                 <div class="card w-25">
                                     <div class="card-header">Énergie</div>
                                     <div class="card-body">
-                                        <h5 class="card-title">{{ colony.energy }}</h5>
+                                        <h5 class="card-title">
+                                            {{ colony.energyUsed }}
+                                            /
+                                            {{ colony.energyStock }}
+                                        </h5>
                                         <p class="card-text">
                                             L'énergie est utilisée en continu
                                             par les batiments. Sa production est
-                                            instantanée, soumise à un maximum.
+                                            instantanée.
                                         </p>
                                     </div>
                                 </div>
                                 <div class="card w-25">
                                     <div class="card-header">Travailleurs</div>
                                     <div class="card-body">
-                                        <h5 class="card-title">{{ colony.workers }}</h5>
+                                        <h5 class="card-title">
+                                            {{ colony.workers }}
+                                            /
+                                            {{ colony.population }}
+                                        </h5>
                                         <p class="card-text">
                                             Les travailleurs sont utilisés en continu
-                                        par les batiments et viennent directement
-                                        de votre population. Ils ne sont pas consommés,
-                                        mais sont occupés.
+                                            par les batiments et viennent directement
+                                            de votre population. Ils ne sont pas consommés,
+                                            mais sont occupés.
+                                            Un taux d'occupation trop faible signifie du chômage,
+                                            ce qui a tendance à nuire au moral.
                                         </p>
                                     </div>
                                 </div>

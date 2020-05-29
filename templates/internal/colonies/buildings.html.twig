@@ -48,6 +48,8 @@
                         <form method="post" action="{{ path('colony_building_toggle', {'cid': colony.id}) }}">
                             <div class="form-group">
                                 <div class="custom-control custom-switch">
+                                    <input type="hidden" name="_csrf" value="{{ csrf_token('colony-' ~ colony.id ~ '-running-' ~ bc.building.id) }}" />
+                                    <input type="hidden" name="bid" value="{{ bc.building.id }}" />
                                     <input type="checkbox"
                                            class="custom-control-input instant-submit"
                                            id="buildingRunning_{{ bc.building.id }}"

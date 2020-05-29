@@ -52,14 +52,14 @@ class ColonyController extends InternalController {
                 $building = $this->getDoctrine()->getRepository(Building::class)->find($bid);
                 try {
                     if($this->getDoctrine()->getRepository(Building::class)->build($building, $colony)) {
-                        $this->addMessage('ok', 'ok !', true);
+                        $this->addMessage('ok', 'Lancement de la construction du bâtiment...', true);
                     } else {
-                        $this->addMessage('error', 'oopsie', true);
+                        $this->addMessage('error', 'Une erreur est survenue lors du lancement de la construction', true);
                     }
                 } catch(Exception $e) {
                     $logger->error($e->getMessage());
                     $logger->error($e->getTraceAsString());
-                    $this->addMessage('error', 'Une erreur est apparue', true);
+                    $this->addMessage('error', 'Une erreur est survenue lors du lancement de la construction', true);
                 }
             } else {
                 $this->addMessage('error', 'XSRF error', true);
@@ -88,8 +88,8 @@ class ColonyController extends InternalController {
                 $colony = $colRepo->find($cid);
                 $building = $buildRepo->find($bid);
                 try {
-                    $colRepo->changeRunningBuilding($building, $colony, min(100, max(0, intval($request->request->get('val', 0)))));
-                    $this->addMessage('ok', 'ok', true);
+                    $colRepo->changeRunningBuilding($colony, $building, min(100, max(0, intval($request->request->get('val', 0)))));
+                    $this->addMessage('ok', 'Changement de l\'activation du bâtiment...', true);
                 } catch(Exception $e) {
                     $logger->error($e->getMessage());
                     $logger->error($e->getTraceAsString());

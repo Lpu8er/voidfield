@@ -34,7 +34,8 @@ EOT;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
-        
+        $this->executeBuildQueues();
+        return 0;
     }
     
     protected function executeBuildQueues() {
@@ -42,9 +43,10 @@ EOT;
         $sql = <<<EOT
 update `buildqueues` bq
 left join `buildings` b on b.`id`=bq.`building_id`
-set bq.`points`=bq.`points`+timestampdiff(MINUTE, bq.`lastQueueCheckDate`, now()),
-    bq.`estimatedEndDate`=timestampadd(MINUTE, (b.`points` - bq.`points`), bq.`lastQueueCheckDate`)
-where bq.`points` < b.`points`
+set bq.`points`=greatest(0, bq.`points`-timestampdiff(SECOND, bq.`last_queue_check_date`, now())),
+    bq.`estimated_end_date`=timestampadd(SECOND, bq.`points`, bq.`last_queue_check_date`),
+    bq.`last_queue_check_date`=now()
+where bq.`points` > 0
 EOT;
         $pdo = $this->entityManager->getConnection();
         $pdo->executeUpdate($sql);

@@ -4,10 +4,12 @@ namespace App\Repository;
 use App\Entity\Building;
 use App\Entity\BuildQueue;
 use App\Entity\Colony;
+use App\Entity\ColonyBuilding;
 use App\Entity\ColonyStock;
 use App\Entity\Resource;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 
 /**
  * Description of ColonyRepository
@@ -110,15 +112,29 @@ class ColonyRepository extends ServiceEntityRepository {
      * Find and convert ending BuildQueue to Building then trigger the built event
      */
     public function convertAndTriggerBuilt() {
-        
+        $buildQueues = $this->_em->getRepository(BuildQueue::class)->findby([
+            'points' => 0,
+        ]);
+        foreach($buildQueues as $bq) {
+            $this->triggeredBuilt($bq);
+        }
     }
     
     /**
      * Smart trigger, depending on building, for skills, extraction, production.
      * @param BuildQueue $bq
+     * @return ColonyBuilding
      */
-    public function triggeredBuilt(BuildQueue $bq) {
-        
+    public function triggeredBuilt(BuildQueue $bq): ColonyBuilding {
+        $cb = new ColonyBuilding();
+        $cb->setBuilding($bq->getBuilding());
+        $cb->setColony($bq->getColony());
+        $cb->setLevel(1); // @TODO
+        $cb->setRunning(false); // never running at first, maybe a parameter ?
+        $this->_em->persist($cb);
+        $this->_em->remove($bq); // delete the buildqueue
+        $this->_em->flush();
+        return $cb;
     }
     
     /**

@@ -4,26 +4,26 @@
         <h2>
             {{ colony.name }}
         </h2>
-        <div class="row">
+        <ul class="list-group list-group-horizontal">
             {% for stock in stocks %}
-                <div class="col-sm">
+                <li class="list-group-item">
                     {{ stock.resource.name }}
                     {{ stock.stocks|nformat }}
-                </div>
+                </li>
             {% endfor %}
-            <div class="col-sm">
+            <li class="list-group-item">
                 👷 Travailleurs
                 {{ colony.workers }}
                 /
                 {{ colony.population }}
-            </div>
-            <div class="col-sm">
+            </li>
+            <li class="list-group-item">
                 🔋 Énergie
                 {{ colony.energyUsed }}
                 /
                 {{ colony.energyStock }}
-            </div>
-        </div>
+            </li>
+        </ul>
         <div class="row">
             <div class="col">
                 <ul class="nav nav-tabs"

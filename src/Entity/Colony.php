@@ -161,6 +161,11 @@ class Colony {
      * @ORM\OneToMany(targetEntity="ResearchQueue", mappedBy="colony")
      */
     protected $searchqueue;
+    /**
+     * Merged list of specials features available in the colony (lazy-loaded)
+     * @var string[] 
+     */
+    protected $specials = null;
     
     public function __construct() {
         $this->stocks = new ArrayCollection;
@@ -521,6 +526,15 @@ class Colony {
 
     public function setEnergyUsed(int $energyUsed) {
         $this->energyUsed = $energyUsed;
+        return $this;
+    }
+
+    public function getSpecials(): ?array {
+        return $this->specials;
+    }
+
+    public function setSpecials(array $specials) {
+        $this->specials = $specials;
         return $this;
     }
 

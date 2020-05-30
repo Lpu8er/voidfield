@@ -263,4 +263,41 @@ class ColonyRepository extends ServiceEntityRepository {
         } // wtf ?
         return $this;
     }
+    
+    /**
+     * 
+     * @param Colony $colony
+     * @return string[]
+     */
+    public function mergeSpecials(Colony $colony): array {
+        if(null === $colony->getSpecials()) {
+            $specials = [];
+            foreach($colony->getBuildings() as $b) {
+                $s = $b->getBuilding()->getSpecial();
+                if(!empty($s)) {
+                    $specials[$s] = $s;
+                }
+            }
+            $colony->setSpecials($specials);
+        }
+        return $colony->getSpecials();
+    }
+    
+    /**
+     * 
+     * @param Colony $colony
+     * @return bool
+     */
+    public function hasSpaceport(Colony $colony): bool {
+        return in_array(Building::SPECIAL_SPACEPORT, $this->mergeSpecials($colony));
+    }
+    
+    /**
+     * 
+     * @param Colony $colony
+     * @return bool
+     */
+    public function hasSpacefactory(Colony $colony): bool {
+        return in_array(Building::SPECIAL_SPACEFACTORY, $this->mergeSpecials($colony));
+    }
 }

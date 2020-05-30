@@ -23,14 +23,17 @@ class ColonyController extends InternalController {
      */
     public function detail(Request $request, $cid) {
         $returns = null;
-        $colony = $this->getDoctrine()->getRepository(Colony::class)->find($cid);
+        $colRepo = $this->getDoctrine()->getRepository(Colony::class); /** @var \App\Repository\ColonyRepository $colRepo */
+        $colony = $colRepo->find($cid);
         if(!empty($colony) && ($this->getUser()->getId() === $colony->getOwner()->getId())) {
             $returns = $this->render('internal/colonies/detail.html.twig', [
                     'colony' => $colony,
-                    'stocks' => $this->getDoctrine()->getRepository(Colony::class)->getPaddedResources($colony),
+                    'stocks' => $colRepo->getPaddedResources($colony),
                     'buildable' => $this->getDoctrine()->getRepository(Building::class)->visibleList($colony),
                     'extractors' => $this->getDoctrine()->getRepository(ColonyExtraction::class)->findBy(['colony' => $colony->getId(),]),
                     'productors' => $this->getDoctrine()->getRepository(ColonyProduction::class)->findBy(['colony' => $colony->getId(),]),
+                    'hasSpaceport' => $colRepo->hasSpaceport($colony),
+                    'hasSpacefactory' => $colRepo->hasSpacefactory($colony),
                 ]);
         } else {
             throw $this->createAccessDeniedException();

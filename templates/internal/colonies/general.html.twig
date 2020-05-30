@@ -1,0 +1,111 @@
+<fieldset class="container-fluid">
+    <legend>Moral</legend>
+    <div class="row">
+        <div class="col-sm-2">
+            Satisfaction générale
+        </div>
+        <div class="col-sm-8">
+            <div class="progress">
+                <div class="progress-bar bg-danger"
+                     role="progressbar"
+                     style="width: {{ colony.insatisfaction }}%"
+                     aria-valuenow="{{ colony.baddies + colony.hostiles }}"
+                     aria-valuemin="0"
+                     aria-valuemax="{{ colony.population }}"
+                     title="{{ colony.insatisfaction }}% insatisfaits dont {{ colony.hostiles|nformat }} hostiles"></div>
+                <div class="progress-bar"
+                     role="progressbar"
+                     style="width: {{ colony.neutrals }}%"
+                     aria-valuenow="{{ colony.population - (colony.baddies + colony.hostiles + colony.goodies + colony.partisans) }}"
+                     aria-valuemin="0"
+                     aria-valuemax="{{ colony.population }}"></div>
+                <div class="progress-bar bg-success"
+                     role="progressbar"
+                     style="width: {{ colony.satisfaction }}%"
+                     aria-valuenow="{{ colony.goodies + colony.partisans }}"
+                     aria-valuemin="0"
+                     aria-valuemax="{{ colony.population }}"
+                     title="{{ colony.satisfaction }}% satisfaits dont {{ colony.partisans|nformat }} partisans"></div>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            Total:
+            {{ colony.population|nformat }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            Satisfaction
+        </div>
+        <div class="col-sm-4">
+            {{ colony.satisfaction }}%
+            soit
+            {{ (colony.goodies + colony.partisans)|nformat }}
+        </div>
+        <div class="col-sm-6">
+            Une population satisfaite permet un taux de taxe
+            plus élevé sans grogne.
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            Insatisfaction
+        </div>
+        <div class="col-sm-4">
+            {{ colony.insatisfaction }}%
+            soit
+            {{ (colony.baddies + colony.hostiles)|nformat }}
+        </div>
+        <div class="col-sm-6">
+            Une population insatisfaite ralentit la production,
+            augmente les couts, et peut provoquer des incidents.
+        </div>
+    </div>
+</fieldset>
+<fieldset class="container-fluid">
+    <legend>Ressources</legend>
+    <div class="row">
+        {% for stock in stocks %}
+            <div class="card w-25">
+                <div class="card-header">{{ stock.resource.name }}</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ stock.stocks|nformat }}</h5>
+                    <p class="card-text">&nbsp;</p>
+                </div>
+            </div>
+        {% endfor%}
+        <div class="card w-25">
+            <div class="card-header">Énergie</div>
+            <div class="card-body">
+                <h5 class="card-title">
+                    {{ colony.energyUsed }}
+                    /
+                    {{ colony.energyStock }}
+                </h5>
+                <p class="card-text">
+                    L'énergie est utilisée en continu
+                    par les batiments. Sa production est
+                    instantanée.
+                </p>
+            </div>
+        </div>
+        <div class="card w-25">
+            <div class="card-header">Travailleurs</div>
+            <div class="card-body">
+                <h5 class="card-title">
+                    {{ colony.workers }}
+                    /
+                    {{ colony.population }}
+                </h5>
+                <p class="card-text">
+                    Les travailleurs sont utilisés en continu
+                    par les batiments et viennent directement
+                    de votre population. Ils ne sont pas consommés,
+                    mais sont occupés.
+                    Un taux d'occupation trop faible signifie du chômage,
+                    ce qui a tendance à nuire au moral.
+                </p>
+            </div>
+        </div>
+    </div>
+</fieldset>

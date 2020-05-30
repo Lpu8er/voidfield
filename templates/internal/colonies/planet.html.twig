@@ -1,0 +1,33 @@
+<fieldset class="container-fluid">
+    <legend>
+        {{ colony.celestial.fullName }}
+    </legend>
+    <div class="row">
+        <fieldset class="col-md-2">
+            <legend>Description</legend>
+            <p>
+                {{ colony.celestial.description }}
+            </p>
+        </fieldset>
+        <fieldset class="col-md-2">
+            <legend>Dimensions</legend>
+            <p>
+                Rayon {{ colony.celestial.radius }} km<br />
+                Distance de l'étoile {{ colony.celestial.ellipticCenterDistance / colony.celestial.au }} km
+            </p>
+        </fieldset>
+        <fieldset class="col-md-2">
+            <legend>Dynamique</legend>
+            <p>
+                Rotation {{ colony.celestial.spin }} m.s<sup>-1</sup><br />
+                Gravité {{ colony.celestial.gravity }} G<br />
+            </p>
+        </fieldset>
+        <fieldset class="col-md-2">
+            <legend>Climat</legend>
+            <p>
+                etc.
+            </p>
+        </fieldset>
+    </div>
+</fieldset>

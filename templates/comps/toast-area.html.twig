@@ -10,7 +10,7 @@
             {% include 'comps/toast.html.twig' with {'mtype': mtype, 'message': rmsg.message, 'mdate': rmsg.date} %}
         {% endfor %}
     {% endfor %}{% for tt in ['ko', 'warn', 'info', 'ok'] %}
-    <template id="toast_tpl">
+    <template id="toast_tpl_{{ tt }}">
         {% include 'comps/toast.html.twig' with {'mtype': tt, 'message': ''} %}
     </template>{% endfor %}
 </div>

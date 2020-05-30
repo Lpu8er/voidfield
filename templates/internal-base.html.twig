@@ -50,3 +50,9 @@
         </div>
     </section>
 {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        voidfield.parameters = {{ app.user.parameters|json_encode }};
+    </script>
+{% endblock %}

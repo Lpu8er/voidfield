@@ -28,6 +28,12 @@ class Notification {
     /**
      *
      * @var \DateTime
+     * @ORM\Column(type="datetime")
+     */
+    protected $dateSent;
+    /**
+     *
+     * @var \DateTime
      * @ORM\Column(type="datetime", nullable=true)
      */
     protected $dateNotify = null;
@@ -62,11 +68,11 @@ class Notification {
         return $this->id;
     }
     
-    public function getDateNotify(): \DateTime {
+    public function getDateNotify(): ?\DateTime {
         return $this->dateNotify;
     }
 
-    public function getDateRead(): \DateTime {
+    public function getDateRead(): ?\DateTime {
         return $this->dateRead;
     }
 
@@ -82,12 +88,22 @@ class Notification {
         return $this->targetPlayer;
     }
 
-    public function setDateNotify(\DateTime $dateNotify) {
+    public function getDateSent(): \DateTime {
+        return $this->dateSent;
+    }
+
+    public function setDateSent(\DateTime $dateSent) {
+        $this->dateSent = $dateSent;
+        return $this;
+    }
+
+        
+    public function setDateNotify(?\DateTime $dateNotify) {
         $this->dateNotify = $dateNotify;
         return $this;
     }
 
-    public function setDateRead(\DateTime $dateRead) {
+    public function setDateRead(?\DateTime $dateRead) {
         $this->dateRead = $dateRead;
         return $this;
     }

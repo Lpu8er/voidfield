@@ -5,8 +5,8 @@ use App\Entity\Building;
 use App\Entity\Colony;
 
 /**
- * Description of Toolbox
- *
+ * Random shit.
+ * Literally, it's random stuff.
  * @author lpu8er
  */
 class Toolbox {
@@ -64,5 +64,13 @@ class Toolbox {
             $returns[] = "when '".preg_replace('`[^a-z]`', '', $c)."' then ".strval(intval($r));
         }
         return $returns;
+    }
+    
+    /**
+     * Returns a list of allowed characters in date.format parameter
+     * @return string
+     */
+    public static function getDateFormatCharacters(): string {
+        return 'djwzWmntoYyaAgGhHis /@:!,()-.';
     }
 }

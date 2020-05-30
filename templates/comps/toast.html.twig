@@ -9,8 +9,11 @@
         {% elseif mtype in ['info', 'notice'] %}Information
         {% elseif mtype in ['ok', 'success'] %}Succès
         {% endif %}</strong>
-        {% if mdate is defined and mdate is not empty %}<em class="text-muted">{{ mdate|date(param(app.user, 'date.format')) }}</em>{% endif %}
-        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+        <em class="text-muted toast-when">{% if mdate is defined and mdate is not empty %}{{ mdate|date(param(app.user, 'date.format')) }}{% endif %}</em>
+        <button type="button"
+                class="ml-2 mb-1 close"
+                data-dismiss="toast"
+                aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>

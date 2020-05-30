@@ -129,6 +129,39 @@ voidfield.merge = function(a, b) {
     return Object.assign({}, a, b);
 };
 
+voidfield.date = function(d, f) {
+    let returns = '';
+    const cc = {
+        'd': 'DD',
+        'j': 'd',
+        'w': 'D',
+        'z': 'DDD',
+        'W': 'w',
+        'm': 'MM',
+        'n': 'M',
+        't': moment(d).daysInMonth(),
+        'o': 'Y',
+        'Y': 'YYYY',
+        'y': 'YY',
+        'a': 'a',
+        'A': 'A',
+        'g': 'h',
+        'G': 'H',
+        'h': 'hh',
+        'H': 'HH',
+        'i': 'mm',
+        's': 'ss'
+    };
+    for(let c of f.split('')) {
+        if(cc.hasOwnProperty(c)) {
+            returns += cc[c];
+        } else {
+            returns += c;
+        }
+    }
+    return moment(d).format(returns);
+};
+
 voidfield.AjaxHandler = function(uri, method = 'post', data = {}) {
     this.uri = uri;
     this.method = method;
@@ -177,7 +210,36 @@ voidfield.TimeoutHandler.prototype.cancel = function() {
     }
 };
 
+voidfield.Toastr = function(type, message = '', when = null) {
+    this.type = type;
+    this.message = message;
+    this.when = when;
+};
+
+voidfield.Toastr.prototype.append = function() {
+    if(0 < jQuery('#toast_tpl_'+this.type).length) {
+        let tpl = jQuery('#toast_tpl_'+this.type)[0].content.cloneNode(true);
+        tpl.querySelector('.toast-body').textContent = this.message;
+        if(null !== this.when) {
+            tpl.querySelector('.toast-when').textContent = voidfield.date(this.when, voidfield.parameters['date.format']);   
+        }
+        jQuery('.toasts-area').append(tpl);
+        
+        voidfield.refreshToasts();
+    } // else, unrecognized type
+};
+
+voidfield.refreshToasts = function() {
+    jQuery('.toast').toast({
+        'autohide': true,
+        'delay': 5000
+    });
+    jQuery('.toast').toast('show');
+};
+
 voidfield.ws = new voidfield.SocketHandler();
+
+voidfield.parameters = {};
 
 jQuery(function(){
     jQuery('.click-to-complete').each(function(){
@@ -197,9 +259,5 @@ jQuery(function(){
                 .then((r) => { jQuery('#money').text(r.money); }));
     }
     
-    jQuery('.toast').toast({
-        'autohide': true,
-        'delay': 5000
-    });
-    jQuery('.toast').toast('show');
+    voidfield.refreshToasts();
 });

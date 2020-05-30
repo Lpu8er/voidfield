@@ -5,9 +5,12 @@ use App\Entity\Character;
 use App\Entity\CharacterSkill;
 use App\Entity\Colony;
 use App\Entity\Fleet;
+use App\Entity\Notification;
 use App\Entity\Planet;
 use App\Entity\Skill;
+use App\Entity\User;
 use App\Utils\TwigWrapper;
+use DateTime;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -52,8 +55,8 @@ class HomeController extends InternalController {
      * @Route("/preferences", name="preferences")
      */
     public function preferences(Request $request, UserPasswordEncoderInterface $encoder) {
-        if($request->request->has('savePrefs')
-                && $this->isCsrfTokenValid('user-preferences', $request->request->get('_csrf'))) {
+        if($request->request->has('savePwd')
+                && $this->isCsrfTokenValid('user-preferences-pwd', $request->request->get('_csrf'))) {
             if($request->request->has('oldPwd')
                     && $request->request->has('newPwd')
                     && $request->request->has('newPwdBis')) {
@@ -69,6 +72,16 @@ class HomeController extends InternalController {
                     $this->addMessage('error', 'Echec du changement de mot de passe : soit l\'ancien est incorrect, soit les deux nouveaux sont différents.');
                 }
             }
+        }
+        if($request->request->has('savePrefs')
+                && $this->isCsrfTokenValid('user-preferences', $request->request->get('_csrf'))) {
+            $currentUser = $this->getUser(); /** @var User $currentUser */
+            $currentUser->setParameter(User::PARAM_DATE_FORMAT, $request->request->get('dateFormat'));
+            $currentUser->setParameter(User::PARAM_NOTIFY_TOASTR, $request->request->has('notifyToastr'));
+            $currentUser->setParameter(User::PARAM_NOTIFY_AUTOREAD, $request->request->has('notifyAutoread'));
+            $this->getDoctrine()->getManager()->persist($currentUser);
+            $this->getDoctrine()->getManager()->flush();
+            $this->addMessage('success', 'Modifications des préférences bien enregistrées !');
         }
         return $this->render('internal/preferences.html.twig', []);
     }
@@ -192,12 +205,12 @@ class HomeController extends InternalController {
         $returns = [
             'messages' => [],
         ];
-        $notifyRepo = $this->getDoctrine()->getRepository(\App\Entity\Notification::class);
+        $notifyRepo = $this->getDoctrine()->getRepository(Notification::class);
         $notifications = $notifyRepo->findBy([
             'date_notify' => null,
             'player' => $this->getUser()->getId(),
         ]);
-        foreach($notifications as $n) { /** @var \App\Entity\Notification $n */
+        foreach($notifications as $n) { /** @var Notification $n */
             $returns['messages'][] = [
                 'type' => $n->getNotifType(),
                 'message' => htmlspecialchars($n->getContent()),
@@ -205,7 +218,7 @@ class HomeController extends InternalController {
                 'id' => $n->getId(),
             ];
             // mark as notified
-            $n->setDateNotify(new \DateTime);
+            $n->setDateNotify(new DateTime);
             $this->getDoctrine()->getManager()->persist($n);
         }
         $this->getDoctrine()->getManager()->flush();

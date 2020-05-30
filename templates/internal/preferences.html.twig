@@ -4,9 +4,78 @@
         Préférences
     </h1>
     <form action="{{ path('preferences') }}" method="post">
-        <fieldset>
+        <fieldset class="form-row">
+            <legend>Configuration</legend>
+            <div class="form-group col-md-4">
+                <label for="prefsDateFormat">Format de date</label>
+                <input name="dateFormat"
+                       id="prefsDateFormat"
+                       list="dateFormatDataList"
+                       value="{{ param(app.user, 'date.format') }}" />
+                <p class="text-muted">
+                    Formats utilisables :
+                    <abbr title="Jour du mois (avec zéros)">d</abbr>,
+                    <abbr title="Jour du mois (sans zéros)">j</abbr>,
+                    <abbr title="Jour de la semaine">w</abbr>,
+                    <abbr title="Jour de l'année">z</abbr>,
+                    <abbr title="Numéro de semaine">W</abbr>,
+                    <abbr title="Mois (avec zéros)">m</abbr>,
+                    <abbr title="Mois (sans zéros)">n</abbr>,
+                    <abbr title="Nombre de jours dans le mois">t</abbr>,
+                    <abbr title="Année (iso 801)">o</abbr>,
+                    <abbr title="Année (standard)">Y</abbr>,
+                    <abbr title="Année (deux chiffres)">y</abbr>,
+                    <abbr title="am/pm">a</abbr>,
+                    <abbr title="AM/PM">A</abbr>,
+                    <abbr title="Heure format 12h (sans zéros)">g</abbr>,
+                    <abbr title="Heure format 24h (sans zéros)">G</abbr>,
+                    <abbr title="Heure format 12h (avec zéros)">h</abbr>,
+                    <abbr title="Heure format 24h (avec zéros)">H</abbr>,
+                    <abbr title="Minutes">i</abbr>,
+                    <abbr title="Secondes">s</abbr>
+                </p>
+                <datalist id="dateFormatDataList">
+                    <option value="d/m/Y @ H:i" />
+                    <option value="Y-m-d H:i" />
+                </datalist>
+            </div>
+            <div class="form-group col-md-4">
+                <div class="custom-control custom-switch">
+                    <input type="checkbox"
+                           class="custom-control-input"
+                           id="prefsNotifyToastr"
+                           name="notifyToastr"{% if param(app.user, 'notify.toastr') %}
+                           checked="checked"{% endif %} />
+                    <label class="custom-control-label"
+                           for="prefsNotifyToastr">
+                        Notifications en temps réel
+                    </label>
+                </div>
+                <div class="custom-control custom-switch">
+                    <input type="checkbox"
+                           class="custom-control-input"
+                           id="prefsNotifyAutoread"
+                           name="notifyAutoread"{% if param(app.user, 'notify.autoread') %}
+                           checked="checked"{% endif %} />
+                    <label class="custom-control-label"
+                           for="prefsNotifyAutoread">
+                        Lecture automatique
+                    </label>
+                </div>
+            </div>
+        </fieldset>
+        <input type="hidden"
+               name="_csrf"
+               value="{{ csrf_token('user-preferences') }}" />
+        <button type="submit"
+                name="savePrefs"
+                class="btn btn-primary">Enregistrer ces préférences</button>
+    </form>
+    <hr />
+    <form action="{{ path('preferences') }}" method="post">
+        <fieldset class="form-row">
             <legend>Changer de mot de passe</legend>
-            <div class="form-group">
+            <div class="form-group col-md-4">
                 <label for="prefsOldPwd">Ancien mot de passe</label>
                 <input type="password"
                        name="oldPwd"
@@ -15,7 +84,7 @@
                        id="prefsOldPwd"
                        placeholder="Mot de passe actuel" />
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-4">
                 <label for="prefsNewPwd">Nouveau mot de passe</label>
                 <input type="password"
                        name="newPwd"
@@ -29,7 +98,7 @@
                     Mais c'est votre choix ! Assumez-le.
                 </small>
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-4">
                 <label for="prefsNewPwdBis">Nouveau mot de passe (confirmez)</label>
                 <input type="password"
                        name="newPwdBis"
@@ -41,9 +110,9 @@
         </fieldset>
         <input type="hidden"
                name="_csrf"
-               value="{{ csrf_token('user-preferences') }}" />
+               value="{{ csrf_token('user-preferences-pwd') }}" />
         <button type="submit"
-                name="savePrefs"
-                class="btn btn-primary">Enregistrer ces préférences</button>
+                name="savePwd"
+                class="btn btn-warning">Valider le changement de mot de passe</button>
     </form>
 {% endblock %}

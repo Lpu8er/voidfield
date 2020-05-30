@@ -184,4 +184,31 @@ class HomeController extends InternalController {
         ];
         return new JsonResponse($returns);
     }
+    
+    /**
+     * @Route("/notifications", name="notifications")
+     */
+    public function notifications(Request $request) {
+        $returns = [
+            'messages' => [],
+        ];
+        $notifyRepo = $this->getDoctrine()->getRepository(\App\Entity\Notification::class);
+        $notifications = $notifyRepo->findBy([
+            'date_notify' => null,
+            'player' => $this->getUser()->getId(),
+        ]);
+        foreach($notifications as $n) { /** @var \App\Entity\Notification $n */
+            $returns['messages'][] = [
+                'type' => $n->getNotifType(),
+                'message' => htmlspecialchars($n->getContent()),
+                'when' => $n->getDateSent(),
+                'id' => $n->getId(),
+            ];
+            // mark as notified
+            $n->setDateNotify(new \DateTime);
+            $this->getDoctrine()->getManager()->persist($n);
+        }
+        $this->getDoctrine()->getManager()->flush();
+        return new JsonResponse($returns);
+    }
 }

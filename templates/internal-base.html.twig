@@ -52,7 +52,12 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-    <script type="text/javascript">
+    <script type="module" src="{{ asset('js/voidfield-internal.js') }}"></script>
+    <script type="module">
+        import {voidfield} from "{{ asset('js/voidfield.js') }}";
+        
         voidfield.parameters = {{ app.user.parameters|json_encode|raw }};
+        {# export global voidfield object #}
+        window.voidfield = voidfield;
     </script>
 {% endblock %}

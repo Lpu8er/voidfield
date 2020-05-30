@@ -188,7 +188,9 @@ voidfield.AjaxHandler.prototype.query = function(data = {}) {
 
 voidfield.timeoutRegister = {};
 
-voidfield.TimeoutHandler = function(name = null, time = 1000) {
+voidfield.TimeoutHandler = function(method, name = null, time = 10000, recursive = true) {
+    this.method = method;
+    this.recursive = recursive;
     this.time = time;
     this.handler = null;
     if(null !== name) {
@@ -197,11 +199,12 @@ voidfield.TimeoutHandler = function(name = null, time = 1000) {
 };
 
 voidfield.TimeoutHandler.prototype.run = function() {
-    return new Promise((resolve, reject) => {
-        this.handler = window.setTimeout(() => {
-            resolve(this.run());
-        }, this.time);
-    });
+    this.handler = window.setTimeout(async () => {
+        await this.method.call();
+        if(this.recursive) {
+            this.run();
+        }
+    }, this.time);
 };
 
 voidfield.TimeoutHandler.prototype.cancel = function() {
@@ -210,23 +213,34 @@ voidfield.TimeoutHandler.prototype.cancel = function() {
     }
 };
 
-voidfield.Toastr = function(type, message = '', when = null) {
+voidfield.Toastr = function(type, message = '', when = null, id = 0) {
     this.type = type;
     this.message = message;
     this.when = when;
+    this.id = id;
 };
 
-voidfield.Toastr.prototype.append = function() {
+voidfield.Toastr.prototype.append = function(refresh = true) {
     if(0 < jQuery('#toast_tpl_'+this.type).length) {
         let tpl = jQuery('#toast_tpl_'+this.type)[0].content.cloneNode(true);
+        if(0 < this.id) {
+            tpl.id = 'toast_notify_'+this.id;
+        }
         tpl.querySelector('.toast-body').textContent = this.message;
         if(null !== this.when) {
             tpl.querySelector('.toast-when').textContent = voidfield.date(this.when, voidfield.parameters['date.format']);   
         }
         jQuery('.toasts-area').append(tpl);
         
-        voidfield.refreshToasts();
+        if(refresh) {
+            voidfield.refreshToasts();
+        }
     } // else, unrecognized type
+};
+
+voidfield.instantToast = function(type, message) {
+    const t = new voidfield.Toastr(type, message);
+    t.append(true);
 };
 
 voidfield.refreshToasts = function() {
@@ -241,23 +255,4 @@ voidfield.ws = new voidfield.SocketHandler();
 
 voidfield.parameters = {};
 
-jQuery(function(){
-    jQuery('.click-to-complete').each(function(){
-        let cc = new voidfield.ClickToComplete($(this));
-        cc.bindEvent();
-    });
-    
-    jQuery(document).on('change', '.instant-submit', function(){ jQuery(jQuery(this)[0].form).submit(); });
-    
-    voidfield.loadTabFromUri();
-    
-    if(jQuery('#money').length) {
-        new voidfield.TimeoutHandler('money');
-        const moneyAjax = new voidfield.AjaxHandler('/money', 'get');
-        voidfield.timeoutRegister['money'].run()
-            .then(moneyAjax.query()
-                .then((r) => { jQuery('#money').text(r.money); }));
-    }
-    
-    voidfield.refreshToasts();
-});
+export { voidfield };

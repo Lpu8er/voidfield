@@ -43,9 +43,7 @@
             </div>
         </nav>
     </header>
-    {% if app.session.flashbag.peekAll() is not empty or _messages is not empty %}
-        {% include 'comps/toast-area.html.twig' %}
-    {% endif %}
+    {% include 'comps/toast-area.html.twig' %}
     <section id="mainContent">
         <div class="container-fluid">
             {% block content %}{% endblock %}

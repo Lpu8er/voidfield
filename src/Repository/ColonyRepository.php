@@ -123,7 +123,7 @@ class ColonyRepository extends ServiceEntityRepository {
                 . " select :cid, be.`resource_id`, sum(floor(be.`nb` * (cb.`running` / 100))) "
                 . " from `buildingextractions` be "
                 . " left join `colonybuildings` cb on cb.`building_id`=be.`building_id` "
-                . " left join `colony` c on c.`id`=cb.`colony_id` "
+                . " left join `colonies` c on c.`id`=cb.`colony_id` "
                 . ($useSkills? (" left join `skills` sk on sk.`attribute`=:ska and sk.`resource_id`=br.`resource_id` " // we'll use skills 
                 . " left join `colonyskills` skb on skb.`colony_id`=c.`id` and skb.`skill_id`=sk.`id` " // buildings skills
                 . " left join `characterskills` skc on skc.`character_id`=c.`leader_id` and skc.`skill_id`=sk.`id` " // leader skills

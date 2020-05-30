@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -29,14 +30,14 @@ abstract class GlobalController extends AbstractController {
      * @param bool $delayed
      * @return $this
      */
-    protected function addMessage(string $type, string $message, bool $delayed = false): self {
+    protected function addMessage(string $type, string $message, bool $delayed = false, ?DateTime $when = null): self {
         if($delayed) {
             $this->addFlash($type, $message);
         } else {
             if(!array_key_exists($type, $this->messages)) {
                 $this->messages[$type] = [];
             }
-            $this->messages[$type][] = $message;
+            $this->messages[$type][] = ['message' => $message, 'date' => $when,];
         }
         return $this;
     }

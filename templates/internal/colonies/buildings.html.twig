@@ -22,9 +22,9 @@
                 <meter min="0" max="{{ bq.building.points }}" value="{{ bq.building.points - bq.points }}"></meter>
                 <p>
                     Démarré au
-                    {{ bq.startDate|date('d/m/Y @ H:i') }}
+                    {{ bq.startDate|date(param(app.user, 'date.format')) }}
                     fin estimé au
-                    {{ bq.estimatedEndDate|date('d/m/Y @ H:i') }}
+                    {{ bq.estimatedEndDate|date(param(app.user, 'date.format')) }}
                 </p>
             </div>
         {% endfor %}

@@ -1,9 +1,11 @@
 <?php
 namespace App\Twig;
 
+use App\Entity\User;
 use App\Utils\TwigWrapper;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension {
     public function getFilters()
@@ -11,6 +13,12 @@ class AppExtension extends AbstractExtension {
         return [
             new TwigFilter('duration', [$this, 'durationFilter',]),
             new TwigFilter('nformat', [$this, 'nformatFilter',]),
+        ];
+    }
+    
+    public function getFunctions() {
+        return [
+            new TwigFunction('param', [$this, 'paramFunction',]),
         ];
     }
     
@@ -32,5 +40,14 @@ class AppExtension extends AbstractExtension {
      */
     public function nformatFilter($number) {
         return TwigWrapper::nformat($number);
+    }
+    
+    /**
+     * 
+     * @param User $user
+     * @param string $key
+     */
+    public function paramFunction(User $user, string $key) {
+        return $user->getParameter($key);
     }
 }

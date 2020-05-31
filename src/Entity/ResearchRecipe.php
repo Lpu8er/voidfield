@@ -15,7 +15,7 @@ class ResearchRecipe {
      *
      * @var Research 
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="Research")
+     * @ORM\ManyToOne(targetEntity="Research", inversedBy="recipe")
      * @ORM\JoinColumn(name="research_id", referencedColumnName="id")
      */
     protected $research;

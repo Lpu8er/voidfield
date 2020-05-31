@@ -58,6 +58,15 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
+                           id="techs-tab"
+                           data-toggle="tab"
+                           href="#techs-tabpane"
+                           role="tab"
+                           aria-controls="techs-tabpane"
+                           aria-selected="false">Recherches</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
                            id="prods-tab"
                            data-toggle="tab"
                            href="#prods-tabpane"
@@ -93,6 +102,12 @@
                          role="tabpanel"
                          aria-labelledby="buildings-tabpane">
                         {% include 'internal/colonies/buildings.html.twig' %}
+                    </div>
+                    <div class="tab-pane"
+                         id="techs-tabpane"
+                         role="tabpanel"
+                         aria-labelledby="techs-tabpane">
+                        {% include 'internal/colonies/techs.html.twig' %}
                     </div>
                     <div class="tab-pane"
                          id="prods-tabpane"

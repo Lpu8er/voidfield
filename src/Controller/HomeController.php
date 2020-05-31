@@ -28,7 +28,7 @@ class HomeController extends InternalController {
             $colonies = $this->getDoctrine()->getRepository(Colony::class)->findByOwner($this->getUser());
             $fleets = $this->getDoctrine()->getRepository(Fleet::class)->findByOwner($this->getUser());
             
-            $returns = $this->sr('internal/home', [
+            $returns = $this->sr('home', [
                 'colonies' => $colonies,
                 'fleets' => $fleets,
                 'researchqueue' => [],

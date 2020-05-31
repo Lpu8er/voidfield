@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity()
  * @ORM\Table(name="researches")
  */
-class Research {
+class Research implements iRecipeCapable {
     /**
      * 
      * @var int
@@ -50,6 +50,13 @@ class Research {
      * @ORM\Column(type="integer")
      */
     protected $points;
+    
+    /**
+     *
+     * @var ResearchRecipe[]
+     * @ORM\OneToMany(targetEntity="ResearchRecipe", mappedBy="research")
+     */
+    protected $recipe;
 
     public function getId(): ?int
     {
@@ -115,4 +122,31 @@ class Research {
 
         return $this;
     } // how many points (minutes) it needs
+    
+    public function getRecipe() {
+        return $this->recipe;
+    }
+
+    public function addRecipe(ResearchRecipe $recipe): self
+    {
+        if (!$this->recipe->contains($recipe)) {
+            $this->recipe[] = $recipe;
+            $recipe->setResearch($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipe(ResearchRecipe $recipe): self
+    {
+        if ($this->recipe->contains($recipe)) {
+            $this->recipe->removeElement($recipe);
+            // set the owning side to null (unless already changed)
+            if ($recipe->getResearch() === $this) {
+                $recipe->setResearch(null);
+            }
+        }
+
+        return $this;
+    }
 }

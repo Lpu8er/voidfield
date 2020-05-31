@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\BuildingRepository")
  * @ORM\Table(name="buildings")
  */
-class Building {
+class Building implements iRecipeCapable {
     const NEVER = 0;
     const RESTRICT_LAND = 1;
     const RESTRICT_WATER = 2;

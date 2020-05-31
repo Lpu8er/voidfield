@@ -3,7 +3,6 @@ namespace App\Repository;
 
 use App\Entity\Technology;
 use App\Entity\User;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -12,7 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @author lpu8er
  */
-class TechnologyRepository extends ServiceEntityRepository {
+class TechnologyRepository extends RecipeCapableRepository {
     /**
      * 
      * @param ManagerRegistry $registry
@@ -35,5 +34,16 @@ class TechnologyRepository extends ServiceEntityRepository {
                 ->setParameter('p', $player->getId())
                 ->getQuery()
                 ->getArrayResult();
+    }
+    
+    /**
+     * Retrieve all technologies that can be started (or not, depending on resources)
+     * @param Colony $colony
+     * @return Research[]
+     */
+    public function visibleList(Colony $colony, bool $checkResources = false): array {
+        $returns = [];
+        
+        return $returns;
     }
 }

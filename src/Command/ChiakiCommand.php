@@ -35,6 +35,7 @@ EOT;
 
     protected function execute(InputInterface $input, OutputInterface $output) {
         $this->executeBuildQueues();
+        $this->executeColonyExtraction();
         return 0;
     }
     
@@ -63,7 +64,33 @@ EOT;
     }
     
     protected function executeColonyExtraction() {
+        // first of all, insert ignore for all resources that would be extracted
+        $q = <<<EOT
+insert ignore into `colonystocks`
+(`colony_id`, `resource_id`, `stocks`)
+select cx.`colony_id`, cx.`resource_id`, 0
+from `colonyextractions` cx
+left join `colonies` co on co.`id`=cx.`colony_id`
+left join `colonystocks` cs on cs.`colony_id`=co.`id` and cs.`resource_id`=cx.`resource_id`
+left join `naturals` n on n.`celestial_id`=co.`celestial_id` and n.`resource_id`=cx.`resource_id`
+where n.`stocks`>cx.`nb`
+EOT;
+        $pdo = $this->entityManager->getConnection();
+        $pdo->executeUpdate($q);
         
+        // update with the right quantities
+        $q = <<<EOT
+update `colonyextractions` cx
+left join `colonies` co on co.`id`=cx.`colony_id`
+left join `colonystocks` cs on cs.`colony_id`=co.`id` and cs.`resource_id`=cx.`resource_id`
+left join `naturals` n on n.`celestial_id`=co.`celestial_id` and n.`resource_id`=cx.`resource_id`
+set cs.`stocks`=cs.`stocks`+cx.`nb`, n.`stocks`=n.`stocks`-cx.`nb`
+where n.`stocks`>cx.`nb`
+EOT;
+        $pdo = $this->entityManager->getConnection();
+        $pdo->executeUpdate($q);
+        
+        $this->entityManager->getRepository(Colony::class)->cleanupAllStocks();
     }
     
     protected function executeColonyProduction() {

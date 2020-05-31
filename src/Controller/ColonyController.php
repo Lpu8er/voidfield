@@ -24,13 +24,31 @@ class ColonyController extends InternalController {
     public function detail(Request $request, $cid) {
         $returns = null;
         $colRepo = $this->getDoctrine()->getRepository(Colony::class); /** @var \App\Repository\ColonyRepository $colRepo */
-        $colony = $colRepo->find($cid);
+        $colony = $colRepo->find($cid); /** @var Colony $colony */
         if(!empty($colony) && ($this->getUser()->getId() === $colony->getOwner()->getId())) {
+            $extractors = [];
+            $bExtractors = $this->getDoctrine()->getRepository(ColonyExtraction::class)->findBy(['colony' => $colony->getId(),]);
+            foreach($bExtractors as $bExtractor) { /** @var ColonyExtraction $bExtractor */
+                if(!array_key_exists($bExtractor->getResource()->getId(), $extractors)) {
+                    $extractors[$bExtractor->getResource()->getId()] = [
+                        'resource' => $bExtractor->getResource(),
+                        'extractors' => [],
+                        'natural' => null,
+                    ];
+                    try {
+                        $extractors[$bExtractor->getResource()->getId()]['natural'] = $this->getDoctrine()->getRepository(\App\Entity\Natural::class)->findOneBy([
+                            'celestial' => $colony->getCelestial()->getId(),
+                            'resource' => $bExtractor->getResource()->getId(),
+                        ]);
+                    } catch (Exception $ex) { } // just don't import it.
+                }
+            }
+            
             $returns = $this->render('internal/colonies/detail.html.twig', [
                     'colony' => $colony,
                     'stocks' => $colRepo->getPaddedResources($colony),
                     'buildable' => $this->getDoctrine()->getRepository(Building::class)->visibleList($colony),
-                    'extractors' => $this->getDoctrine()->getRepository(ColonyExtraction::class)->findBy(['colony' => $colony->getId(),]),
+                    'extractors' => $extractors,
                     'productors' => $this->getDoctrine()->getRepository(ColonyProduction::class)->findBy(['colony' => $colony->getId(),]),
                     'hasSpaceport' => $colRepo->hasSpaceport($colony),
                     'hasSpacefactory' => $colRepo->hasSpacefactory($colony),

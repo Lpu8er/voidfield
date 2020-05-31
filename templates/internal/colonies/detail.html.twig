@@ -58,15 +58,6 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           id="extracts-tab"
-                           data-toggle="tab"
-                           href="#extracts-tabpane"
-                           role="tab"
-                           aria-controls="extracts-tabpane"
-                           aria-selected="false">Extraction</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link"
                            id="prods-tab"
                            data-toggle="tab"
                            href="#prods-tabpane"
@@ -102,17 +93,6 @@
                          role="tabpanel"
                          aria-labelledby="buildings-tabpane">
                         {% include 'internal/colonies/buildings.html.twig' %}
-                    </div>
-                    <div class="tab-pane"
-                         id="extracts-tabpane"
-                         role="tabpanel"
-                         aria-labelledby="extracts-tabpane">
-                        <fieldset class="container-fluid">
-                            <legend>
-                                Extraction
-                            </legend>
-                        </fieldset>
-                        {% for extractor in extractors %}{% endfor %}
                     </div>
                     <div class="tab-pane"
                          id="prods-tabpane"

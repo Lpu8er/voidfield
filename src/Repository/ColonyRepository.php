@@ -300,4 +300,14 @@ class ColonyRepository extends ServiceEntityRepository {
     public function hasSpacefactory(Colony $colony): bool {
         return in_array(Building::SPECIAL_SPACEFACTORY, $this->mergeSpecials($colony));
     }
+    
+    /**
+     * Clean up all empty colonystocks
+     */
+    public function cleanupAllStocks(): self {
+        $q = "delete from `colonystocks` where `stocks`=0";
+        $pdo = $this->_em->getConnection();
+        $pdo->executeUpdate($q);
+        return $this;
+    }
 }

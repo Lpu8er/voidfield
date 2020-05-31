@@ -45,4 +45,17 @@ abstract class InternalController extends GlobalController {
         $parameters['_colony'] = $this->getCurrentColony();
         return parent::render($view, $parameters, $response);
     }
+    
+    /**
+     * Shorthand method for render
+     * @param string $shortName
+     * @param array $parameters
+     * @param string $current
+     * @param Response $response
+     * @return Response
+     */
+    protected function sr(string $shortName, array $parameters = array(), string $current = null, Response $response = null): Response {
+        if(!empty($current)) { $this->setCurrent($current); }
+        return $this->render('internal/'.$shortName.'.html.twig', $parameters, $response);
+    }
 }

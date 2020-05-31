@@ -44,7 +44,7 @@ class ColonyController extends InternalController {
                 }
             }
             
-            $returns = $this->render('internal/colonies/detail.html.twig', [
+            $returns = $this->sr('colonies/detail', [
                     'colony' => $colony,
                     'stocks' => $colRepo->getPaddedResources($colony),
                     'buildable' => $this->getDoctrine()->getRepository(Building::class)->visibleList($colony),

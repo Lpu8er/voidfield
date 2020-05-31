@@ -28,7 +28,7 @@ class HomeController extends InternalController {
             $colonies = $this->getDoctrine()->getRepository(Colony::class)->findByOwner($this->getUser());
             $fleets = $this->getDoctrine()->getRepository(Fleet::class)->findByOwner($this->getUser());
             
-            $returns = $this->render('internal/home.html.twig', [
+            $returns = $this->sr('internal/home', [
                 'colonies' => $colonies,
                 'fleets' => $fleets,
                 'researchqueue' => [],
@@ -83,7 +83,7 @@ class HomeController extends InternalController {
             $this->getDoctrine()->getManager()->flush();
             $this->addMessage('success', 'Modifications des préférences bien enregistrées !');
         }
-        return $this->render('internal/preferences.html.twig', []);
+        return $this->sr('preferences');
     }
     
     /**

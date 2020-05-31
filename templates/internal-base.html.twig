@@ -17,9 +17,25 @@
             <div class="collapse navbar-collapse"
                  id="mainMenu">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
+                    <li class="nav-item{% if _current is not defined or 'home' == _current %} active{% endif %}">
                         <a class="nav-link"
-                           href="{{ path('home') }}">Empire{% if current is not defined or 'home' == current %}<span class="sr-only">(current)</span>{% endif %}</a>
+                           href="{{ path('home') }}">Empire{% if _current is not defined or 'home' == _current %}<span class="sr-only">(current)</span>{% endif %}</a>
+                    </li>
+                    <li class="nav-item{% if _current is defined and 'fleet' == _current %} active{% endif %}">
+                        <a class="nav-link"
+                           href="{{ path('fleet') }}">Flottes{% if _current is defined and 'fleet' == _current %}<span class="sr-only">(current)</span>{% endif %}</a>
+                    </li>
+                    <li class="nav-item{% if _current is defined and 'galaxy' == _current %} active{% endif %}">
+                        <a class="nav-link"
+                           href="{{ path('galaxy') }}">Galaxie{% if _current is defined and 'galaxy' == _current %}<span class="sr-only">(current)</span>{% endif %}</a>
+                    </li>
+                    <li class="nav-item{% if _current is defined and 'tech' == _current %} active{% endif %}">
+                        <a class="nav-link"
+                           href="{{ path('tech') }}">Technologies{% if _current is defined and 'tech' == _current %}<span class="sr-only">(current)</span>{% endif %}</a>
+                    </li>
+                    <li class="nav-item{% if _current is defined and 'intel' == _current %} active{% endif %}">
+                        <a class="nav-link"
+                           href="{{ path('intel') }}">Informations{% if _current is defined and 'intel' == _current %}<span class="sr-only">(current)</span>{% endif %}</a>
                     </li>
                 </ul>
             </div>

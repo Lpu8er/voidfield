@@ -36,10 +36,12 @@ class AppExtension extends AbstractExtension {
     /**
      * 
      * @param mixed $number
+     * @param int $decimals
+     * @param bool $prefixes
      * @return string
      */
-    public function nformatFilter($number) {
-        return TwigWrapper::nformat($number);
+    public function nformatFilter($number, int $decimals = 2, bool $prefixes = true) {
+        return TwigWrapper::nformat($number, $prefixes, $decimals);
     }
     
     /**

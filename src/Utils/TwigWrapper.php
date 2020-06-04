@@ -67,33 +67,37 @@ abstract class TwigWrapper {
      * @param mixed $number
      * @return string
      */
-    public static function nformat($number) {
+    public static function nformat($number, bool $prefixes = true, int $decimals = 2) {
         $returns = '0';
         if(!empty($number)) {
-            $returns = '';
-            $sfn = sprintf('%F', $number);
-            $tu = sprintf('%F', 1000**4); // T
-            $bu = sprintf('%F', 1000**3); // B
-            $mu = sprintf('%F', 1000**2); // M
-            $ku = sprintf('%F', 1000); // k
-            if(0 <= bccomp($sfn, $tu)) { // 1 000 000 000 000 => T
-                $returns.= floor(bcdiv($sfn, $tu)).'T';
-                $sfn = bcmod($sfn, $tu);
-            }
-            if(0 <= bccomp($sfn, $bu)) { // 1 000 000 000 => B
-                $returns.= floor(bcdiv($sfn, $bu)).'B';
-                $sfn = bcmod($sfn, $bu);
-            }
-            if(0 <= bccomp($sfn, $mu)) { // 1 000 000 => M
-                $returns.= floor(bcdiv($sfn, $mu)).'M';
-                $sfn = bcmod($sfn, $mu);
-            }
-            if(0 <= bccomp($sfn, $ku)) { // 1 000 => k
-                $returns.= floor(bcdiv($sfn, $ku)).'k';
-                $sfn = bcmod($sfn, $ku);
-            }
-            if(!empty($sfn)) {
-                $returns.= $sfn;
+            if($prefixes) {
+                $returns = '';
+                $sfn = sprintf('%F', $number);
+                $tu = sprintf('%F', 1000**4); // T
+                $bu = sprintf('%F', 1000**3); // B
+                $mu = sprintf('%F', 1000**2); // M
+                $ku = sprintf('%F', 1000); // k
+                if(0 <= bccomp($sfn, $tu)) { // 1 000 000 000 000 => T
+                    $returns.= floor(bcdiv($sfn, $tu)).'T';
+                    $sfn = bcmod($sfn, $tu);
+                }
+                if(0 <= bccomp($sfn, $bu)) { // 1 000 000 000 => B
+                    $returns.= floor(bcdiv($sfn, $bu)).'B';
+                    $sfn = bcmod($sfn, $bu);
+                }
+                if(0 <= bccomp($sfn, $mu)) { // 1 000 000 => M
+                    $returns.= floor(bcdiv($sfn, $mu)).'M';
+                    $sfn = bcmod($sfn, $mu);
+                }
+                if(0 <= bccomp($sfn, $ku)) { // 1 000 => k
+                    $returns.= floor(bcdiv($sfn, $ku)).'k';
+                    $sfn = bcmod($sfn, $ku);
+                }
+                if(!empty($sfn)) {
+                    $returns.= $sfn;
+                }
+            } else {
+                $returns = number_format(floatval($number), $decimals, ',', ' ');
             }
         }
         return trim($returns);

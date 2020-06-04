@@ -8,7 +8,7 @@
             {% for stock in stocks %}
                 <li class="list-group-item">
                     {{ stock.resource.name }}
-                    {{ stock.stocks|nformat }}
+                    {{ stock.stocks|nformat(2, false) }}
                 </li>
             {% endfor %}
             <li class="list-group-item">

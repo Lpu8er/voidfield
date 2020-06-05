@@ -29,6 +29,58 @@
                 </li>{% endfor %}
             </ul>
         </div>
+        <div class="card text-light" style="background-image: url('{{ asset('images/earth.jpg') }}');">
+            <div class="card-body">
+                <h4 class="card-title">
+                    Recherches en cours
+                </h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                {% for rq in researchqueue %}
+                <li class="list-group-item"
+                    style="background-color: rgba(0, 0, 0, 0.6);">
+                    <h5>
+                        {{ rq.research.name }}
+                    </h5>
+                    <p class="card-text">
+                        Progression
+                        <meter min="0" max="{{ rq.research.points }}" value="{{ rq.research.points - rq.points }}"></meter>
+                    </p>
+                </li>{% else %}
+                <li class="list-group-item"
+                    style="background-color: rgba(0, 0, 0, 0.6);">
+                    <h5>
+                        Aucune recherche en cours
+                    </h5>
+                </li>{% endfor %}
+            </ul>
+        </div>
+        <div class="card text-light" style="background-image: url('{{ asset('images/earth.jpg') }}');">
+            <div class="card-body">
+                <h4 class="card-title">
+                    Constructions en cours
+                </h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                {% for bq in buildqueue %}
+                <li class="list-group-item"
+                    style="background-color: rgba(0, 0, 0, 0.6);">
+                    <h5>
+                        {{ bq.building.name }}
+                    </h5>
+                    <p class="card-text">
+                        Progression
+                        <meter min="0" max="{{ bq.building.points }}" value="{{ bq.building.points - bq.points }}"></meter>
+                    </p>
+                </li>{% else %}
+                <li class="list-group-item"
+                    style="background-color: rgba(0, 0, 0, 0.6);">
+                    <h5>
+                        Aucune construction en cours
+                    </h5>
+                </li>{% endfor %}
+            </ul>
+        </div>
         <div class="card">
             <img class="card-img-top" src=".../100px200/" alt="Card image cap" />
             <div class="card-body">
@@ -50,8 +102,7 @@
                     <h5>
                         Aucune flotte
                     </h5>
-                </li>
-                {% endfor %}
+                </li>{% endfor %}
             </ul>
         </div>
     </div>

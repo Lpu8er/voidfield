@@ -1,0 +1,29 @@
+{% extends 'internal-base.html.twig' %}
+{% block content %}
+    <div class="container-fluid">
+        <h2>
+            Technologies
+        </h2>
+        <div class="row row-cols-6">
+        {% for tech in technologies %}
+            <div class="card">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        {{ tech.research.name }}
+                    </h4>
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% include 'comps/resources-list.html.twig' with {'_values': tech.research.recipe, alreadyWrapped: false} %}
+                    {% if tech.research.cost %}<li class="list-group-item ">
+                        💰 {{ tech.research.cost|number_format(2, ',', ' ') }}
+                    </li>{% endif %}
+                    <li class="list-group-item">
+                        ⏲ {{ tech.research.duration|duration(complex=1) }}
+                    </li>
+                </ul>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+{% endblock %}

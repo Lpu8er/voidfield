@@ -18,6 +18,9 @@ class TechnologyController extends InternalController {
         $techRepo = $this->getDoctrine()->getRepository(\App\Entity\Technology::class); /** @var \App\Repository\TechnologyRepository $techRepo */
         return $this->sr('technologies/list', [
             'technologies' => $techRepo->visibleList($this->getUser()),
+            'found' => $techRepo->findBy([
+                'player' => $this->getUser()->getId(),
+            ]),
         ]);
     }
 }

@@ -44,3 +44,11 @@ services:
         tags:
             - { name: 'console.command', command: 'voidfield:overlord:shoko' }
     
+    app.cors_listener:
+        class: App\Listener\CORSListener
+        arguments:
+            $origin: '%env(CORS_ORIGINS)%'
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+    
+    

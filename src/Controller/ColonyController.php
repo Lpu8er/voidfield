@@ -5,8 +5,12 @@ use App\Entity\Building;
 use App\Entity\Colony;
 use App\Entity\ColonyExtraction;
 use App\Entity\ColonyProduction;
+use App\Entity\Natural;
+use App\Repository\BuildingRepository;
+use App\Repository\ColonyRepository;
 use Exception;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -15,7 +19,8 @@ class ColonyController extends InternalController {
      * @Route("/colonies", name="colonies_list")
      */
     public function index() {
-        
+        $returns = [];
+        return new JsonResponse($returns);
     }
     
     /**
@@ -23,7 +28,7 @@ class ColonyController extends InternalController {
      */
     public function detail(Request $request, $cid) {
         $returns = null;
-        $colRepo = $this->getDoctrine()->getRepository(Colony::class); /** @var \App\Repository\ColonyRepository $colRepo */
+        $colRepo = $this->getDoctrine()->getRepository(Colony::class); /** @var ColonyRepository $colRepo */
         $colony = $colRepo->find($cid); /** @var Colony $colony */
         if(!empty($colony) && ($this->getUser()->getId() === $colony->getOwner()->getId())) {
             $extractors = [];
@@ -36,7 +41,7 @@ class ColonyController extends InternalController {
                         'natural' => null,
                     ];
                     try {
-                        $extractors[$bExtractor->getResource()->getId()]['natural'] = $this->getDoctrine()->getRepository(\App\Entity\Natural::class)->findOneBy([
+                        $extractors[$bExtractor->getResource()->getId()]['natural'] = $this->getDoctrine()->getRepository(Natural::class)->findOneBy([
                             'celestial' => $colony->getCelestial()->getId(),
                             'resource' => $bExtractor->getResource()->getId(),
                         ]);
@@ -104,8 +109,8 @@ class ColonyController extends InternalController {
             if(!empty($bid)
                 && $request->request->has('_csrf')
                 && $this->isCsrfTokenValid('colony-'.$cid.'-running-'.strval($bid), $request->request->get('_csrf'))) {
-                $buildRepo = $this->getDoctrine()->getRepository(Building::class); /** @var \App\Repository\BuildingRepository $buildRepo */
-                $colRepo = $this->getDoctrine()->getRepository(Colony::class); /** @var \App\Repository\ColonyRepository $colRepo */
+                $buildRepo = $this->getDoctrine()->getRepository(Building::class); /** @var BuildingRepository $buildRepo */
+                $colRepo = $this->getDoctrine()->getRepository(Colony::class); /** @var ColonyRepository $colRepo */
                 $colony = $colRepo->find($cid);
                 $building = $buildRepo->find($bid);
                 try {

@@ -48,6 +48,17 @@ class CORSListener {
         }
     }
     
+    public function onKernelRequest(\Symfony\Component\HttpKernel\Event\RequestEvent $event) {
+        $request = $event->getRequest();
+        $content = $request->getContent();
+        if(empty($request->request->keys()) && $this->isJson($request)) { // we are JSON typed, with no data ? transform it.
+            $jsonData = json_decode($content, true);
+            if(!empty($jsonData) && !json_last_error()) {
+                $request->request->replace($jsonData);
+            }
+        }
+    }
+    
     /**
      * 
      * @param Request $request

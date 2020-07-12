@@ -22,12 +22,21 @@ class LoginController extends GlobalController {
      * @Route("/login", name="login")
      */
     public function login(Request $request, AuthenticationUtils $authenticationUtils) {
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
+        $returns = [
+            'error' => null,
+            'user' => null,
+        ];
         
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
-        
-        return $this->render('external/login.html.twig', []);
+        $user = $this->getUser();
+        if(!empty($user)) {
+            $returns['user'] = [
+                'username' => $user->getUsername(),
+                'roles' => $user->getRoles(),
+            ];
+        } else {
+            $returns['error'] = $authenticationUtils->getLastAuthenticationError();
+        }
+
+        return $this->json($returns);
     }
 }

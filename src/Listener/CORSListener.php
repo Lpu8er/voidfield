@@ -35,15 +35,14 @@ class CORSListener {
         $responseHeaders->set('Access-Control-Allow-Origin', $this->acceptedOrigins);
         $responseHeaders->set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, PATCH, OPTIONS');
         $responseHeaders->set('Access-Control-Allow-Credentials', 'true');
+        $m = strtolower(trim($event->getRequest()->getMethod()));
+        if('options' === $m) { // if request is a CORS preflight, don't output 401 ! It would fail. options is still 200
+            $event->getResponse()->setStatusCode(Response::HTTP_OK);
+        }
         if(302 === $event->getResponse()->getStatusCode()) {
             // we have a login redirection; if we are in JSON, we'll need to output a single 401 redirect.
             // if not, we'll continue to output "normal" response
-            // in both case, send also CORS headers
-            // if request is a CORS preflight, don't output 401 ! It would fail.
-            $m = strtolower(trim($event->getRequest()->getMethod()));
-            if('options' === $m) { // options is still 200
-                $event->getResponse()->setStatusCode(Response::HTTP_OK);
-            } elseif($this->isJson($event->getRequest())) {
+            if($this->isJson($event->getRequest())) {
                 $event->getResponse()->setStatusCode(Response::HTTP_UNAUTHORIZED);
             }
         }

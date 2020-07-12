@@ -30,6 +30,7 @@ class LoginController extends GlobalController {
         $user = $this->getUser();
         if(!empty($user)) {
             $returns['user'] = [
+                'id' => $this->getUser()->getId(),
                 'username' => $user->getUsername(),
                 'roles' => $user->getRoles(),
             ];

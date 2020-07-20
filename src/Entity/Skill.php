@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\SkillRepository")
  * @ORM\Table(name="skills")
  */
-class Skill {
+class Skill implements \JsonSerializable {
     /**
      * attack	Modifie l'attaque d'un ou de tous les attributs
      */
@@ -111,6 +111,13 @@ class Skill {
      * stargate-use  Utilisation des stargate
      */
     const ATTRIBUTE_SPECIAL_STARGATE_USE = 'stargate-use';
+    
+    public function jsonSerialize() {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+        ];
+    }
     
     /**
      * 

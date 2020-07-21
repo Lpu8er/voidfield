@@ -1,5 +1,5 @@
 parameters:
-    character.startskillpoints: 10
+    character.startskillpoints: 20
     recaptcha.uri: '%env(GOOGLE_RECAPTCHA_URI)%'
     recaptcha.public_key: '%env(GOOGLE_RECAPTCHA_PUBLIC_KEY)%'
     recaptcha.private_key: '%env(GOOGLE_RECAPTCHA_PRIVATE_KEY)%'

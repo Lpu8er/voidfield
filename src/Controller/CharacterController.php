@@ -1,7 +1,12 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\Character;
+use App\Entity\CharacterSkill;
+use App\Entity\Colony;
+use App\Entity\Planet;
 use App\Entity\Skill;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -13,17 +18,17 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CharacterController extends InternalController {
     /**
-     * @Route("/", name="create_character", methods={"POST"})
+     * @Route("", name="create_character", methods={"POST"})
      */
     public function createCharacter(Request $request) {
         $returns = [
             'created' => null,
             'messages' => [],
         ];
-        $returnsStatus = \Symfony\Component\HttpFoundation\JsonResponse::HTTP_NO_CONTENT;
+        $returnsStatus = JsonResponse::HTTP_NO_CONTENT;
         $mc = $this->getUser()->getMainCharacter();
         if(!empty($mc)) { // already got a main character
-            $returnsStatus = \Symfony\Component\HttpFoundation\JsonResponse::HTTP_BAD_REQUEST;
+            $returnsStatus = JsonResponse::HTTP_BAD_REQUEST;
         } else {
             $startSkillPoints = $this->getParameter('character.startskillpoints');
             $skills = $this->getDoctrine()->getRepository(Skill::class)->findByUsableOnCharacter(true);
@@ -32,7 +37,7 @@ class CharacterController extends InternalController {
                 
                 // if there is something fishy with skillpoints, let them at 0
                 $usedSkillPoints = 0;
-                $usedSkills = $this->filterByAllowedSkills(array_map('intval', $request->request->get('skill')), $skills);
+                $usedSkills = $this->filterByAllowedSkills(array_map('intval', $request->request->get('skills')), $skills);
                 $usedPoints = intval(array_sum($usedSkills));
                 if($startSkillPoints < $usedPoints) {
                     $usedSkills = [];
@@ -44,13 +49,14 @@ class CharacterController extends InternalController {
                     $usedSkillPoints = $usedPoints;
                 }
                 
-                $c = $this->getDoctrine()->getManager()->getRepository(Character::class)->generateMain(
+                $charRepo = $this->getDoctrine()->getManager()->getRepository(Character::class); /** @var \App\Repository\CharacterRepository $charRepo */
+                $c = $charRepo->generateMain(
                         $request->request->get('firstName'),
                         $request->request->get('lastName'),
-                        $request->request->get('givenName', ''),
+                        $request->request->get('givenName', '')?? '',
                         $startSkillPoints,
                         $usedSkillPoints,
-                        20,
+                        20, // age
                         Character::GENDER_M,
                         Character::RACE_HUMAN);
                 
@@ -85,15 +91,32 @@ class CharacterController extends InternalController {
                     'content' => 'Création du premier personnage bien effectué !',
                 ];
                 $returns['created'] = [];
-                $returnsStatus = \Symfony\Component\HttpFoundation\JsonResponse::HTTP_OK;
+                $returnsStatus = JsonResponse::HTTP_OK;
             } else {
                 $returns['messages'][] = [
                     'type' => 'error',
                     'content' => 'Paramètres manquants',
                 ];
-                $returnsStatus = \Symfony\Component\HttpFoundation\JsonResponse::HTTP_BAD_REQUEST;
+                $returnsStatus = JsonResponse::HTTP_BAD_REQUEST;
             }
         }
         return $this->json($returns, $returnsStatus);
+    }
+    
+    /**
+     * Doctrine has the wrong taste to give us unordered collection
+     * @param array $usedSkills
+     * @param Skill[] $usableSkills
+     * @return array
+     */
+    protected function filterByAllowedSkills($usedSkills, $usableSkills) {
+        foreach($usedSkills as $k => $v) {
+            $f = false;
+            foreach($usableSkills as $e) {
+                if($e->getId() === $k) { $f = true; }
+            }
+            if(!$f) { $usedSkills[$k] = 0; } // remove
+        }
+        return $usedSkills;
     }
 }

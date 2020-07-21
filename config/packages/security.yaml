@@ -32,5 +32,6 @@ security:
         - { path: ^/preferences, roles: ROLE_USER }
         - { path: ^/logout, roles: ROLE_USER }
         - { path: ^/skills, roles: ROLE_USER }
+        - { path: ^/char, roles: ROLE_USER, methods: [POST] }
         - { path: ^/, roles: ROLE_VERIFIED }
         

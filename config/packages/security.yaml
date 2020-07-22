@@ -18,6 +18,8 @@ security:
             json_login:
                 check_path: login
             provider: main_provider
+            logout:
+                path: logout
             
     access_control:
         - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
@@ -27,6 +29,7 @@ security:
         - { path: ^/cgu, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/pwd, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/ping, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/logout$, roles: ROLE_USER }
         - { path: ^/home, roles: ROLE_USER }
         - { path: ^/character, roles: ROLE_USER }
         - { path: ^/preferences, roles: ROLE_USER }

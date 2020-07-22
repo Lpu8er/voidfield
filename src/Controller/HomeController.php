@@ -49,6 +49,13 @@ class HomeController extends InternalController {
             $returns['dif'] = $returns['now'] - floatval($request->request->get('mct'));
         }
         $returns['on'] = !empty($this->getUser());
+        if($returns['on']) {
+            $returns['who'] = [
+                'id' => $this->getUser()->getId(),
+                'username' => $this->getUser()->getUsername(),
+                'roles' => $this->getUser()->getRoles(),
+            ];
+        }
         return new JsonResponse($returns);
     }
     

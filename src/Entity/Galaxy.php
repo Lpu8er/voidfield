@@ -10,7 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity()
  * @ORM\Table(name="galaxies")
  */
-class Galaxy {
+class Galaxy implements \JsonSerializable {
+    use JsonableTrait;
+    
     /**
      * 
      * @var int

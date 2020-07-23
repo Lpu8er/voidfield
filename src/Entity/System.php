@@ -10,7 +10,16 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity()
  * @ORM\Table(name="systems")
  */
-class System {
+class System implements \JsonSerializable {
+    public function jsonSerialize() {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'galaxy' => $this->getGalaxy(),
+            'galaxyId' => $this->getGalaxy()->getId(),
+        ];
+    }
+    
     /**
      * 
      * @var int

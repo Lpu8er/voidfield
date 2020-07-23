@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\ColonyRepository")
  * @ORM\Table(name="colonies")
  */
-class Colony {
+class Colony implements \JsonSerializable {
     const CTYPE_EARTH = 'earth';
     const CTYPE_WATER = 'water';
     const CTYPE_AIR = 'air';
@@ -173,6 +173,18 @@ class Colony {
         $this->fleets = new ArrayCollection;
         $this->buildqueue = new ArrayCollection;
         $this->searchqueue = new ArrayCollection;
+    }
+    
+    public function jsonSerialize() {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'type' => $this->getCtype(),
+            'celestial' => $this->getCelestial(),
+            'celestialId' => $this->getCelestial()->getId(),
+            'tax' => $this->getDailyTax(),
+            'leaderId' => $this->getLeader()->getId(),
+        ];
     }
     
     public function getId() {

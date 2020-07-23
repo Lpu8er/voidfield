@@ -20,6 +20,8 @@ class ColonyController extends InternalController {
      */
     public function index() {
         $returns = [];
+        $coloRepo = $this->getDoctrine()->getRepository(Colony::class); /** @var ColonyRepository $coloRepo */
+        $returns = $coloRepo->findByOwner($this->getUser()->getId());
         return new JsonResponse($returns);
     }
     

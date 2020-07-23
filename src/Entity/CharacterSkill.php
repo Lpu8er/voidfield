@@ -10,7 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity()
  * @ORM\Table(name="characterskills")
  */
-class CharacterSkill {
+class CharacterSkill implements \JsonSerializable {
+    use JsonableTrait;
+    
     /**
      *
      * @var Character 

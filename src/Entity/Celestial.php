@@ -13,13 +13,27 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\DiscriminatorColumn(name="ctype", type="string")
  * @ORM\DiscriminatorMap({"star" = "Star", "planet" = "Planet", "moon" = "Moon", "station" = "Station", "stargate" = "Stargate"})
  */
-abstract class Celestial {
+abstract class Celestial implements \JsonSerializable {
     const AU = 149597870;
     const CTYPE_STAR = 'star';
     const CTYPE_PLANET = 'planet';
     const CTYPE_MOON = 'moon';
     const CTYPE_STATION = 'station';
     const CTYPE_STARGATE = 'stargate';
+    
+    public function jsonSerialize() {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'description' => $this->getDescription(),
+            'treeName' => $this->getNameTree(),
+            'systemId' => $this->getSystem()->getId(),
+            'system' => $this->getSystem(),
+            'x' => $this->getX(),
+            'y' => $this->getY(),
+            'z' => $this->getZ(),
+        ];
+    }
     
     /**
      * 

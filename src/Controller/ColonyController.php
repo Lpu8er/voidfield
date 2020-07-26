@@ -21,7 +21,12 @@ class ColonyController extends InternalController {
     public function index() {
         $returns = [];
         $coloRepo = $this->getDoctrine()->getRepository(Colony::class); /** @var ColonyRepository $coloRepo */
-        $returns = $coloRepo->findByOwner($this->getUser()->getId());
+        $colonies = $coloRepo->findByOwner($this->getUser()->getId()); /** @var Colony[] $colonies */ // we don't output straight, because we have more info
+        foreach($colonies as $colony) {
+            $returns[] = array_merge($colony->jsonSerialize(), [
+                'duration' => null,
+            ]);
+        }
         return $this->json($returns);
     }
     

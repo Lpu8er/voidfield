@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\BuildingRepository")
  * @ORM\Table(name="buildings")
  */
-class Building implements iRecipeCapable {
+class Building implements iRecipeCapable, \JsonSerializable {
     const NEVER = 0;
     const RESTRICT_LAND = 1;
     const RESTRICT_WATER = 2;
@@ -183,6 +183,13 @@ class Building implements iRecipeCapable {
      * @ORM\OneToMany(targetEntity="BuildRecipe", mappedBy="building")
      */
     protected $recipe;
+    
+    public function jsonSerialize() {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+        ];
+    }
 
     public function __construct()
     {

@@ -53,6 +53,7 @@ class HomeController extends InternalController {
             $returns['who'] = [
                 'id' => $this->getUser()->getId(),
                 'username' => $this->getUser()->getUsername(),
+                'money' => $this->getUser()->getMoney(),
                 'roles' => $this->getUser()->getRoles(),
             ];
         }

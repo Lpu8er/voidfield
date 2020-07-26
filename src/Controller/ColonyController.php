@@ -16,19 +16,61 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ColonyController extends InternalController {
     /**
-     * @Route("/colonies", name="colonies_list")
+     * @Route("/colonies", name="my_colonies", methods={"GET", "OPTIONS"})
      */
     public function index() {
         $returns = [];
         $coloRepo = $this->getDoctrine()->getRepository(Colony::class); /** @var ColonyRepository $coloRepo */
         $returns = $coloRepo->findByOwner($this->getUser()->getId());
-        return new JsonResponse($returns);
+        return $this->json($returns);
+    }
+    
+    /**
+     * @Route("/colonies/{cid}/res", name="my_colony_resources", methods={"GET", "OPTIONS"}, requirements={"cid"="\d+"})
+     */
+    public function resources(Request $request, $cid) {
+        $returns = [];
+        $returnCode = JsonResponse::HTTP_OK;
+        $coloRepo = $this->getDoctrine()->getRepository(Colony::class); /** @var ColonyRepository $coloRepo */
+        $colony = $coloRepo->find($cid); /** @var Colony $colony */
+        if(!empty($colony)
+                && !empty($colony->getOwner())
+                && ($colony->getOwner()->getId() == $this->getUser()->getId())) {
+            $stocks = $colony->getStocks();
+            foreach($stocks as $s) {
+                $returns[] = [
+                    'resource' => $s->getResource(),
+                    'nb' => $s->getStocks(),
+                ];
+            }
+        } else {
+            $returnCode = JsonResponse::HTTP_NOT_FOUND;
+        }
+        return $this->json($returns, $returnCode);
+    }
+    
+    /**
+     * @Route("/colonies/{cid}", name="my_colony_details", methods={"GET", "OPTIONS"}, requirements={"cid"="\d+"})
+     */
+    public function detail(Request $request, $cid) {
+        $returns = null;
+        $returnCode = JsonResponse::HTTP_OK;
+        $coloRepo = $this->getDoctrine()->getRepository(Colony::class); /** @var ColonyRepository $coloRepo */
+        $colony = $coloRepo->find($cid); /** @var Colony $colony */
+        if(!empty($colony)
+                && !empty($colony->getOwner())
+                && ($colony->getOwner()->getId() == $this->getUser()->getId())) {
+            $returns = $colony;
+        } else {
+            $returnCode = JsonResponse::HTTP_NOT_FOUND;
+        }
+        return $this->json($returns, $returnCode);
     }
     
     /**
      * @Route("/colony/{cid}", name="colony_detail", requirements={"cid"="\d+"})
      */
-    public function detail(Request $request, $cid) {
+    public function _detail(Request $request, $cid) {
         $returns = null;
         $colRepo = $this->getDoctrine()->getRepository(Colony::class); /** @var ColonyRepository $colRepo */
         $colony = $colRepo->find($cid); /** @var Colony $colony */
@@ -68,7 +110,7 @@ class ColonyController extends InternalController {
     
     /**
      * 
-     * @Route("/colony/{cid}/build", name="colony_build", requirements={"cid"="\d+"}, methods={"POST"})
+     * @Route("/colony/{cid}/build", name="colony_build", requirements={"cid"="\d+"}, methods={"POST", "OPTIONS"})
      */
     public function build(Request $request, LoggerInterface $logger, $cid) {
         if($request->request->has('bid')) {
@@ -103,7 +145,7 @@ class ColonyController extends InternalController {
     
     /**
      * 
-     * @Route("/colony/{cid}/toggle", name="colony_building_toggle", requirements={"cid"="\d+"}, methods={"POST"})
+     * @Route("/colony/{cid}/toggle", name="colony_building_toggle", requirements={"cid"="\d+"}, methods={"POST", "OPTIONS"})
      */
     public function changeRunningBuilding(Request $request, LoggerInterface $logger, $cid) {
         if($request->request->has('bid')) {

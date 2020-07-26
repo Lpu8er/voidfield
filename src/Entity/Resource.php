@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity()
  * @ORM\Table(name="resources")
  */
-class Resource {
+class Resource implements \JsonSerializable {
     const NO_PROD = 0;
     const RESTRICT_EARTH = 1;
     const RESTRICT_WATER = 2;
@@ -30,6 +30,12 @@ class Resource {
      * @ORM\Column(type="string", length=200)
      */
     protected $name;
+    /**
+     *
+     * @var string 
+     * @ORM\Column(type="string", length=50)
+     */
+    protected $unicode;
     /**
      * 
      * @var float
@@ -55,57 +61,75 @@ class Resource {
      */
     protected $restricted;
     
-    public function getId() {
+    public function jsonSerialize() {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'icon' => $this->getUnicode(),
+        ];
+    }
+    
+    public function getId(): int {
         return $this->id;
     }
 
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    public function getMass() {
+    public function getMass(): float {
         return $this->mass;
     }
 
-    public function getSize() {
+    public function getSize(): float {
         return $this->size;
     }
 
-    public function getNutritive() {
+    public function getNutritive(): float {
         return $this->nutritive;
     }
 
-    public function setId($id) {
+    public function getRestricted(): int {
+        return $this->restricted;
+    }
+
+    public function setId(int $id) {
         $this->id = $id;
         return $this;
     }
 
-    public function setName($name) {
+    public function setName(string $name) {
         $this->name = $name;
         return $this;
     }
 
-    public function setMass($mass) {
+    public function setMass(float $mass) {
         $this->mass = $mass;
         return $this;
     }
 
-    public function setSize($size) {
+    public function setSize(float $size) {
         $this->size = $size;
         return $this;
     }
 
-    public function setNutritive($nutritive) {
+    public function setNutritive(float $nutritive) {
         $this->nutritive = $nutritive;
         return $this;
     }
 
-    public function getRestricted() {
-        return $this->restricted;
+    public function setRestricted(int $restricted) {
+        $this->restricted = $restricted;
+        return $this;
     }
 
-    public function setRestricted($restricted) {
-        $this->restricted = $restricted;
+        
+    public function getUnicode(): string {
+        return $this->unicode;
+    }
+
+    public function setUnicode(string $unicode) {
+        $this->unicode = $unicode;
         return $this;
     }
 

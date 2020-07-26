@@ -24,6 +24,7 @@ abstract class Celestial implements \JsonSerializable {
     public function jsonSerialize() {
         return [
             'id' => $this->getId(),
+            'type' => $this->getCType(),
             'name' => $this->getName(),
             'description' => $this->getDescription(),
             'treeName' => $this->getNameTree(),

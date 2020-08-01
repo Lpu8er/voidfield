@@ -13,6 +13,17 @@ class VirtualBuilding extends Building {
         return Toolbox::shallow($b, new VirtualBuilding);
     }
     
+    public function jsonSerialize() {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'canBeBuilt' => $this->canBeBuilt,
+            'cost' => $this->cost,
+            'duration' => $this->duration,
+            'insufficientResources' => $this->insufficientResources,
+        ];
+    }
+    
     public function setId($id): self {
         return parent::setId($id);
     }

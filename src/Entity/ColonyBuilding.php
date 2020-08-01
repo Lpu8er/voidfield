@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity()
  * @ORM\Table(name="colonybuildings")
  */
-class ColonyBuilding {
+class ColonyBuilding implements \JsonSerializable {
     /**
      *
      * @var Building 
@@ -45,6 +45,15 @@ class ColonyBuilding {
      * @ORM\Column(type="integer") 
      */
     protected $level = 1;
+    
+    public function jsonSerialize() {
+        return [
+            'buildingId' => $this->building->getId(),
+            'colonyId' => $this->colony->getId(),
+            'running' => $this->running,
+            'integrity' => $this->integrity,
+        ];
+    }
 
     public function getRunning(): ?int
     {

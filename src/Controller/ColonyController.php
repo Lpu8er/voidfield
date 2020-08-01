@@ -73,44 +73,60 @@ class ColonyController extends InternalController {
     }
     
     /**
-     * @Route("/colony/{cid}", name="colony_detail", requirements={"cid"="\d+"})
+     * @Route("/colonies/{cid}/buildings", name="my_colony_buildings", methods={"GET", "OPTIONS"}, requirements={"cid"="\d+"})
      */
-    public function _detail(Request $request, $cid) {
+    public function buildings(Request $request, $cid) {
         $returns = null;
-        $colRepo = $this->getDoctrine()->getRepository(Colony::class); /** @var ColonyRepository $colRepo */
-        $colony = $colRepo->find($cid); /** @var Colony $colony */
-        if(!empty($colony) && ($this->getUser()->getId() === $colony->getOwner()->getId())) {
-            $extractors = [];
-            $bExtractors = $this->getDoctrine()->getRepository(ColonyExtraction::class)->findBy(['colony' => $colony->getId(),]);
-            foreach($bExtractors as $bExtractor) { /** @var ColonyExtraction $bExtractor */
-                if(!array_key_exists($bExtractor->getResource()->getId(), $extractors)) {
-                    $extractors[$bExtractor->getResource()->getId()] = [
-                        'resource' => $bExtractor->getResource(),
-                        'extractors' => [],
-                        'natural' => null,
-                    ];
-                    try {
-                        $extractors[$bExtractor->getResource()->getId()]['natural'] = $this->getDoctrine()->getRepository(Natural::class)->findOneBy([
-                            'celestial' => $colony->getCelestial()->getId(),
-                            'resource' => $bExtractor->getResource()->getId(),
-                        ]);
-                    } catch (Exception $ex) { } // just don't import it.
-                }
-            }
-            
-            $returns = $this->sr('colonies/detail', [
-                    'colony' => $colony,
-                    'stocks' => $colRepo->getPaddedResources($colony),
-                    'buildable' => $this->getDoctrine()->getRepository(Building::class)->visibleList($colony),
-                    'extractors' => $extractors,
-                    'productors' => $this->getDoctrine()->getRepository(ColonyProduction::class)->findBy(['colony' => $colony->getId(),]),
-                    'hasSpaceport' => $colRepo->hasSpaceport($colony),
-                    'hasSpacefactory' => $colRepo->hasSpacefactory($colony),
-                ]);
+        $returnCode = JsonResponse::HTTP_OK;
+        $coloRepo = $this->getDoctrine()->getRepository(Colony::class); /** @var ColonyRepository $coloRepo */
+        $colony = $coloRepo->find($cid); /** @var Colony $colony */
+        if(!empty($colony)
+                && !empty($colony->getOwner())
+                && ($colony->getOwner()->getId() == $this->getUser()->getId())) {
+            $buildRepo = $this->getDoctrine()->getRepository(Building::class); /** @var BuildingRepository $buildRepo */
+            $returns = $colony->getBuildings();
         } else {
-            throw $this->createAccessDeniedException();
+            $returnCode = JsonResponse::HTTP_NOT_FOUND;
         }
-        return $returns;
+        return $this->json($returns, $returnCode);
+    }
+    
+    /**
+     * @Route("/colonies/{cid}/bqueue", name="my_colony_building_queue", methods={"GET", "OPTIONS"}, requirements={"cid"="\d+"})
+     */
+    public function buildingqueue(Request $request, $cid) {
+        $returns = null;
+        $returnCode = JsonResponse::HTTP_OK;
+        $coloRepo = $this->getDoctrine()->getRepository(Colony::class); /** @var ColonyRepository $coloRepo */
+        $colony = $coloRepo->find($cid); /** @var Colony $colony */
+        if(!empty($colony)
+                && !empty($colony->getOwner())
+                && ($colony->getOwner()->getId() == $this->getUser()->getId())) {
+            $buildRepo = $this->getDoctrine()->getRepository(Building::class); /** @var BuildingRepository $buildRepo */
+            $returns = $colony->getBuildqueue();
+        } else {
+            $returnCode = JsonResponse::HTTP_NOT_FOUND;
+        }
+        return $this->json($returns, $returnCode);
+    }
+    
+    /**
+     * @Route("/colonies/{cid}/buildable", name="my_colony_buildable", methods={"GET", "OPTIONS"}, requirements={"cid"="\d+"})
+     */
+    public function buildable(Request $request, $cid) {
+        $returns = null;
+        $returnCode = JsonResponse::HTTP_OK;
+        $coloRepo = $this->getDoctrine()->getRepository(Colony::class); /** @var ColonyRepository $coloRepo */
+        $colony = $coloRepo->find($cid); /** @var Colony $colony */
+        if(!empty($colony)
+                && !empty($colony->getOwner())
+                && ($colony->getOwner()->getId() == $this->getUser()->getId())) {
+            $buildRepo = $this->getDoctrine()->getRepository(Building::class); /** @var BuildingRepository $buildRepo */
+            $returns = $buildRepo->visibleList($colony);
+        } else {
+            $returnCode = JsonResponse::HTTP_NOT_FOUND;
+        }
+        return $this->json($returns, $returnCode);
     }
     
     /**

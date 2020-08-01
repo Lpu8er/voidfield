@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity()
  * @ORM\Table(name="buildqueues")
  */
-class BuildQueue {
+class BuildQueue implements \JsonSerializable {
     /**
      *
      * @var Building 
@@ -59,6 +59,16 @@ class BuildQueue {
      * @ORM\Column(type="integer") 
      */
     protected $points; // how many cumulated points still left. Lost, by default, 1 point by minute depending on current - lastQueueCheckDate, once at 0 building built
+    
+    public function jsonSerialize() {
+        return [
+            'buildingId' => $this->building->getId(),
+            'colonyId' => $this->colony->getId(),
+            'startDate' => $this->startDate,
+            'estimatedEndDate' => $this->estimatedEndDate,
+            'points' => $this->points,
+        ];
+    }
     
     public function getBuilding(): Building {
         return $this->building;

@@ -32,6 +32,12 @@ class Fleet {
     protected $name;
     /**
      *
+     * @var string 
+     * @ORM\Column(type="string", length=200)
+     */
+    protected $publicName;
+    /**
+     *
      * @var System 
      * @ORM\ManyToOne(targetEntity="System")
      * @ORM\JoinColumn(name="system_id", referencedColumnName="id")
@@ -266,6 +272,15 @@ class Fleet {
     {
         $this->battling = $battling;
 
+        return $this;
+    }
+
+    public function getPublicName(): string {
+        return $this->publicName;
+    }
+
+    public function setPublicName(string $publicName) {
+        $this->publicName = $publicName;
         return $this;
     }
 

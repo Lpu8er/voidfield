@@ -40,9 +40,18 @@ services:
         arguments:
             $commands: '%websocks.commands%'
     
+    App\Service\JWT:
+        arguments:
+            $key: '%env(APP_SECRET)%'
+            $issuer: 'Voidfield'
+    
     App\Command\ShokoCommand:
         tags:
             - { name: 'console.command', command: 'voidfield:overlord:shoko' }
+    
+    App\Command\JWTTesterCommand:
+        tags:
+            - { name: 'console.command', command: 'voidfield:jwt:test' }
     
     app.cors_listener:
         class: App\Listener\CORSListener

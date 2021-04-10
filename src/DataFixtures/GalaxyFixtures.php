@@ -7,7 +7,7 @@ use App\Entity\Planet;
 use App\Entity\Star;
 use App\Entity\System;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 /**
  * Description of GalaxyFixtures

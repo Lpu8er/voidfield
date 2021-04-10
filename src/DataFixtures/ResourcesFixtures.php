@@ -3,7 +3,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Resource;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 /**
  * Description of ResourcesFixtures

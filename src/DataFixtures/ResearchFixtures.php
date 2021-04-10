@@ -6,7 +6,7 @@ use App\Entity\ResearchCond;
 use App\Entity\ResearchRecipe;
 use App\Entity\ResearchSkill;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 /**
  * Description of ResearchFixtures

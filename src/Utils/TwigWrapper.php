@@ -94,7 +94,7 @@ abstract class TwigWrapper {
                     $sfn = bcmod($sfn, $ku);
                 }
                 if(!empty($sfn)) {
-                    $returns.= $sfn;
+                    $returns.= number_format(floatval($sfn), 0, ',', ' ');
                 }
             } else {
                 $returns = number_format(floatval($number), $decimals, ',', ' ');

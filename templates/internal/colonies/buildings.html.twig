@@ -1,8 +1,8 @@
 <fieldset class="container-fluid">
     <legend>
-        Construction possible
+        Bâtiments disponibles
     </legend>
-    <div class="row row-cols-6">
+    <div class="row">
         {% for building in buildable %}
             <div class="col-sm-2">
                 {% include 'internal/colonies/building.html.twig' with {'building': building, 'colony': colony} %}

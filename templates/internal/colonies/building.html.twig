@@ -8,22 +8,27 @@
             {{ building.description }}
         </p>
     </div>
-    <ul class="list-group list-group-flush">
-        {% if building.cost %}<li class="list-group-item {% if building.cost > colony.owner.money %} text-danger{% endif %}">
-            💰 {{ building.cost|number_format(2, ',', ' ') }}
-        </li>{% endif %}
-        <li class="list-group-item">
+    <div class="d-flex flex-wrap">
+        {% if building.cost %}
+            <div class="d-flex justify-content-between align-items-center m-1{% if building.cost > colony.owner.money %} text-danger{% endif %}"
+                 title="{{ building.cost }}">
+                💰 {{ building.cost|nformat }}
+            </div>
+        {% endif %}
+        <div class="d-flex justify-content-between align-items-center m-1">
             ⏲ {{ building.duration|duration(complex=1) }}
-        </li>
-    </ul>
-    {% if not building.emptyRecipe %}
-    {% include 'comps/resources-list.html.twig' with {'_values': building.recipe, '_insufficient': building.insufficientResources } %}
-    {% endif %}{% if building.canBeBuilt %}
-    <form method="post" action="{{ path('colony_build', {'cid': colony.id}) }}">
-        <div class="card-body">
-            <input type="hidden" name="_csrf" value="{{ csrf_token('colony-' ~ colony.id ~ '-build-' ~ building.id) }}" />
-            <input type="hidden" name="bid" value="{{ building.id }}" />
-            <input type="submit" class="btn btn-primary" name="submitBuild" value="Construire" />
         </div>
-    </form>{% endif %}
+        {% if not building.emptyRecipe %}
+            {% include 'comps/resources-flex.html.twig' with {'_values': building.recipe, '_insufficient': building.insufficientResources, 'alreadyWrapped': true } %}
+        {% endif %}
+    </div>
+    {% if building.canBeBuilt %}
+        <form method="post" action="{{ path('colony_build', {'cid': colony.id}) }}">
+            <div class="card-body">
+                <input type="hidden" name="_csrf" value="{{ csrf_token('colony-' ~ colony.id ~ '-build-' ~ building.id) }}" />
+                <input type="hidden" name="bid" value="{{ building.id }}" />
+                <input type="submit" class="btn btn-primary" name="submitBuild" value="Construire" />
+            </div>
+        </form>
+    {% endif %}
 </div>

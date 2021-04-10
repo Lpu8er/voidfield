@@ -1,7 +1,10 @@
 <?php
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Serializable;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Description of User
@@ -13,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="users")
  */
-class User implements \Symfony\Component\Security\Core\User\UserInterface, \Serializable {
+class User implements UserInterface, Serializable {
     const STATUS_ACTIVE = 'active'; // normal accounts
     const STATUS_INACTIVE = 'inactive'; // inactive accounts (disabled)
     const STATUS_SHADOW = 'shadow'; // shadow accounts (technical stuff)
@@ -81,7 +84,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
     protected $money = 0;
     /**
      *
-     * @var \DateTime
+     * @var DateTime
      * @ORM\Column(type="datetime", nullable=true)
      */
     protected $firstConnection = null;
@@ -216,7 +219,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Seri
         return $this;
     }
 
-    public function setFirstConnection(\DateTime $firstConnection) {
+    public function setFirstConnection(DateTime $firstConnection) {
         $this->firstConnection = $firstConnection;
         return $this;
     }

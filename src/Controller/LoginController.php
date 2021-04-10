@@ -23,21 +23,12 @@ class LoginController extends GlobalController {
      */
     public function login(Request $request, AuthenticationUtils $authenticationUtils) {
         $returns = [
-            'error' => null,
-            'user' => null,
+            'error' => $authenticationUtils->getLastAuthenticationError(),
+            'name' => $authenticationUtils->getLastUsername(),
         ];
-        
-        $user = $this->getUser();
-        if(!empty($user)) {
-            $returns['user'] = [
-                'id' => $this->getUser()->getId(),
-                'username' => $user->getUsername(),
-                'roles' => $user->getRoles(),
-            ];
-        } else {
-            $returns['error'] = $authenticationUtils->getLastAuthenticationError();
+        if($returns['error']) {
+            $this->addMessage('error', $returns['error']);
         }
-
-        return $this->json($returns);
+        return $this->render('external/login.html.twig', $returns);
     }
 }

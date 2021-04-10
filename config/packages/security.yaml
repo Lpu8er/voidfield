@@ -15,8 +15,12 @@ security:
         main:
             pattern: ^/
             anonymous: true
-            json_login:
+            form_login:
+                login_path: login
                 check_path: login
+                csrf_token_generator: security.csrf.token_manager
+                default_target_path: home
+                always_use_default_target_path: true
             provider: main_provider
             logout:
                 path: logout
@@ -35,6 +39,5 @@ security:
         - { path: ^/preferences, roles: ROLE_USER }
         - { path: ^/logout, roles: ROLE_USER }
         - { path: ^/skills, roles: ROLE_USER }
-        - { path: ^/char, roles: ROLE_USER, methods: [POST] }
         - { path: ^/, roles: ROLE_VERIFIED }
         

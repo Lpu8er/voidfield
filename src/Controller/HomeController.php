@@ -95,10 +95,6 @@ class HomeController extends InternalController {
         return $this->sr('preferences');
     }
     
-    protected function randomFirstName(): string { return 'test1'; }
-    protected function randomLastName(): string { return 'test2'; }
-    protected function randomGivenName(): string { return 'test3'; }
-    
     /**
      * @Route("/money", name="money")
      */

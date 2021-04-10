@@ -15,6 +15,10 @@
                 💰 {{ building.cost|nformat }}
             </div>
         {% endif %}
+        <div class="d-flex justify-content-between align-items-center m-1{% if building.buildWorkersNeeds > colony.workers %} text-danger{% endif %}"
+             title="{{ building.buildWorkersNeeds }}">
+            👷 {{ building.buildWorkersNeeds|nformat(0) }}
+        </div>
         <div class="d-flex justify-content-between align-items-center m-1">
             ⏲ {{ building.duration|duration(complex=1) }}
         </div>

@@ -19,13 +19,25 @@
         {% for bq in colony.buildQueue %}
             <div class="col mb-4">
                 <h4>{{ bq.building.name }}</h4>
-                <meter min="0" max="{{ bq.building.points }}" value="{{ bq.building.points - bq.points }}"></meter>
-                <p>
-                    Démarré au
-                    {{ bq.startDate|date(param(app.user, 'date.format')) }}
-                    fin estimé au
-                    {{ bq.estimatedEndDate|date(param(app.user, 'date.format')) }}
-                </p>
+                <div class="m-a">
+                    <div class="progress">
+                        <div class="progress-bar bg-warning"
+                             role="progressbar"
+                             style="width: {{ 100 * (bq.building.points - bq.points) / bq.building.points }}%"
+                             aria-valuenow="{{ bq.building.points - bq.points }}"
+                             aria-valuemin="0"
+                             aria-valuemax="{{ bq.building.points }}"
+                             title="{{ (100 * (bq.building.points - bq.points) / bq.building.points)|nformat }}%">
+                            {{ (100 * (bq.building.points - bq.points) / bq.building.points)|nformat }}%
+                        </div>
+                    </div>
+                    <div class="small">
+                        Démarré au
+                        {{ bq.startDate|date(param(app.user, 'date.format')) }}<br />
+                        Fin estimée au
+                        {{ bq.estimatedEndDate|date(param(app.user, 'date.format')) }}
+                    </div>
+                </div>
             </div>
         {% endfor %}
     </div>
@@ -45,7 +57,7 @@
                         <meter min="0" max="100" value="{{ bc.integrity }}"></meter>
                     </div>
                     <div class="col mb-3">
-                        <form method="post" action="{{ path('colony_building_toggle', {'cid': colony.id}) }}">
+                        <form method="post" action="{# {{ path('colony_building_toggle', {'cid': colony.id}) }} #}">
                             <div class="form-group">
                                 <div class="custom-control custom-switch">
                                     <input type="hidden" name="_csrf" value="{{ csrf_token('colony-' ~ colony.id ~ '-running-' ~ bc.building.id) }}" />

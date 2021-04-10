@@ -236,11 +236,11 @@ class Building implements iRecipeCapable, \JsonSerializable {
         return $this->energyConsumption;
     }
 
-    public function getBuildWorkersNeeds() {
+    public function getBuildWorkersNeeds(): int {
         return $this->buildWorkersNeeds;
     }
 
-    public function getWorkers() {
+    public function getWorkers(): int {
         return $this->workers;
     }
 
@@ -342,12 +342,12 @@ class Building implements iRecipeCapable, \JsonSerializable {
         return $this;
     }
 
-    public function setBuildWorkersNeeds($buildWorkersNeeds) {
+    public function setBuildWorkersNeeds(int $buildWorkersNeeds) {
         $this->buildWorkersNeeds = $buildWorkersNeeds;
         return $this;
     }
 
-    public function setWorkers($workers) {
+    public function setWorkers(int $workers) {
         $this->workers = $workers;
         return $this;
     }

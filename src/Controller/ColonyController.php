@@ -174,13 +174,19 @@ class ColonyController extends InternalController {
             if(!empty($bid)
                 && $request->request->has('_csrf')
                 && $this->isCsrfTokenValid('colony-'.$cid.'-build-'.strval($bid), $request->request->get('_csrf'))) {
+                $buildRepo = $this->getDoctrine()->getRepository(Building::class); /** @var BuildingRepository $buildRepo */
                 $colony = $this->getDoctrine()->getRepository(Colony::class)->find($cid);
-                $building = $this->getDoctrine()->getRepository(Building::class)->find($bid);
+                $building = $buildRepo->find($bid);
                 try {
-                    if($this->getDoctrine()->getRepository(Building::class)->build($building, $colony)) {
-                        $this->addMessage('ok', 'Lancement de la construction du bâtiment...', true);
-                    } else {
-                        $this->addMessage('error', 'Une erreur est survenue lors du lancement de la construction', true);
+                    // check again is can be built
+                    if($buildRepo->canBuild($colony, $building)) {
+                        if($this->getDoctrine()->getRepository(Building::class)->build($building, $colony)) {
+                            $this->addMessage('ok', 'Lancement de la construction du bâtiment...', true);
+                        } else {
+                            $this->addMessage('error', 'Une erreur est survenue lors du lancement de la construction', true);
+                        }
+                    } else { // wait, that's illegal
+                        $this->addMessage('error', 'Vous ne disposez pas des ressources suffisantes pour construire cela', true);
                     }
                 } catch(Exception $e) {
                     $logger->error($e->getMessage());
@@ -193,7 +199,7 @@ class ColonyController extends InternalController {
         } else {
             $this->addMessage('error', 'No building IG provided', true);
         }
-        return $this->redirectToRoute('colony_detail', [
+        return $this->redirectToRoute('colony_details', [
             'cid' => $cid,
             '_fragment' => 'buildings-tabpane',
         ]);

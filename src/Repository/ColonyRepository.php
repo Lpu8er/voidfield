@@ -163,12 +163,16 @@ class ColonyRepository extends ServiceEntityRepository {
      * @return ColonyBuilding
      */
     public function triggeredBuilt(BuildQueue $bq): ColonyBuilding {
+        // give back the workers who survived
+        $colony = $bq->getColony();
+        $colony->setWorkers($colony->getWorkers() + $bq->getWorkers());
         $cb = new ColonyBuilding();
         $cb->setBuilding($bq->getBuilding());
         $cb->setColony($bq->getColony());
         $cb->setLevel(1); // @TODO
         $cb->setRunning(false); // never running at first, maybe a parameter ?
         $this->_em->persist($cb);
+        $this->_em->persist($colony);
         $this->_em->remove($bq); // delete the buildqueue
         $this->_em->flush();
         return $cb;
@@ -192,6 +196,30 @@ class ColonyRepository extends ServiceEntityRepository {
             $stock->setStocks($stock->getStocks() - $quantity);
             $this->_em->persist($stock);
             $this->_em->flush();
+        } catch(Exception $e) {
+            throw $e;
+            $returns = false;
+        }
+        return $returns;
+    }
+    
+    /**
+     * Reduce workers from colony
+     * @param Colony $colony
+     * @param int $workers
+     * @return bool
+     * @throws Exception
+     */
+    public function useWorkers(Colony $colony, int $workers): bool {
+        $returns = true;
+        try {
+            if($workers <= $colony->getWorkers()) {
+                $colony->setWorkers($colony->getWorkers() - $workers);
+                $this->_em->persist($colony);
+                $this->_em->flush();
+            } else {
+                throw new Exception('Not enough workers !');
+            }
         } catch(Exception $e) {
             throw $e;
             $returns = false;

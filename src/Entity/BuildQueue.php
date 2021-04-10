@@ -59,6 +59,12 @@ class BuildQueue implements \JsonSerializable {
      * @ORM\Column(type="integer") 
      */
     protected $points; // how many cumulated points still left. Lost, by default, 1 point by minute depending on current - lastQueueCheckDate, once at 0 building built
+    /**
+     *
+     * @var int
+     * @ORM\Column(type="integer") 
+     */
+    protected $workers; // workers actually used for building it
     
     public function jsonSerialize() {
         return [
@@ -67,6 +73,7 @@ class BuildQueue implements \JsonSerializable {
             'startDate' => $this->startDate,
             'estimatedEndDate' => $this->estimatedEndDate,
             'points' => $this->points,
+            'workers' => $this->workers,
         ];
     }
     
@@ -130,6 +137,15 @@ class BuildQueue implements \JsonSerializable {
 
     public function setPoints($points) {
         $this->points = $points;
+        return $this;
+    }
+
+    public function getWorkers(): int {
+        return $this->workers;
+    }
+
+    public function setWorkers(int $workers) {
+        $this->workers = $workers;
         return $this;
     }
 

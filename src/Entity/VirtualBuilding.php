@@ -45,6 +45,16 @@ class VirtualBuilding extends Building {
     protected $cost = 0;
     /**
      *
+     * @var int 
+     */
+    protected $workers = 0;
+    /**
+     *
+     * @var int
+     */
+    protected $buildWorkersNeeds = 0;
+    /**
+     *
      * @var string 
      */
     protected $duration;
@@ -118,4 +128,24 @@ class VirtualBuilding extends Building {
         $this->insufficientResources = $insufficientResources;
         return $this;
     }
+    
+    public function getWorkers(): int {
+        return $this->workers;
+    }
+
+    public function setWorkers(int $workers) {
+        $this->workers = $workers;
+        return $this;
+    }
+
+    public function getBuildWorkersNeeds(): int {
+        return $this->buildWorkersNeeds;
+    }
+
+    public function setBuildWorkersNeeds(int $buildWorkersNeeds) {
+        $this->buildWorkersNeeds = $buildWorkersNeeds;
+        return $this;
+    }
+
+
 }

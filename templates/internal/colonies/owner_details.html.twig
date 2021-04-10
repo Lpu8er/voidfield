@@ -6,22 +6,58 @@
         </h2>
         <ul class="list-group list-group-horizontal">
             {% for stock in stocks %}
-                <li class="list-group-item">
-                    {{ stock.resource.name }}
+                <li class="list-group-item flex-fill" title="{{ stock.resource.name }}">
+                    {{ stock.resource.unicode }}
                     {{ stock.stocks|nformat(2, false) }}
                 </li>
             {% endfor %}
-            <li class="list-group-item">
-                👷 Travailleurs
+            <li class="list-group-item flex-fill" title="Énergie">
+                🔋
+                {{ colony.energyUsed }}
+                /
+                {{ colony.energyStock }}
+            </li>
+            <li class="list-group-item flex-fill" title="Travailleurs">
+                👷
                 {{ colony.workers }}
                 /
                 {{ colony.population }}
             </li>
-            <li class="list-group-item">
-                🔋 Énergie
-                {{ colony.energyUsed }}
-                /
-                {{ colony.energyStock }}
+            <li class="list-group-item flex-fill" title="Population">
+                👤
+                {{ colony.population|nformat }}
+            </li>
+            <li class="list-group-item flex-fill"
+                style="min-width: 150px;"
+                title="Satisfaction ({{ colony.insatisfaction }}/{{ colony.neutrals }}/{{ colony.satisfaction }})">
+                <div class="progress">
+                    <div class="progress-bar bg-danger"
+                         role="progressbar"
+                         style="width: {{ colony.insatisfaction }}%"
+                         aria-valuenow="{{ colony.baddies + colony.hostiles }}"
+                         aria-valuemin="0"
+                         aria-valuemax="{{ colony.population }}"
+                         title="{{ colony.insatisfaction }}% insatisfaits dont {{ colony.hostiles|nformat }} hostiles">
+                        👎
+                    </div>
+                    <div class="progress-bar"
+                         role="progressbar"
+                         style="width: {{ colony.neutrals }}%"
+                         aria-valuenow="{{ colony.population - (colony.baddies + colony.hostiles + colony.goodies + colony.partisans) }}"
+                         aria-valuemin="0"
+                         aria-valuemax="{{ colony.population }}">
+                        👌
+                    </div>
+                    <div class="progress-bar bg-success"
+                         role="progressbar"
+                         style="width: {{ colony.satisfaction }}%"
+                         aria-valuenow="{{ colony.goodies + colony.partisans }}"
+                         aria-valuemin="0"
+                         aria-valuemax="{{ colony.population }}"
+                         title="{{ colony.satisfaction }}% satisfaits dont {{ colony.partisans|nformat }} partisans">
+                        👍
+                    </div>
+                </div>
             </li>
         </ul>
         <div class="row">
@@ -29,15 +65,6 @@
                 <ul class="nav nav-tabs"
                     id="colonyTabs"
                     role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active"
-                           id="general-tab"
-                           data-toggle="tab"
-                           href="#general-tabpane"
-                           role="tab"
-                           aria-controls="general-tabpane"
-                           aria-selected="true">Vue générale</a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link"
                            id="planet-tab"
@@ -85,12 +112,6 @@
                     </li>{% endif %}
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane border-left active"
-                         id="general-tabpane"
-                         role="tabpanel"
-                         aria-labelledby="general-tabpane">
-                        {% include 'internal/colonies/general.html.twig' %}
-                    </div>
                     <div class="tab-pane"
                          id="planet-tabpane"
                          role="tabpanel"
@@ -118,7 +139,6 @@
                                 Production
                             </legend>
                         </fieldset>
-                        {% for productor in productors %}{% endfor %}
                     </div>
                     <div class="tab-pane"
                          id="fleets-tabpane"

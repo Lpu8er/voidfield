@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ColonyController extends InternalController {
     /**
-     * @Route("/colonies", name="my_colonies", methods={"GET", "OPTIONS"})
+     * @Route("/colonies", name="colonies")
      */
     public function index() {
         $returns = [];
@@ -31,7 +31,7 @@ class ColonyController extends InternalController {
     }
     
     /**
-     * @Route("/colonies/{cid}/res", name="my_colony_resources", methods={"GET", "OPTIONS"}, requirements={"cid"="\d+"})
+     * @Route("/colonies/{cid}/res", name="colony_resources", requirements={"cid"="\d+"})
      */
     public function resources(Request $request, $cid) {
         $returns = [];
@@ -41,13 +41,7 @@ class ColonyController extends InternalController {
         if(!empty($colony)
                 && !empty($colony->getOwner())
                 && ($colony->getOwner()->getId() == $this->getUser()->getId())) {
-            $stocks = $colony->getStocks();
-            foreach($stocks as $s) {
-                $returns[] = [
-                    'resource' => $s->getResource(),
-                    'nb' => $s->getStocks(),
-                ];
-            }
+            $returns = $coloRepo->getPaddedResources($colony);
         } else {
             $returnCode = JsonResponse::HTTP_NOT_FOUND;
         }
@@ -55,25 +49,37 @@ class ColonyController extends InternalController {
     }
     
     /**
-     * @Route("/colonies/{cid}", name="my_colony_details", methods={"GET", "OPTIONS"}, requirements={"cid"="\d+"})
+     * @Route("/colonies/{cid}", name="colony_details", requirements={"cid"="\d+"})
      */
     public function detail(Request $request, $cid) {
         $returns = null;
         $returnCode = JsonResponse::HTTP_OK;
         $coloRepo = $this->getDoctrine()->getRepository(Colony::class); /** @var ColonyRepository $coloRepo */
+        $buildRepo = $this->getDoctrine()->getRepository(Building::class); /** @var BuildingRepository $buildRepo */
         $colony = $coloRepo->find($cid); /** @var Colony $colony */
-        if(!empty($colony)
-                && !empty($colony->getOwner())
+        if(!empty($colony)) {
+            if(!empty($colony->getOwner())
                 && ($colony->getOwner()->getId() == $this->getUser()->getId())) {
-            $returns = $colony;
+                $returns = $this->sr('colonies/owner_details', [
+                    'colony' => $colony,
+                    'stocks' => $coloRepo->getPaddedResources($colony),
+                    'hasSpaceport' => $coloRepo->hasSpaceport($colony),
+                    'hasSpacefactory' => $coloRepo->hasSpacefactory($colony),
+                    'buildable' => $buildRepo->visibleList($colony),
+                ]);
+            } else {
+                $returns = $this->sr('colonies/other_details', [
+                    'colony' => $colony
+                ]);
+            }
         } else {
-            $returnCode = JsonResponse::HTTP_NOT_FOUND;
+            $returns = $this->createNotFoundException('This colony does not exist.');
         }
-        return $this->json($returns, $returnCode);
+        return $returns;
     }
     
     /**
-     * @Route("/colonies/{cid}/buildings", name="my_colony_buildings", methods={"GET", "OPTIONS"}, requirements={"cid"="\d+"})
+     * @Route("/colonies/{cid}/buildings", name="colony_buildings", requirements={"cid"="\d+"})
      */
     public function buildings(Request $request, $cid) {
         $returns = null;
@@ -92,7 +98,7 @@ class ColonyController extends InternalController {
     }
     
     /**
-     * @Route("/colonies/{cid}/bqueue", name="my_colony_building_queue", methods={"GET", "OPTIONS"}, requirements={"cid"="\d+"})
+     * @Route("/colonies/{cid}/bqueue", name="colony_building_queue", requirements={"cid"="\d+"})
      */
     public function buildingqueue(Request $request, $cid) {
         $returns = null;
@@ -111,7 +117,7 @@ class ColonyController extends InternalController {
     }
     
     /**
-     * @Route("/colonies/{cid}/buildable", name="my_colony_buildable", methods={"GET", "OPTIONS"}, requirements={"cid"="\d+"})
+     * @Route("/colonies/{cid}/buildable", name="colony_buildable", requirements={"cid"="\d+"})
      */
     public function buildable(Request $request, $cid) {
         $returns = null;
@@ -130,7 +136,7 @@ class ColonyController extends InternalController {
     }
     
     /**
-     * @Route("/colonies/{cid}/fleets", name="my_colony_fleets", methods={"GET", "OPTIONS"}, requirements={"cid"="\d+"})
+     * @Route("/colonies/{cid}/fleets", name="colony_fleets", requirements={"cid"="\d+"})
      */
     public function fleets(Request $request, $cid) {
         $returns = [];

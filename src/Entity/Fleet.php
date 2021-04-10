@@ -33,7 +33,7 @@ class Fleet {
     /**
      *
      * @var string 
-     * @ORM\Column(type="string", length=200)
+     * @ORM\Column(name="public_name", type="string", length=200)
      */
     protected $publicName;
     /**

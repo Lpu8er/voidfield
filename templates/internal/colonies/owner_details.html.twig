@@ -17,15 +17,12 @@
                 /
                 {{ colony.energyStock }}
             </li>
-            <li class="list-group-item flex-fill" title="Travailleurs">
+            <li class="list-group-item flex-fill" title="Travailleurs / population">
                 👷
-                {{ colony.workers }}
+                {{ colony.workers|nformat }}
                 /
-                {{ colony.population }}
-            </li>
-            <li class="list-group-item flex-fill" title="Population">
-                👤
                 {{ colony.population|nformat }}
+                👤
             </li>
             <li class="list-group-item flex-fill"
                 style="min-width: 150px;"

@@ -1,5 +1,6 @@
 parameters:
     character.startskillpoints: 20
+    colony.startpop: 1000
     recaptcha.uri: '%env(GOOGLE_RECAPTCHA_URI)%'
     recaptcha.public_key: '%env(GOOGLE_RECAPTCHA_PUBLIC_KEY)%'
     recaptcha.private_key: '%env(GOOGLE_RECAPTCHA_PRIVATE_KEY)%'

@@ -163,9 +163,9 @@ class ColonyRepository extends ServiceEntityRepository {
      * @return ColonyBuilding
      */
     public function triggeredBuilt(BuildQueue $bq): ColonyBuilding {
-        // give back the workers who survived
+        // give back the workers
         $colony = $bq->getColony();
-        $colony->setWorkers($colony->getWorkers() + $bq->getWorkers());
+        $colony->setWorkers($colony->getWorkers() - $bq->getWorkers());
         $cb = new ColonyBuilding();
         $cb->setBuilding($bq->getBuilding());
         $cb->setColony($bq->getColony());
@@ -213,8 +213,8 @@ class ColonyRepository extends ServiceEntityRepository {
     public function useWorkers(Colony $colony, int $workers): bool {
         $returns = true;
         try {
-            if($workers <= $colony->getWorkers()) {
-                $colony->setWorkers($colony->getWorkers() - $workers);
+            if($workers <= $colony->getAvailableWorkers()) {
+                $colony->setWorkers($colony->getWorkers() + $workers);
                 $this->_em->persist($colony);
                 $this->_em->flush();
             } else {

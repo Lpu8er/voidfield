@@ -549,6 +549,10 @@ class Colony implements \JsonSerializable {
         $this->specials = $specials;
         return $this;
     }
+    
+    public function getAvailableWorkers() {
+        return ($this->population - $this->workers);
+    }
 
 
 }

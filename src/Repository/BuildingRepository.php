@@ -191,7 +191,7 @@ EOQ; // no missing tech, not already building it, not already built, not replaci
             $vb->setCanBeBuilt(
                     empty($insufficientResources)
                     && ($colony->getOwner()->getMoney() >= $vb->getCost())
-                    && ($colony->getWorkers() >= $vb->getBuildWorkersNeeds())
+                    && ($colony->getAvailableWorkers() >= $vb->getBuildWorkersNeeds())
                     );
             $returns = $vb->getCanBeBuilt();
         }

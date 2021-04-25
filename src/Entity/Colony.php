@@ -166,6 +166,12 @@ class Colony implements \JsonSerializable {
      * @var string[] 
      */
     protected $specials = null;
+    /**
+     * Last time population was computed
+     * @var \DateTime 
+     * @ORM\Column(type="datetime") 
+     */
+    protected $lastpopcompute = null;
     
     public function __construct() {
         $this->stocks = new ArrayCollection;
@@ -552,6 +558,15 @@ class Colony implements \JsonSerializable {
     
     public function getAvailableWorkers() {
         return ($this->population - $this->workers);
+    }
+
+    function getLastpopcompute(): \DateTime {
+        return $this->lastpopcompute;
+    }
+
+    function setLastpopcompute(\DateTime $lastpopcompute): self {
+        $this->lastpopcompute = $lastpopcompute;
+        return $this;
     }
 
 

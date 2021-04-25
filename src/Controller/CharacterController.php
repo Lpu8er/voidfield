@@ -82,6 +82,7 @@ class CharacterController extends InternalController {
             if(!empty($startPlanets)) {
                 $startPlanet = $startPlanets[0];
                 $colony = new Colony;
+                $colony->setPopulation($this->getParameter('colony.startpop'));
                 $colony->setCelestial($startPlanet);
                 $colony->setCtype(Colony::CTYPE_EARTH);
                 $colony->setLeader($c);

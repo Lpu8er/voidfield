@@ -57,7 +57,7 @@ class HomeController extends InternalController {
                 'roles' => $this->getUser()->getRoles(),
             ];
         }
-        return new JsonResponse($returns);
+        return $this->json($returns);
     }
     
     /**
@@ -102,7 +102,7 @@ class HomeController extends InternalController {
         $returns = [
             'money' => TwigWrapper::nformat($this->getUser()->getMoney()),
         ];
-        return new JsonResponse($returns);
+        return $this->json($returns);
     }
     
     /**
@@ -129,6 +129,6 @@ class HomeController extends InternalController {
             $this->getDoctrine()->getManager()->persist($n);
         }
         $this->getDoctrine()->getManager()->flush();
-        return new JsonResponse($returns);
+        return $this->json($returns);
     }
 }

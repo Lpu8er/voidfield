@@ -27,6 +27,12 @@ class Resource implements \JsonSerializable {
     /**
      *
      * @var string 
+     * @ORM\Column(type="string", length=5, unique=true)
+     */
+    protected $skey;
+    /**
+     *
+     * @var string 
      * @ORM\Column(type="string", length=200)
      */
     protected $name;
@@ -73,6 +79,11 @@ class Resource implements \JsonSerializable {
         return $this->id;
     }
 
+    function getSkey(): string {
+        return $this->skey;
+    }
+
+        
     public function getName(): string {
         return $this->name;
     }
@@ -97,28 +108,34 @@ class Resource implements \JsonSerializable {
         $this->id = $id;
         return $this;
     }
+    
+    function setSkey(string $skey): self {
+        $this->skey = $skey;
+        return $this;
+    }
 
-    public function setName(string $name) {
+    
+    public function setName(string $name): self {
         $this->name = $name;
         return $this;
     }
 
-    public function setMass(float $mass) {
+    public function setMass(float $mass): self {
         $this->mass = $mass;
         return $this;
     }
 
-    public function setSize(float $size) {
+    public function setSize(float $size): self {
         $this->size = $size;
         return $this;
     }
 
-    public function setNutritive(float $nutritive) {
+    public function setNutritive(float $nutritive): self {
         $this->nutritive = $nutritive;
         return $this;
     }
 
-    public function setRestricted(int $restricted) {
+    public function setRestricted(int $restricted): self {
         $this->restricted = $restricted;
         return $this;
     }

@@ -1,5 +1,6 @@
 parameters:
     character.startskillpoints: 20
+    character.startmoney: 100000
     colony.startpop: 1000
     population.growth: 100
     recaptcha.uri: '%env(GOOGLE_RECAPTCHA_URI)%'

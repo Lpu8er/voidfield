@@ -55,4 +55,18 @@ EOT;
         $pdo = $this->entityManager->getConnection();
         $pdo->executeUpdate($q);
     }
+    
+    protected function executePopulationGrowth() {
+        // each day, population of every colony growth by flat value + a percent based on skills
+        $q = <<<EOT
+update `colonies` c
+left join `users` o on o.`id`=c.`owner_id`
+left join `characters` mc on mc.`id`=o.`maincharacter_id`
+left join `characters` cc on cc.`id`=c.`leader_id`
+left join `colonybuildings` cb on cb.`colony_id`=c.`id`
+set c.`population`=0
+EOT;
+        $pdo = $this->entityManager->getConnection();
+        $pdo->executeUpdate($q);
+    }
 }

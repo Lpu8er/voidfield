@@ -16,7 +16,7 @@
             </div>
         {% endif %}
         <div class="d-flex justify-content-between align-items-center m-1{% if building.buildWorkersNeeds > colony.workers %} text-danger{% endif %}"
-             title="{{ building.buildWorkersNeeds }}">
+             title="{{ building.buildWorkersNeeds }} travailleurs">
             👷 {{ building.buildWorkersNeeds|nformat(0) }}
         </div>
         <div class="d-flex justify-content-between align-items-center m-1">

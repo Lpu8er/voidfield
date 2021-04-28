@@ -57,6 +57,12 @@ class Colony implements \JsonSerializable {
      * @var int
      * @ORM\Column(type="integer")
      */
+    protected $homes = 0; // max population
+    /**
+     *
+     * @var int
+     * @ORM\Column(type="integer")
+     */
     protected $population = 0; // total population
     /**
      *
@@ -566,6 +572,15 @@ class Colony implements \JsonSerializable {
 
     function setLastpopcompute(\DateTime $lastpopcompute): self {
         $this->lastpopcompute = $lastpopcompute;
+        return $this;
+    }
+
+    function getHomes(): int {
+        return $this->homes;
+    }
+
+    function setHomes(int $homes): self {
+        $this->homes = $homes;
         return $this;
     }
 

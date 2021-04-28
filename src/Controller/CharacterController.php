@@ -83,6 +83,7 @@ class CharacterController extends InternalController {
                 $startPlanet = $startPlanets[0];
                 $colony = new Colony;
                 $colony->setPopulation($this->getParameter('colony.startpop'));
+                $colony->setHomes($this->getParameter('colony.startpop'));
                 $colony->setLastpopcompute(new \DateTime);
                 $colony->setCelestial($startPlanet);
                 $colony->setCtype(Colony::CTYPE_EARTH);

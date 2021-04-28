@@ -27,7 +27,7 @@ class Resource implements \JsonSerializable {
     /**
      *
      * @var string 
-     * @ORM\Column(type="string", length=5, unique=true)
+     * @ORM\Column(type="string", length=10, unique=true)
      */
     protected $skey;
     /**

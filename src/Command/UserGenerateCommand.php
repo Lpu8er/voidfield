@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserGenerateCommand extends Command {
@@ -23,10 +24,18 @@ class UserGenerateCommand extends Command {
      * @var EntityManagerInterface 
      */
     protected $entityManager = null;
+    /**
+     *
+     * @var ParameterBagInterface 
+     */
+    protected $params = null;
     
-    public function __construct(UserPasswordEncoderInterface $encoder = null, EntityManagerInterface $entityManager = null) {
+    public function __construct(UserPasswordEncoderInterface $encoder = null,
+            EntityManagerInterface $entityManager = null,
+            ParameterBagInterface $params) {
         $this->encoder = $encoder;
         $this->entityManager = $entityManager;
+        $this->params = $params;
         parent::__construct();
     }
     
@@ -54,6 +63,7 @@ EOT;
         $isActive = !$isBot || (false != $input->getOption('active'));
         
         $user = new User;
+        $user->setMoney($this->params->get('character.startmoney'));
         $user->setUsername($un);
         $user->setEmail($email);
         $user->setStatus($isActive? User::STATUS_ACTIVE:User::STATUS_BOT);

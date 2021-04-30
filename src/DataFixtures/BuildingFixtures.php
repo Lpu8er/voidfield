@@ -21,7 +21,8 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
         $buildings = [
             'spaceport' => [
                 'name' => 'Spatioport',
-                'duration' => 'PT1H',
+                'duration' => 'PT1M',
+                //'duration' => 'PT1H',
                 'restrict' => Building::RESTRICT_LAND | Building::RESTRICT_WATER | Building::RESTRICT_ATMOSPHERIC,
                 'cost' => 120000,
                 'workers' => 5000,
@@ -31,7 +32,8 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
             ],
             'stellarport' => [
                 'name' => 'Port Stellaire',
-                'duration' => 'PT2H',
+                'duration' => 'PT1M',
+                //'duration' => 'PT2H',
                 'restrict' => Building::RESTRICT_ORBITAL,
                 'cost' => 200000,
                 'workers' => 8000,
@@ -41,7 +43,8 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
             ],
             'space-elevator' => [
                 'name' => 'Ascenseur spatial',
-                'duration' => 'PT5H',
+                'duration' => 'PT1M',
+                //'duration' => 'PT5H',
                 'restrict' => Building::RESTRICT_LAND,
                 'cost' => 1000000,
                 'workers' => 45000,
@@ -52,7 +55,8 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
             ],
             'governement' => [
                 'name' => 'Gouvernement',
-                'duration' => 'PT35M',
+                'duration' => 'PT1M',
+                //'duration' => 'PT35M',
                 'cost' => 35000,
                 'workers' => 1000,
                 'work-conso' => 100,
@@ -61,7 +65,8 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
             ],
             'hab-e-1' => [
                 'name' => 'Quartier pied-à-terre',
-                'duration' => 'PT5M',
+                'duration' => 'PT1M',
+                //'duration' => 'PT5M',
                 'cost' => 15000,
                 'workers' => 300,
                 'work-conso' => 25,
@@ -71,7 +76,8 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
             ],
             'hab-e-2' => [
                 'name' => 'Gratte-ciel',
-                'duration' => 'PT15M',
+                'duration' => 'PT1M',
+                //'duration' => 'PT15M',
                 'cost' => 25000,
                 'workers' => 600,
                 'work-conso' => 50,
@@ -81,7 +87,8 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
             ],
             'hab-w-1' => [
                 'name' => 'Quartier flottant',
-                'duration' => 'PT7M',
+                'duration' => 'PT1M',
+                //'duration' => 'PT7M',
                 'cost' => 17500,
                 'workers' => 500,
                 'work-conso' => 25,
@@ -91,7 +98,8 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
             ],
             'hab-w-2' => [
                 'name' => 'Immeuble flottant',
-                'duration' => 'PT15M',
+                'duration' => 'PT1M',
+                //'duration' => 'PT15M',
                 'cost' => 285000,
                 'workers' => 700,
                 'work-conso' => 50,
@@ -101,7 +109,8 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
             ],
             'hab-a-1' => [
                 'name' => 'Quartier aérien',
-                'duration' => 'PT7M',
+                'duration' => 'PT1M',
+                //'duration' => 'PT7M',
                 'cost' => 20000,
                 'workers' => 350,
                 'work-conso' => 20,
@@ -111,7 +120,8 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
             ],
             'hab-a-2' => [
                 'name' => 'Immeuble graviton',
-                'duration' => 'PT18M',
+                'duration' => 'PT1M',
+                //'duration' => 'PT18M',
                 'cost' => 300000,
                 'workers' => 700,
                 'work-conso' => 45,
@@ -121,7 +131,8 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
             ],
             'hab-s-1' => [
                 'name' => 'Quartier spatiaux',
-                'duration' => 'PT15M',
+                'duration' => 'PT1M',
+                //'duration' => 'PT15M',
                 'cost' => 25000,
                 'workers' => 500,
                 'work-conso' => 30,
@@ -131,7 +142,8 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
             ],
             'hab-s-2' => [
                 'name' => 'Medina',
-                'duration' => 'PT25M',
+                'duration' => 'PT1M',
+                //'duration' => 'PT25M',
                 'cost' => 35000,
                 'workers' => 900,
                 'work-conso' => 55,
@@ -141,7 +153,8 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
             ],
             'hostel' => [
                 'name' => 'Hôtel',
-                'duration' => 'PT15M',
+                'duration' => 'PT1M',
+                //'duration' => 'PT15M',
                 'cost' => 50000,
                 'workers' => 200,
                 'work-conso' => 10,
@@ -152,7 +165,8 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
             ],
             'hostel' => [
                 'name' => 'Hôtel',
-                'duration' => 'PT15M',
+                'duration' => 'PT1M',
+                //'duration' => 'PT15M',
                 'cost' => 50000,
                 'workers' => 200,
                 'work-conso' => 10,
@@ -163,7 +177,8 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
             ],
             'fusion-plant' => [
                 'name' => 'Centrale à fusion',
-                'duration' => 'PT25M',
+                'duration' => 'PT1M',
+                //'duration' => 'PT25M',
                 'cost' => 90000,
                 'workers' => 1000,
                 'work-conso' => 150,
@@ -173,7 +188,8 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
             ],
             'barrage' => [
                 'name' => 'Barrage',
-                'duration' => 'PT15M',
+                'duration' => 'PT1M',
+                //'duration' => 'PT15M',
                 'cost' => 30000,
                 'workers' => 300,
                 'work-conso' => 75,
@@ -184,7 +200,8 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
             ],
             'windmills' => [
                 'name' => 'Eoliennes',
-                'duration' => 'PT10M',
+                'duration' => 'PT1M',
+                //'duration' => 'PT10M',
                 'cost' => 12000,
                 'workers' => 300,
                 'work-conso' => 30,
@@ -194,7 +211,8 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
             ],
             'labo' => [
                 'name' => 'Laboratoire',
-                'duration' => 'PT10M',
+                'duration' => 'PT1M',
+                //'duration' => 'PT10M',
                 'cost' => 100000,
                 'workers' => 500,
                 'work-conso' => 75,
@@ -206,7 +224,8 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
             ],
             'space-factory' => [
                 'name' => 'Chantier spatial',
-                'duration' => 'PT20M',
+                'duration' => 'PT1M',
+                //'duration' => 'PT20M',
                 'cost' => 150000,
                 'workers' => 8000,
                 'work-conso' => 1500,
@@ -216,6 +235,7 @@ class BuildingFixtures extends AbstractUtilitiesFixtures implements DependentFix
             'mine-iron' => [
                 'name' => 'Mine de roches ferreuses',
                 'duration' => 'PT1M',
+                //'duration' => 'PT1M',
                 'cost' => 15000,
                 'workers' => 200,
                 'work-conso' => 40,

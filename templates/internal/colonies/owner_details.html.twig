@@ -136,18 +136,13 @@
                                 Production
                             </legend>
                         </fieldset>
-                    </div>
+                    </div>{% if hasSpaceport or hasSpacefactory %}
                     <div class="tab-pane"
                          id="fleets-tabpane"
                          role="tabpanel"
                          aria-labelledby="fleets-tabpane">
-                        <fieldset class="container-fluid">
-                            <legend>
-                                Spatioport
-                            </legend>
-                        </fieldset>
-                        
-                    </div>
+                        {% include 'internal/colonies/spaceport.html.twig' %}
+                    </div>{% endif %}
                 </div>
             </div>
         </div>

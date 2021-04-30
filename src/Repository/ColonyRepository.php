@@ -162,7 +162,7 @@ class ColonyRepository extends ServiceEntityRepository {
      * @param BuildQueue $bq
      * @return ColonyBuilding
      */
-    public function triggeredBuilt(BuildQueue $bq): ColonyBuilding {
+    public function triggeredBuilt(BuildQueue $bq, int $running = 100): ColonyBuilding {
         // give back the workers
         $colony = $bq->getColony();
         $colony->setWorkers($colony->getWorkers() - $bq->getWorkers());
@@ -170,11 +170,15 @@ class ColonyRepository extends ServiceEntityRepository {
         $cb->setBuilding($bq->getBuilding());
         $cb->setColony($bq->getColony());
         $cb->setLevel(1); // @TODO
-        $cb->setRunning(false); // never running at first, maybe a parameter ?
+        $cb->setRunning(false);
         $this->_em->persist($cb);
         $this->_em->persist($colony);
         $this->_em->remove($bq); // delete the buildqueue
         $this->_em->flush();
+        // now, trigger the run if running > 0
+        if($running) {
+            $this->changeRunningBuilding($bq->getColony(), $bq->getBuilding(), $running);
+        }
         return $cb;
     }
     

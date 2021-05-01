@@ -56,6 +56,7 @@ class ColonyController extends InternalController {
         $returnCode = JsonResponse::HTTP_OK;
         $coloRepo = $this->getDoctrine()->getRepository(Colony::class); /** @var ColonyRepository $coloRepo */
         $buildRepo = $this->getDoctrine()->getRepository(Building::class); /** @var BuildingRepository $buildRepo */
+        $techRepo = $this->getDoctrine()->getRepository(\App\Entity\Technology::class); /** @var \App\Repository\TechnologyRepository $techRepo */
         $fleetRepo = $this->getDoctrine()->getRepository(\App\Entity\Fleet::class);
         $colony = $coloRepo->find($cid); /** @var Colony $colony */
         if(!empty($colony)) {
@@ -68,6 +69,7 @@ class ColonyController extends InternalController {
                     'hasSpacefactory' => $coloRepo->hasSpacefactory($colony),
                     'buildable' => $buildRepo->visibleList($colony),
                     'fleets' => $fleetRepo->findByColony($colony),
+                    'technologies' => $techRepo->visibleList($colony),
                 ]);
             } else {
                 $returns = $this->sr('colonies/other_details', [

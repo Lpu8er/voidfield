@@ -34,7 +34,7 @@ abstract class RecipeCapableRepository extends ServiceEntityRepository {
      * @param Colony $colony
      * @return array
      */
-    protected function checkEnoughResources(iRecipeCapable $stuff, Colony$colony): array {
+    protected function checkEnoughResources(iRecipeCapable $stuff, Colony $colony): array {
         $returns = [];
         // rework colony resource list, in order to optimize the search
         $resBulk = $this->reworkResourceBulk($colony);

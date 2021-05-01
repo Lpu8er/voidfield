@@ -26,6 +26,12 @@ class Research implements iRecipeCapable {
      */
     protected $name;
     /**
+     * 
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $description;
+    /**
      *
      * @var Resource 
      * @ORM\ManyToOne(targetEntity="Research")
@@ -154,4 +160,15 @@ class Research implements iRecipeCapable {
 
         return $this;
     }
+    
+    public function getDescription(): string {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self {
+        $this->description = $description;
+        return $this;
+    }
+
+
 }

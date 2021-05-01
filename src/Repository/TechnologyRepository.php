@@ -41,32 +41,18 @@ class TechnologyRepository extends RecipeCapableRepository {
     }
     
     /**
-     * Retrieve all technologies that can be started on a colony
-     * @param Colony $colony
-     * @param bool $checkResources
-     * @return Research[]
-     */
-    public function visibleListColony(Colony $colony, bool $checkResources = false): array {
-        $returns = [];
-        $sql = $this->_em->getConnection();
-        $q = "select r.`id` "
-                . " from `research` r "
-                . " left join `researchconds` rc on rc.`target_id`=r.`id` "
-                . " left join `technologies` ot on ot.`research_id`=rc.`need_id` ";
-        return $returns;
-    }
-    
-    /**
      * Retrieve all technologies that could be started
-     * @param User $user
-     * @return Research[]
+     * @param Colony $colony
+     * @return VirtualResearch[]
      */
-    public function visibleList(User $user): array {
+    public function visibleList(Colony $colony): array {
         $returns = [];
         
         $researches = [];
         
         $sql = $this->_em->getConnection();
+        
+        $user = $colony->getOwner();
         
         // first of all, retrieves a flat list of known technologies
         $technologies = $this->retrieveFlatList($user);
@@ -95,11 +81,7 @@ EOQ; // no missing tech, not already searching it, not already found, not replac
             if(!array_key_exists(intval($l['id']), $researches)) {
                 $r = $this->_em->getRepository(Research::class)->find($l['id']);
                 $researches[$r->getId()] = $r;
-                $returns[$r->getId()] = [
-                    'research' => null,
-                    'queued' => $l['colony_id'],
-                    'col' => empty($l['colony_id'])? $this->coloniesStatus($r, $user):[],
-                ];
+                $returns[$r->getId()] = null;
             }
         }
         
@@ -120,9 +102,11 @@ EOQ; // no missing tech, not already searching it, not already found, not replac
             } else {
                 $vr->setDuration($research->getBaseDuration()); // good
             }
+            $insufficientResources = $this->checkEnoughResources($vr, $colony);
+            $vr->setInsufficientResources($insufficientResources);
             $vr->setCanBeSearched(true);
             $vr->setRecipe($research->getRecipe());
-            $returns[$research->getId()]['research'] = $vr;
+            $returns[$research->getId()] = $vr;
         }
         
         return $returns;

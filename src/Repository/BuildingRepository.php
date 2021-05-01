@@ -102,7 +102,7 @@ EOQ; // no missing tech, not already building it, not already built, not replaci
             } else {
                 $vb->setDuration($building->getBaseDuration()); // good
             }
-            $insufficientResources = $this->checkEnoughResources($building, $colony);
+            $insufficientResources = $this->checkEnoughResources($vb, $colony);
             $vb->setInsufficientResources($insufficientResources);
             $vb->setCanBeBuilt(
                     empty($insufficientResources)

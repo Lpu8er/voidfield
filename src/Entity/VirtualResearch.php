@@ -42,6 +42,11 @@ class VirtualResearch extends Research {
      * @var bool 
      */
     protected $canBeSearched = false;
+    /**
+     *
+     * @var array 
+     */
+    protected $insufficientResources = [];
     
     /**
      * Virtual shorthand method
@@ -77,6 +82,15 @@ class VirtualResearch extends Research {
 
     public function setCanBeSearched(bool $canBeSearched) {
         $this->canBeSearched = $canBeSearched;
+        return $this;
+    }
+    
+    public function getInsufficientResources(): array {
+        return $this->insufficientResources;
+    }
+    
+    public function setInsufficientResources(array $insufficientResources) {
+        $this->insufficientResources = $insufficientResources;
         return $this;
     }
 }

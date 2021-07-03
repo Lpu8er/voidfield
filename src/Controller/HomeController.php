@@ -101,6 +101,7 @@ class HomeController extends InternalController {
     public function money(Request $request) {
         $returns = [
             'money' => TwigWrapper::nformat($this->getUser()->getMoney()),
+            'pure' => $this->getUser()->getMoney(),
         ];
         return $this->json($returns);
     }

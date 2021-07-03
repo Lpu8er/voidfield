@@ -70,6 +70,9 @@ class ColonyController extends InternalController {
                     'buildable' => $buildRepo->visibleList($colony),
                     'fleets' => $fleetRepo->findByColony($colony),
                     'technologies' => $techRepo->visibleList($colony),
+                    'searchqueue' => $this->getDoctrine()->getRepository(\App\Entity\ResearchQueue::class)->findOneBy([
+                        'colony' => $cid,
+                    ]),
                 ]);
             } else {
                 $returns = $this->sr('colonies/other_details', [
@@ -219,13 +222,13 @@ class ColonyController extends InternalController {
             if(!empty($tid)
                 && $request->request->has('_csrf')
                 && $this->isCsrfTokenValid('colony-'.$cid.'-search-'.strval($tid), $request->request->get('_csrf'))) {
-                $techRepo = $this->getDoctrine()->getRepository(\App\Entity\Technology::class); /** @var \App\Repository\TechnologyRepository $buildRepo */
+                $techRepo = $this->getDoctrine()->getRepository(\App\Entity\Technology::class); /** @var \App\Repository\TechnologyRepository $techRepo */
                 $colony = $this->getDoctrine()->getRepository(Colony::class)->find($cid);
                 $research = $this->getDoctrine()->getRepository(\App\Entity\Research::class)->find($tid);
                 try {
                     // check again is can be built
                     if($techRepo->canSearch($colony, $research)) {
-                        if($this->getDoctrine()->getRepository(Building::class)->build($building, $colony)) {
+                        if($techRepo->search($research, $colony)) {
                             $this->addMessage('ok', 'Lancement de la recherche de la technologie...', true);
                         } else {
                             $this->addMessage('error', 'Une erreur est survenue lors du lancement de la recherche', true);

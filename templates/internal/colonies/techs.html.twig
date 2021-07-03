@@ -40,7 +40,7 @@
                     {% endif %}
                 </div>
                 {% if tech.canBeSearched %}
-                    <form method="post" action="">
+                    <form method="post" action="{{ path('colony_search', {'cid': colony.id}) }}">
                         <div class="card-body">
                             <input type="hidden" name="_csrf" value="{{ csrf_token('colony-' ~ colony.id ~ '-search-' ~ tech.id) }}" />
                             <input type="hidden" name="tid" value="{{ tech.id }}" />

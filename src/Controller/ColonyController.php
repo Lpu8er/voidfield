@@ -221,32 +221,32 @@ class ColonyController extends InternalController {
                 && $this->isCsrfTokenValid('colony-'.$cid.'-search-'.strval($tid), $request->request->get('_csrf'))) {
                 $techRepo = $this->getDoctrine()->getRepository(\App\Entity\Technology::class); /** @var \App\Repository\TechnologyRepository $buildRepo */
                 $colony = $this->getDoctrine()->getRepository(Colony::class)->find($cid);
-                $research = $this->_em->getRepository(\App\Entity\Research::class)->find($tid);
+                $research = $this->getDoctrine()->getRepository(\App\Entity\Research::class)->find($tid);
                 try {
                     // check again is can be built
                     if($techRepo->canSearch($colony, $research)) {
                         if($this->getDoctrine()->getRepository(Building::class)->build($building, $colony)) {
-                            $this->addMessage('ok', 'Lancement de la construction du bâtiment...', true);
+                            $this->addMessage('ok', 'Lancement de la recherche de la technologie...', true);
                         } else {
-                            $this->addMessage('error', 'Une erreur est survenue lors du lancement de la construction', true);
+                            $this->addMessage('error', 'Une erreur est survenue lors du lancement de la recherche', true);
                         }
                     } else { // wait, that's illegal
-                        $this->addMessage('error', 'Vous ne disposez pas des ressources suffisantes pour construire cela', true);
+                        $this->addMessage('error', 'Vous ne disposez pas des ressources suffisantes pour rechercher cela', true);
                     }
                 } catch(Exception $e) {
                     $logger->error($e->getMessage());
                     $logger->error($e->getTraceAsString());
-                    $this->addMessage('error', 'Une erreur est survenue lors du lancement de la construction', true);
+                    $this->addMessage('error', 'Une erreur est survenue lors du lancement de la recherche', true);
                 }
             } else {
                 $this->addMessage('error', 'XSRF error', true);
             }
         } else {
-            $this->addMessage('error', 'No building IG provided', true);
+            $this->addMessage('error', 'No research IG provided', true);
         }
         return $this->redirectToRoute('colony_details', [
             'cid' => $cid,
-            '_fragment' => 'buildings-tabpane',
+            '_fragment' => 'techs-tabpane',
         ]);
     }
 }

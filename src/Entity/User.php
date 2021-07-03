@@ -150,6 +150,10 @@ class User implements UserInterface, Serializable {
     public function getUsername() {
         return $this->username;
     }
+    
+    public function getUserIdentifier() {
+        return $this->username;
+    }
 
     public function getEmail() {
         return $this->email;

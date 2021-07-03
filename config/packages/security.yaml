@@ -1,9 +1,9 @@
 security:
+    enable_authenticator_manager: true
     encoders:
         App\Entity\User:
             algorithm: bcrypt
     providers:
-        in_memory: { memory: ~ }
         main_provider:
             entity:
                 class: App\Entity\User
@@ -14,11 +14,9 @@ security:
             security: false
         main:
             pattern: ^/
-            anonymous: true
             form_login:
                 login_path: login
                 check_path: login
-                csrf_token_generator: security.csrf.token_manager
                 default_target_path: home
                 always_use_default_target_path: true
             provider: main_provider
@@ -26,13 +24,13 @@ security:
                 path: logout
             
     access_control:
-        - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/info, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/cgu, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/pwd, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/ping, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/$, roles: PUBLIC_ACCESS }
+        - { path: ^/login$, roles: PUBLIC_ACCESS }
+        - { path: ^/register, roles: PUBLIC_ACCESS }
+        - { path: ^/info, roles: PUBLIC_ACCESS }
+        - { path: ^/cgu, roles: PUBLIC_ACCESS }
+        - { path: ^/pwd, roles: PUBLIC_ACCESS }
+        - { path: ^/ping, roles: PUBLIC_ACCESS }
         - { path: ^/logout$, roles: ROLE_USER }
         - { path: ^/home, roles: ROLE_USER }
         - { path: ^/character, roles: ROLE_USER }

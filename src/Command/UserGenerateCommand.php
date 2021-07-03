@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserGenerateCommand extends Command {
@@ -26,13 +26,13 @@ class UserGenerateCommand extends Command {
     protected $entityManager = null;
     /**
      *
-     * @var ParameterBagInterface 
+     * @var ContainerBagInterface 
      */
     protected $params = null;
     
     public function __construct(UserPasswordHasherInterface $encoder = null,
             EntityManagerInterface $entityManager = null,
-            ParameterBagInterface $params) {
+            ContainerBagInterface $params) {
         $this->encoder = $encoder;
         $this->entityManager = $entityManager;
         $this->params = $params;

@@ -14,7 +14,7 @@ use DateTime;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class HomeController extends InternalController {
     /**
@@ -63,7 +63,7 @@ class HomeController extends InternalController {
     /**
      * @Route("/preferences", name="preferences")
      */
-    public function preferences(Request $request, UserPasswordEncoderInterface $encoder) {
+    public function preferences(Request $request, UserPasswordHasherInterface $encoder) {
         if($request->request->has('savePwd')
                 && $this->isCsrfTokenValid('user-preferences-pwd', $request->request->get('_csrf'))) {
             if($request->request->has('oldPwd')

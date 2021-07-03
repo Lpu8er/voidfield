@@ -8,13 +8,13 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserTakeoverCommand extends Command {
     
     /**
      *
-     * @var UserPasswordEncoderInterface 
+     * @var UserPasswordHasherInterface 
      */
     protected $encoder = null;
     /**
@@ -23,7 +23,7 @@ class UserTakeoverCommand extends Command {
      */
     protected $entityManager = null;
     
-    public function __construct(UserPasswordEncoderInterface $encoder = null, EntityManagerInterface $entityManager = null) {
+    public function __construct(UserPasswordHasherInterface $encoder = null, EntityManagerInterface $entityManager = null) {
         $this->encoder = $encoder;
         $this->entityManager = $entityManager;
         parent::__construct();
@@ -56,7 +56,7 @@ EOT;
             $output->write('Fetching user ID '.$uid.'... ');
             $user = $userRepo->find($uid);
             if(!empty($user) && (User::STATUS_INACTIVE == $user->getStatus())) {
-                $encoded = $this->encoder->encodePassword($user, $pwd);
+                $encoded = $this->encoder->hashPassword($user, $pwd);
                 $user->setPwd($encoded);
                 $user->setStatus(User::STATUS_ACTIVE);
                 $this->entityManager->persist($user);

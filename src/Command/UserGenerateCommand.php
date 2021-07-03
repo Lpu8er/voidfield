@@ -9,14 +9,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserGenerateCommand extends Command {
     const DEFAULT_EMAIL = 'contact@voidfield.net';
     
     /**
      *
-     * @var UserPasswordEncoderInterface 
+     * @var UserPasswordHasherInterface
      */
     protected $encoder = null;
     /**
@@ -30,7 +30,7 @@ class UserGenerateCommand extends Command {
      */
     protected $params = null;
     
-    public function __construct(UserPasswordEncoderInterface $encoder = null,
+    public function __construct(UserPasswordHasherInterface $encoder = null,
             EntityManagerInterface $entityManager = null,
             ParameterBagInterface $params) {
         $this->encoder = $encoder;
@@ -67,7 +67,7 @@ EOT;
         $user->setUsername($un);
         $user->setEmail($email);
         $user->setStatus($isActive? User::STATUS_ACTIVE:User::STATUS_BOT);
-        $encoded = $this->encoder->encodePassword($user, $pwd);
+        $encoded = $this->encoder->hashPassword($user, $pwd);
         $user->setPwd($encoded);
         $this->entityManager->persist($user);
         $this->entityManager->flush();

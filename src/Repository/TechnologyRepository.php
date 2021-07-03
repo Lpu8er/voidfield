@@ -104,7 +104,10 @@ EOQ; // no missing tech, not already searching it, not already found, not replac
             }
             $insufficientResources = $this->checkEnoughResources($vr, $colony);
             $vr->setInsufficientResources($insufficientResources);
-            $vr->setCanBeSearched(true);
+            $vr->setCanBeSearched(
+                    empty($insufficientResources)
+                    && ($colony->getOwner()->getMoney() >= $vr->getCost())
+                    );
             $vr->setRecipe($research->getRecipe());
             $returns[$research->getId()] = $vr;
         }
@@ -152,6 +155,128 @@ EOT;
             }
         }
         
+        return $returns;
+    }
+    
+    /**
+     * Check if a research can be searched on that colony
+     * @param Colony $colony
+     * @param Research $search
+     * @return bool
+     */
+    public function canSearch(Colony $colony, Research $search): bool {
+        $returns = false;
+        
+        $researches = [];
+        // first of all, retrieves a flat list of known technologies
+        $technologies = $this->retrieveFlatList($colony->getOwner());
+        // we'll go deep in native query in order to optimize that shit
+        $techiesClause = ''; // extreme case, but eh
+        if(!empty($technologies)) {
+            $techiesClause = ' and urc.need_id not in('.implode(', ', array_map('intval', $technologies)).')'; // we'll join to exclude buildings that have skills link NOT in those (double not)
+        }
+        
+        $q = <<<EOQ
+select r.id, rq.`colony_id`
+from `researches` r
+left join `researchconds` urc on urc.target_id=r.id {$techiesClause}
+left join `technologies` t on t.research_id=r.id and t.player_id=:pid
+left join `technologies` rt on rt.research_id=r.replacing_id and rt.player_id=:pid
+left join `researchqueue` rq on rq.research_id=r.id and rq.user_id=:pid
+where urc.target_id is null
+    and r.id=:r
+    and t.player_id is null
+    and (r.replacing_id is null or rt.player_id is not null)
+EOQ; // no missing tech, not already searching it, not already found, not replacing something not found yet
+        
+        $stmt = $sql->executeQuery($q, [
+            'pid' => $user->getId(),
+            'r' => $search->getId(),
+        ]);
+        while($l = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            if(!array_key_exists(intval($l['id']), $researches)) {
+                $r = $this->_em->getRepository(Research::class)->find($l['id']);
+                $researches[$r->getId()] = $r;
+            }
+        }
+        
+        // grab skills that may change things here
+        $skillRepo = $this->getEntityManager()->getRepository(\App\Entity\Skill::class); /** @var SkillRepository $skillRepo */
+        $durationSkills = $skillRepo->grabMergedSkillsForPlayer($user, \App\Entity\Skill::ATTRIBUTE_RESEARCHSPEED);
+        $durationDivider = 1.00;
+        foreach($durationSkills as $durationSkill) {
+            $durationDivider *= pow($durationSkill['skill']->getValue(), $durationSkill['val']); // pow(1.02, 12) => 127% environ
+        }
+        
+        foreach($researches as $research) {
+            
+            $vr = \App\Entity\VirtualResearch::factory($research);
+            // compute duration depending on skill
+            $vr->setCost($research->getSearchCost());
+            if($durationDivider != 1.0) {
+                $vr->setDuration('PT'.$research->getPoints() / $durationDivider.'S'); // we'll have to recompute period string
+            } else {
+                $vr->setDuration($research->getBaseDuration()); // good
+            }
+            $insufficientResources = $this->checkEnoughResources($vr, $colony);
+            $vr->setInsufficientResources($insufficientResources);
+            $vr->setCanBeSearched(
+                    empty($insufficientResources)
+                    && ($colony->getOwner()->getMoney() >= $vr->getCost())
+                    );
+            $returns = $vr->getCanBeSearched();
+        }
+        
+        return $returns;
+    }
+    
+    /**
+     * Starts the research. At this point, we consider it was checked in controller about ability to search or not.
+     * @param Research $search
+     * @param Colony $colony
+     * @return bool if search was started or this something went fubar
+     */
+    public function search(Research $search, Colony $colony): bool {
+        $returns = false;
+        try {
+            $colonyRepository = $this->_em->getRepository(Colony::class); /** @var App\Repository\ColonyRepository $colonyRepository **/
+            
+            // grab skills that may change things here
+            $skillRepo = $this->getEntityManager()->getRepository(\App\Entity\Skill::class); /** @var SkillRepository $skillRepo */
+            $durationSkills = $skillRepo->grabMergedSkillsForPlayer($user, \App\Entity\Skill::ATTRIBUTE_RESEARCHSPEED);
+            $durationDivider = 1.00;
+            foreach($durationSkills as $durationSkill) {
+                $durationDivider *= pow($durationSkill['skill']->getValue(), $durationSkill['val']); // pow(1.02, 12) => 127% environ
+            }
+            
+            $cost = $search->getBuildCost();
+            $points = $search->getPoints() / $durationDivider;
+            $estimatedEndDate = (new DateTime())->add(new DateInterval('PT'.$points.'S'));
+
+            // force first this
+            $owner = $colony->getOwner();
+            $owner->setMoney($owner->getMoney() - $cost);
+            $this->_em->persist($owner);
+            $this->_em->flush();
+            foreach($search->getRecipe() as $recipe) {
+                $colonyRepository->reduceStock($colony, $recipe->getResource(), $recipe->getNb());
+            }
+
+            $bq = new \App\Entity\ResearchQueue();
+            $bq->setResearch($search);
+            $bq->setColony($colony);
+            $bq->setPlayer($colony->getOwner());
+            $bq->setPoints($points);
+            $bq->setEstimatedEndDate($estimatedEndDate);
+            $bq->setStartDate(new DateTime);
+            $bq->setLastQueueCheckDate($bq->getStartDate());
+            $this->_em->persist($bq);
+            $this->_em->flush();
+            $returns = true;
+        } catch(Exception $e) {
+            throw $e;
+            $returns = false;
+        }
         return $returns;
     }
 }

@@ -234,6 +234,7 @@ EOQ; // no missing tech, not already building it, not already built, not replaci
     
     /**
      * Starts the build. At this point, we consider it was checked in controller about ability to build or not.
+     * @param Building $building
      * @param Colony $colony
      * @return bool if built was started or this something went fubar
      */

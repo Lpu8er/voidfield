@@ -11,6 +11,7 @@ if('undefined' !== typeof(voidfield)) {
                 moneyAjax.query().then((r) => {
                     if(r.hasOwnProperty('money')) {
                         jQuery('#money').text(r.money);
+                        jQuery('#money').attr('title', r.pure);
                     }
                 }).catch(() => {
                     voidfield.instantToast();

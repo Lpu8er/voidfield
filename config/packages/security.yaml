@@ -28,6 +28,7 @@ security:
         - { path: ^/login$, roles: PUBLIC_ACCESS }
         - { path: ^/register, roles: PUBLIC_ACCESS }
         - { path: ^/info, roles: PUBLIC_ACCESS }
+        - { path: ^/credits, roles: PUBLIC_ACCESS }
         - { path: ^/cgu, roles: PUBLIC_ACCESS }
         - { path: ^/pwd, roles: PUBLIC_ACCESS }
         - { path: ^/ping, roles: PUBLIC_ACCESS }

@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\CCredit;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -30,5 +31,12 @@ class LoginController extends GlobalController {
             $this->addMessage('error', $returns['error']);
         }
         return $this->render('external/login.html.twig', $returns);
+    }
+    
+    /**
+     * @Route("/credits", name="credits")
+     */
+    public function credits() {
+        return $this->render('external/credits.html.twig', []);
     }
 }

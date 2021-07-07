@@ -162,40 +162,6 @@ voidfield.date = function(d, f) {
     return moment(d).format(returns);
 };
 
-voidfield.AjaxHandler = function(uri, method = 'post', data = {}, headers = {'Content-Type': 'application/json'}) {
-    this.uri = uri;
-    this.method = method;
-    this.xhr = new XMLHttpRequest();
-    this.data = data;
-    this.headers = headers;
-};
-
-voidfield.AjaxHandler.prototype.query = function(data = {}) {
-    this.data = voidfield.merge(this.data, data);
-    this.promise = new Promise((resolve, reject) => {
-        this.xhr.open(this.method, this.uri);
-        for(const hk in this.headers) {
-            this.xhr.setRequestHeader(hk, this.headers[hk]);
-        }
-
-        this.xhr.onload = (e) => {
-            let r = this.xhr.response;
-            if(this.xhr.getResponseHeader('Content-Type').endsWith('json')) {
-                r = JSON.parse(r);
-            }
-            resolve(r, e, this.xhr);
-        };
-
-        this.xhr.onerror = (e) => { reject({
-                status: e.status,
-                statusText: this.xhr.statusText
-            }); };
-        
-        this.xhr.send(this.data);
-    });
-    return this.promise;
-};
-
 voidfield.timeoutRegister = {};
 
 voidfield.TimeoutHandler = function(method, name = null, time = 10000, recursive = true) {

@@ -25,3 +25,6 @@
 # for now, ignore docker stuff
 Dockerfile
 docker-compose.yml
+
+# also ignore images for now, we'll handle mass-storage somewhere else
+/public/images/*

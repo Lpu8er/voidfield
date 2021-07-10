@@ -52,7 +52,13 @@ voidfield.WholeNumber.prototype.bindEvents = function(){
  * @returns {undefined}
  */
 voidfield.showTab = function(tab) {
-    jQuery('.nav-tabs a[href="#' + tab + '"]').tab('show');
+    const triggerEl = document.querySelector('.nav-tabs a[href="#' + tab + '"]');
+    if(bootstrap.Tab.getInstance(triggerEl)) {
+        bootstrap.Tab.getInstance(triggerEl).show();
+    } else {
+        const ttab = new bootstrap.Tab(triggerEl);
+        ttab.show();
+    }
 };
 
 /**
@@ -163,44 +169,6 @@ voidfield.date = function(d, f) {
 };
 
 voidfield.wait = ms => new Promise(resolve => setTimeout(resolve, ms));
-
-voidfield.Toastr = function(type, message = '', when = null, id = 0) {
-    this.type = type;
-    this.message = message;
-    this.when = when;
-    this.id = id;
-};
-
-voidfield.Toastr.prototype.append = function(refresh = true) {
-    if(0 < jQuery('#toast_tpl_'+this.type).length) {
-        let tpl = jQuery('#toast_tpl_'+this.type)[0].content.cloneNode(true);
-        if(0 < this.id) {
-            tpl.id = 'toast_notify_'+this.id;
-        }
-        tpl.querySelector('.toast-body').textContent = this.message;
-        if(null !== this.when) {
-            tpl.querySelector('.toast-when').textContent = voidfield.date(this.when, voidfield.parameters['date.format']);   
-        }
-        jQuery('.toasts-area').append(tpl);
-        
-        if(refresh) {
-            voidfield.refreshToasts();
-        }
-    } // else, unrecognized type
-};
-
-voidfield.instantToast = function(type, message) {
-    const t = new voidfield.Toastr(type, message);
-    t.append(true);
-};
-
-voidfield.refreshToasts = function() {
-    jQuery('.toast').toast({
-        'autohide': true,
-        'delay': 5000
-    });
-    jQuery('.toast').toast('show');
-};
 
 voidfield.ws = new voidfield.SocketHandler();
 

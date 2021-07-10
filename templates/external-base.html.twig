@@ -40,5 +40,9 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
+    <script type="module">
+        import {ToastrApp} from "{{ asset('js/init.js') }}";
+        window.toastr = ToastrApp;
+    </script>
     <script src='https://www.google.com/recaptcha/api.js'></script>
 {% endblock %}

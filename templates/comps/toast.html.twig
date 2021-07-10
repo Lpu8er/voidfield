@@ -1,7 +1,7 @@
 <div class="toast {% include 'comps/alert-cls.html.twig' with {'_p': mtype} %}"
      role="alert"
      aria-live="assertive"
-     aria-atomic="true">
+     aria-atomic="true"{% if vfor is defined %}v-for="toast in {{ vfor }}"{% endif %}>
     <div class="toast-header">
         {% include 'comps/theme-square.svg.twig' with {'_p': mtype} %}
         <strong class="mr-auto">{% if mtype in ['ko', 'error', 'danger'] %}Erreur
@@ -9,13 +9,14 @@
         {% elseif mtype in ['info', 'notice'] %}Information
         {% elseif mtype in ['ok', 'success'] %}Succès
         {% endif %}</strong>
-        <em class="text-muted toast-when">{% if mdate is defined and mdate is not empty %}{{ mdate|date(param(app.user, 'date.format')) }}{% endif %}</em>
+        <em class="text-muted toast-when">
+            {% if mdate is defined and mdate is not empty %}{{ mdate|date(param(app.user, 'date.format')) }}{% endif %}
+            {% if tdate is defined and tdate is not empty %}{{ tdate }}{% endif %}
+        </em>
         <button type="button"
-                class="ml-2 mb-1 close"
-                data-dismiss="toast"
-                aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+                class="btn-close"
+                data-bs-dismiss="toast"
+                aria-label="Close"></button>
     </div>
     <div class="toast-body {% include 'comps/alert-cls.html.twig' with {'_p': mtype} %}">
         {{ message }}

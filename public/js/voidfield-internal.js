@@ -21,7 +21,7 @@ const MainMenuAppData = {
             }).catch((e) => {
                 console.error('oopsie doopsie');
                 console.error(e);
-                voidfield.instantToast(); // @TODO
+                window.toastr.add('ko', e);
             });
         }
     }

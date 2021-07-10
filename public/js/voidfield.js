@@ -162,32 +162,7 @@ voidfield.date = function(d, f) {
     return moment(d).format(returns);
 };
 
-voidfield.timeoutRegister = {};
-
-voidfield.TimeoutHandler = function(method, name = null, time = 10000, recursive = true) {
-    this.method = method;
-    this.recursive = recursive;
-    this.time = time;
-    this.handler = null;
-    if(null !== name) {
-        voidfield.timeoutRegister[name] = this;
-    }
-};
-
-voidfield.TimeoutHandler.prototype.run = function() {
-    this.handler = window.setTimeout(async () => {
-        await this.method.call();
-        if(this.recursive) {
-            this.run();
-        }
-    }, this.time);
-};
-
-voidfield.TimeoutHandler.prototype.cancel = function() {
-    if(null !== this.handler) {
-        window.clearInterval(this.handler);
-    }
-};
+voidfield.wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 voidfield.Toastr = function(type, message = '', when = null, id = 0) {
     this.type = type;

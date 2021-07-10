@@ -1,24 +1,32 @@
 import {voidfield} from "./voidfield.js";
 
-/**
- * @
- */
-if('undefined' !== typeof(voidfield)) {
-    jQuery(function(){
-        if(jQuery('#money').length) {
-            new voidfield.TimeoutHandler(() => {
-                fetch('/money')
-                .then(response => response.json())
-                .then((r) => {
+const MainMenuAppData = {
+    data() {
+      return {
+        money: 0,
+        formattedMoney: 0
+      };
+    }, mounted() {
+        this.loadMoney();
+    }, methods: {
+        loadMoney() {
+            fetch('/money')
+            .then(response => response.json())
+            .then((r) => {
                 if(r.hasOwnProperty('money')) {
-                    jQuery('#money').text(r.money);
-                    jQuery('#money').attr('title', r.pure);
+                    this.formattedMoney = r.money;
+                    this.money = r.pure;
+                    voidfield.wait(10*1000).then(this.loadMoney);
                 }
-                }).catch(() => {
-                    voidfield.instantToast();
-                });
-            }, 'money');
-            voidfield.timeoutRegister.money.run();
+            }).catch((e) => {
+                console.error('oopsie doopsie');
+                console.error(e);
+                voidfield.instantToast(); // @TODO
+            });
         }
-    });
-}
+    }
+};
+
+const MainMenuApp = Vue.createApp(MainMenuAppData);
+MainMenuApp.config.compilerOptions.delimiters = ['${', '}'];
+MainMenuApp.mount('#internal-main-menu');

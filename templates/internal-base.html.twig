@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <header class="">
+    <header class=""
+            id="internal-main-menu">
         <nav class="navbar navbar-expand-md fixed-top">
             <a class="navbar-brand"
                href="{{ path('home') }}"
@@ -44,7 +45,9 @@
                     <li class="nav-item">
                         <a class="nav-link"
                            href="#">💰
-                            <span id="money" title="{{ app.user.money }}">{{ app.user.money|nformat }}</span>
+                            <span id="money"
+                                  v-bind:title="money"
+                                  title="{{ app.user.money }}">${ formattedMoney ?? '{{ app.user.money|nformat }}' }</span>
                         </a>
                     </li>
                     <li class="nav-item">

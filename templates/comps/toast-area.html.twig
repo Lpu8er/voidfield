@@ -1,5 +1,6 @@
 <div aria-live="polite" aria-atomic="true"
-     class="ghost-message-container toasts-area">
+     class="ghost-message-container toasts-area"
+     id="toasts-main-area">
     {% for mtype, messages in app.flashes %}
         {% for message in messages %}
             {% include 'comps/toast.html.twig' %}

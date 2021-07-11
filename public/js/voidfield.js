@@ -52,12 +52,16 @@ voidfield.WholeNumber.prototype.bindEvents = function(){
  * @returns {undefined}
  */
 voidfield.showTab = function(tab) {
-    const triggerEl = document.querySelector('.nav-tabs a[href="#' + tab + '"]');
-    if(bootstrap.Tab.getInstance(triggerEl)) {
-        bootstrap.Tab.getInstance(triggerEl).show();
-    } else {
-        const ttab = new bootstrap.Tab(triggerEl);
-        ttab.show();
+    try {
+        const triggerEl = document.querySelector('.nav-tabs a[href="#' + tab + '"]');
+        if(bootstrap.Tab.getInstance(triggerEl)) {
+            bootstrap.Tab.getInstance(triggerEl).show();
+        } else {
+            const ttab = new bootstrap.Tab(triggerEl);
+            ttab.show();
+        }
+    } catch(e) { // catch it, because not showing a tab is not THAT bad.
+        console.log(e);
     }
 };
 

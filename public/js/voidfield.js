@@ -70,9 +70,9 @@ voidfield.showTab = function(tab) {
  * @returns {undefined}
  */
 voidfield.loadTabFromUri = function() {
-    let url = document.location.toString();
-    let xs = url.split('#');
-    if(xs.length) {
+    const url = document.location.toString();
+    const xs = url.split('#');
+    if(xs.length > 1) {
         voidfield.showTab(xs[1]);
     }
 };

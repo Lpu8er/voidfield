@@ -38,5 +38,6 @@ security:
         - { path: ^/preferences, roles: ROLE_USER }
         - { path: ^/logout, roles: ROLE_USER }
         - { path: ^/skills, roles: ROLE_USER }
+        - { path: ^/money, roles: ROLE_USER }
         - { path: ^/, roles: ROLE_VERIFIED }
         

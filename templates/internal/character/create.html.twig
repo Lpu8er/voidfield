@@ -10,7 +10,9 @@
         Ce personnage démarrera dans une flotte dans un système de départ.
         N'ayez crainte, l'USC empechera toute attaque pendant un temps.
     </p>
-    <form action="{{ path('character') }}" method="post">
+    <form action="{{ path('character') }}"
+          method="post"
+          id="charform">
         <div class="form-group">
             <div class="form-row">
                 <p class="col-xs-4">
@@ -78,28 +80,28 @@
                     Vous pouvez conserver des points pour plus tard.
                     Il vous reste
                     <strong class="whole-remainder-number"
-                          data-whole="skillpoints">{{ startSkillPoints }}</strong>
+                          data-whole="skillpoints">${ available }</strong>
                     points à attribuer.
                 </p>
             </div>
             <div class="form-row vf-small">
-                {% for skill in skills %}
-                <p class="col-xs-1">
+                <p class="col-xs-1"
+                   v-for="skill in skills">
                     <input type="number"
                            min="0"
                            step="1"
                            max="{{ startSkillPoints }}"
-                           name="skills[{{ skill.id }}]"
                            tabindex="0"
                            class="form-control input-sm whole-control-number"
                            data-whole="skillpoints"
-                           value="0"
-                           id="characterSkill_{{ skill.id }}" />
+                           v-bind:name="'skills[' + skill.id + ']'"
+                           v-bind:id="'characterSkill_' + skill.id"
+                           v-model="skill" />
                     <label class="form-check-label"
-                           for="characterSkill_{{ skill.id }}">
-                        {{ skill.name }}
+                           v-bind:for="'characterSkill_' + skill.id">
+                        ${ skill.name }
                     </label>
-                </p>{% endfor %}
+                </p>
             </div>
         </div>
         <p class="alert alert-warning" role="alert">
@@ -117,9 +119,32 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript">
-        jQuery(function(){
-            let wn = new voidfield.WholeNumber('skillpoints', {{ startSkillPoints }});
-            wn.bindEvents();
-        });
+        const CharacterCreationAppData = {
+            data() {
+              return {
+                lastName: '',
+                firstName: '',
+                givenName: '',
+                skills: {{ skills |json_encode()|raw }}
+              };
+            }, computed:{
+                used() {
+                    return this.getUsedPoints();
+                },
+                available() {
+                    return {{ startSkillPoints }} - this.getUsedPoints();
+                }
+            }, mounted() {
+                
+            }, methods: {
+                getUsedPoints() {
+                    return this.skills.reduce((a,v) => { return a + v.points; }, 0);
+                }
+            }
+        };
+
+        const CharacterCreationApp = Vue.createApp(CharacterCreationAppData);
+        CharacterCreationApp.config.compilerOptions.delimiters = ['${', '}'];
+        CharacterCreationApp.mount('#charform');
     </script>
 {% endblock %}

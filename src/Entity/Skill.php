@@ -116,6 +116,7 @@ class Skill implements \JsonSerializable {
         return [
             'id' => $this->getId(),
             'name' => $this->getName(),
+            'points' => $this->getPoints(),
         ];
     }
     
@@ -164,6 +165,11 @@ class Skill implements \JsonSerializable {
      * @ORM\Column(type="boolean")
      */
     protected $usableOnCharacter = false;
+    /**
+     *
+     * @var int
+     */
+    protected $points = 0;
     
     public function getId() {
         return $this->id;
@@ -225,6 +231,15 @@ class Skill implements \JsonSerializable {
 
     public function setUsableOnCharacter(bool $usableOnCharacter) {
         $this->usableOnCharacter = $usableOnCharacter;
+        return $this;
+    }
+
+    public function getPoints(): int {
+        return $this->points;
+    }
+
+    public function setPoints(int $points) {
+        $this->points = $points;
         return $this;
     }
 

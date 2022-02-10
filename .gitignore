@@ -1,10 +1,30 @@
 
 ###> symfony/framework-bundle ###
-/.env
+/.env.local
+/.env.local.php
+/.env.*.local
 /public/bundles/
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
-/nbproject/private/
+
+###> symfony/phpunit-bridge ###
+.phpunit
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+/nbproject/*
 *.lock
 
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
+
+# for now, ignore docker stuff
+Dockerfile
+docker-compose.yml
+
+# also ignore images for now, we'll handle mass-storage somewhere else
+/public/images/*

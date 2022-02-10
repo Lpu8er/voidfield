@@ -1,0 +1,54 @@
+<fieldset class="container-fluid">
+    <legend>
+        Recherches disponibles
+    </legend>
+    <p class="">
+        <em class="text-info">
+            La rercherche sera lancée sur cette colonie.
+            Les modificateurs globaux, ainsi que ceux de cette colonie s'appliqueront.
+            Une fois la recherche terminée, celle-ci sera disponible dans tout votre empire.
+            Vous ne pouvez lancer qu'une recherche par colonie, et celles-ci avancent en parallèle.
+        </em><span class="text-warning">
+            Attention : si vous perdez le contrôle de votre colonie,
+            vous perdrez l'avancement de la recherche si celle-ci n'est pas terminée.
+        </span>
+    </p>
+    <div class="row row-cols-6">
+        {% for tech in technologies %}
+            <div class="card">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        {{ tech.name }}
+                    </h4>
+                    <p class="card-text">
+                        {{ tech.description }}
+                    </p>
+                </div>
+                <div class="d-flex flex-wrap">
+                    {% if tech.cost %}
+                        <div class="d-flex justify-content-between align-items-center m-1{% if tech.cost > colony.owner.money %} text-danger{% endif %}"
+                             title="{{ tech.cost }}">
+                            💰 {{ tech.cost|nformat }}
+                        </div>
+                    {% endif %}
+                    <div class="d-flex justify-content-between align-items-center m-1">
+                        ⏲ {{ tech.duration|duration(complex=1) }}
+                    </div>
+                    {% if not tech.emptyRecipe %}
+                        {% include 'comps/resources-flex.html.twig' with {'_values': tech.recipe, '_insufficient': tech.insufficientResources, 'alreadyWrapped': true } %}
+                    {% endif %}
+                </div>
+                {% if tech.canBeSearched %}
+                    <form method="post" action="{{ path('colony_search', {'cid': colony.id}) }}">
+                        <div class="card-body">
+                            <input type="hidden" name="_csrf" value="{{ csrf_token('colony-' ~ colony.id ~ '-search-' ~ tech.id) }}" />
+                            <input type="hidden" name="tid" value="{{ tech.id }}" />
+                            <input type="submit" class="btn btn-primary" name="submitSearch" value="Rechercher" />
+                        </div>
+                    </form>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</fieldset>

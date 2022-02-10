@@ -1,0 +1,30 @@
+{% extends 'external-base.html.twig' %}
+{% block content %}
+    <div class="container-fluid row">
+        <div class="col-sm-6">
+            <h1>Voidfield</h1>
+        </div>
+        <div class="col-sm-6">
+            <h2>Connexion</h2>
+            <form class="form-inline" action="{{ path('login') }}" method="post">
+                <div class="input-group mb-2 mr-sm-2">
+                    <input type="text"
+                           name="_username"
+                           class="form-control form-control-sm"
+                           tabindex="0"
+                           placeholder="Identifiant" />
+                    <input type="password"
+                           name="_password"
+                           class="form-control form-control-sm"
+                           tabindex="0"
+                           placeholder="Mot de passe" />
+                </div>
+                <div class="input-group mb-2 mr-sm-2 small">
+                    <a href="{{ path('pwd') }}" tabindex="50">Mot de passe oublié ?</a>
+                </div>
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+                <button type="submit" class="btn btn-sm btn-primary mb-2" tabindex="0">Connexion</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

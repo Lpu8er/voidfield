@@ -1,0 +1,16 @@
+<div aria-live="polite" aria-atomic="true"
+     class="ghost-message-container toasts-area"
+     id="toasts-main-area">
+    {% for mtype, messages in app.flashes %}
+        {% for message in messages %}
+            {% include 'comps/toast.html.twig' %}
+        {% endfor %}
+    {% endfor %}
+    {% for mtype, messages in _messages %}
+        {% for rmsg in messages %}
+            {% include 'comps/toast.html.twig' with {'mtype': mtype, 'message': rmsg.message, 'mdate': rmsg.date} %}
+        {% endfor %}
+    {% endfor %}{% for tt in ['ko', 'warn', 'info', 'ok'] %}
+        {% include 'comps/toast.html.twig' with {'mtype': tt, 'message': '${ toast.message }', 'tdate': '${ toast.date }', 'vfor': tt} %}
+    {% endfor %}
+</div>

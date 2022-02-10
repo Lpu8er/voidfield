@@ -1,0 +1,43 @@
+security:
+    enable_authenticator_manager: true
+    password_hashers:
+        App\Entity\User:
+            algorithm: bcrypt
+    providers:
+        main_provider:
+            entity:
+                class: App\Entity\User
+                property: username
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            pattern: ^/
+            form_login:
+                login_path: login
+                check_path: login
+                default_target_path: home
+                always_use_default_target_path: true
+            provider: main_provider
+            logout:
+                path: logout
+            
+    access_control:
+        - { path: ^/$, roles: PUBLIC_ACCESS }
+        - { path: ^/login$, roles: PUBLIC_ACCESS }
+        - { path: ^/register, roles: PUBLIC_ACCESS }
+        - { path: ^/info, roles: PUBLIC_ACCESS }
+        - { path: ^/credits, roles: PUBLIC_ACCESS }
+        - { path: ^/cgu, roles: PUBLIC_ACCESS }
+        - { path: ^/pwd, roles: PUBLIC_ACCESS }
+        - { path: ^/ping, roles: PUBLIC_ACCESS }
+        - { path: ^/logout$, roles: ROLE_USER }
+        - { path: ^/home, roles: ROLE_USER }
+        - { path: ^/character, roles: ROLE_USER }
+        - { path: ^/preferences, roles: ROLE_USER }
+        - { path: ^/logout, roles: ROLE_USER }
+        - { path: ^/skills, roles: ROLE_USER }
+        - { path: ^/money, roles: ROLE_USER }
+        - { path: ^/, roles: ROLE_VERIFIED }
+        

@@ -1,0 +1,46 @@
+{% extends 'internal-base.html.twig' %}
+{% block content %}
+    <div class="container-fluid">
+        <h2>
+            Technologies pouvant être recherchées
+        </h2>
+        <div class="row row-cols-6">
+        {% for tech in technologies %}
+            <div class="card">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        {{ tech.research.name }}
+                    </h4>
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% include 'comps/resources-list.html.twig' with {'_values': tech.research.recipe, alreadyWrapped: true} %}
+                    {% if tech.research.cost %}<li class="list-group-item ">
+                        💰 {{ tech.research.cost|number_format(2, ',', ' ') }}
+                    </li>{% endif %}
+                    <li class="list-group-item">
+                        ⏲ {{ tech.research.duration|duration(complex=1) }}
+                    </li>
+                </ul>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+    <hr />
+    <div class="container-fluid">
+        <h2>
+            Technologies déjà recherchées
+        </h2>
+        <ul class="list-group list-group-horizontal">
+            {% for t in found %}
+                 <li class="list-group-item">
+                    <h4>{{ t.research.name }}</h4>
+                    <p>
+                        Depuis le
+                        {{ t.dateFound|date(param(app.user, 'date.format')) }}
+                    </p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

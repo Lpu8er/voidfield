@@ -1,0 +1,74 @@
+body {
+    padding-top: 60px;
+}
+@media (max-width: 980px) {
+  body {
+    padding-top: 130px;
+  }
+}
+
+.ghost-message-container {
+    position: fixed;
+    top: 35px;
+    right: 15px;
+    z-index: 3000;
+    opacity: 1;
+}
+
+.toast {
+    min-width: 15rem;
+}
+
+.vf-small {
+    font-size: 85%;
+}
+
+.resource-line {
+    
+}
+
+.resource-insufficient {
+    color: darkred;
+}
+
+body {
+    --slink: #fad700;
+    --bg: #000010;
+    --dbg: #080808;
+    --txt: #f0f0f0;
+    --brd: #f0f0f0;
+    background-color: var(--bg);
+    color: var(--txt);
+    
+}
+
+.list-group-item {
+    background-color: var(--dbg);
+    border-color: var(--brd);
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    background-color: var(--dbg);
+    border-color: var(--brd);
+}
+
+.nav-tabs .nav-link.active {
+    color: var(--slink);
+}
+
+.card {
+    background-color: var(--dbg);
+    border-color: var(--brd);
+}
+
+fieldset {
+    border-left: 1px solid var(--brd);
+    padding-left: 2px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+fieldset legend {
+    border-left: 3px solid var(--brd);
+    padding-left: 2px;
+}

@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <header class=""
+            id="internal-main-menu">
+        <nav class="navbar navbar-expand-md fixed-top">
+            <a class="navbar-brand"
+               href="{{ path('home') }}"
+               title="Voidfield">🕳</a>
+            <button class="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#mainMenu"
+                    aria-controls="mainMenu"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse"
+                 id="mainMenu">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item{% if _current is not defined or 'home' == _current %} active{% endif %}">
+                        <a class="nav-link"
+                           href="{{ path('home') }}">Empire{% if _current is not defined or 'home' == _current %}<span class="sr-only">(current)</span>{% endif %}</a>
+                    </li>
+                    <li class="nav-item{% if _current is defined and 'fleet' == _current %} active{% endif %}">
+                        <a class="nav-link"
+                           href="{{ path('fleet') }}">Flottes{% if _current is defined and 'fleet' == _current %}<span class="sr-only">(current)</span>{% endif %}</a>
+                    </li>
+                    <li class="nav-item{% if _current is defined and 'galaxy' == _current %} active{% endif %}">
+                        <a class="nav-link"
+                           href="{{ path('galaxy') }}">Galaxie{% if _current is defined and 'galaxy' == _current %}<span class="sr-only">(current)</span>{% endif %}</a>
+                    </li>
+                    <li class="nav-item{% if _current is defined and 'tech' == _current %} active{% endif %}">
+                        <a class="nav-link"
+                           href="{{ path('tech') }}">Technologies{% if _current is defined and 'tech' == _current %}<span class="sr-only">(current)</span>{% endif %}</a>
+                    </li>
+                    <li class="nav-item{% if _current is defined and 'intel' == _current %} active{% endif %}">
+                        <a class="nav-link"
+                           href="{{ path('intel') }}">Informations{% if _current is defined and 'intel' == _current %}<span class="sr-only">(current)</span>{% endif %}</a>
+                    </li>
+                </ul>
+            </div>
+            <div id="secMenu">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="#">💰
+                            <span id="money"
+                                  v-bind:title="money"
+                                  title="{{ app.user.money }}">${ formattedMoney ?? '{{ app.user.money|nformat }}' }</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="{{ path('preferences') }}">🔧 Préférences</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="{{ path('logout') }}">Déconnexion</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    {% include 'comps/toast-area.html.twig' %}
+    <section id="mainContent">
+        <div class="container-fluid">
+            {% block content %}{% endblock %}
+        </div>
+    </section>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="module" src="{{ asset('js/voidfield-internal.js') }}"></script>
+    <script type="module">
+        import {voidfield} from "{{ asset('js/voidfield.js') }}";
+        
+        voidfield.parameters = {{ app.user.parameters|json_encode|raw }};
+        {# export global voidfield object #}
+        window.voidfield = voidfield;
+    </script>
+{% endblock %}

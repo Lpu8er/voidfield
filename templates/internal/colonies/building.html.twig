@@ -1,0 +1,38 @@
+<div class="card">
+    <img src="..." class="card-img-top" alt="...">
+    <div class="card-body">
+        <h4 class="card-title">
+            {{ building.name }}
+        </h4>
+        <p class="card-text">
+            {{ building.description }}
+        </p>
+    </div>
+    <div class="d-flex flex-wrap">
+        {% if building.cost %}
+            <div class="d-flex justify-content-between align-items-center m-1{% if building.cost > colony.owner.money %} text-danger{% endif %}"
+                 title="{{ building.cost }}">
+                💰 {{ building.cost|nformat }}
+            </div>
+        {% endif %}
+        <div class="d-flex justify-content-between align-items-center m-1{% if building.buildWorkersNeeds > colony.availableWorkers %} text-danger{% endif %}"
+             title="{{ building.buildWorkersNeeds }} travailleurs">
+            👷 {{ building.buildWorkersNeeds|nformat(0) }}
+        </div>
+        <div class="d-flex justify-content-between align-items-center m-1">
+            ⏲ {{ building.duration|duration(complex=1) }}
+        </div>
+        {% if not building.emptyRecipe %}
+            {% include 'comps/resources-flex.html.twig' with {'_values': building.recipe, '_insufficient': building.insufficientResources, 'alreadyWrapped': true } %}
+        {% endif %}
+    </div>
+    {% if building.canBeBuilt %}
+        <form method="post" action="{{ path('colony_build', {'cid': colony.id}) }}">
+            <div class="card-body">
+                <input type="hidden" name="_csrf" value="{{ csrf_token('colony-' ~ colony.id ~ '-build-' ~ building.id) }}" />
+                <input type="hidden" name="bid" value="{{ building.id }}" />
+                <input type="submit" class="btn btn-primary" name="submitBuild" value="Construire" />
+            </div>
+        </form>
+    {% endif %}
+</div>

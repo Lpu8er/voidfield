@@ -1,0 +1,64 @@
+{% extends 'external-base.html.twig' %}
+{% block content %}
+    <div class="container">
+        <h1>
+            Inscription
+        </h1>
+        <form action="{{ path('register') }}" method="post">
+            <div class="form-group">
+                <label for="registerEmail">Email</label>
+                <input type="email"
+                       name="email"
+                       required="required"
+                       class="form-control"
+                       tabindex="0"
+                       id="registerEmail"
+                       aria-describedby="email"
+                       placeholder="Adresse email"
+                       value="{{ email|default('') }}" />
+                <small class="form-text text-muted">
+                    Une adresse email valide est obligatoire.
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="registerUsername">Identifiant utilisateur</label>
+                <input type="text"
+                       name="username"
+                       required="required"
+                       class="form-control"
+                       tabindex="0"
+                       id="registerUsername"
+                       aria-describedby="username"
+                       placeholder="Identifiant d'utilisateur"
+                       autocomplete="off"
+                       value="{{ username|default('') }}" />
+                <small class="form-text text-muted">
+                    Cet identifiant utilisateur sera utilisé à la connexion et ne sera pas divulgué.
+                </small>
+            </div>
+            <div class="form-group form-check">
+                <p>
+                    <input type="checkbox"
+                           name="cgu"
+                           class="form-check-input"
+                       tabindex="0"
+                           id="registerCgu" />
+                    <label class="form-check-label"
+                           for="registerCgu">
+                        Vous reconnaissez avoir lu et compris les
+                        <a href="{{ path('cgu') }}">Conditions Générales d'Utilisation</a>
+                        et acceptez de vous y conformer
+                    </label>
+                </p>
+                <div class="g-recaptcha" data-sitekey="{{ recaptcha_public_key }}"></div>
+            </div>
+            <input type="hidden"
+                   name="_csrf"
+                   value="{{ csrf_token('user-register') }}" />
+            <button type="submit"
+                    name="register"
+                    tabindex="0"
+                    class="btn btn-primary">S'enregister</button>
+        </form>
+    </div>
+{% endblock %}

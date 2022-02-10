@@ -1,0 +1,12 @@
+{% if alreadyWrapped is not defined or not alreadyWrapped %}<ul class="list-group">{% endif %}
+    {% for line in _values %}
+        <li class="list-group-item d-flex justify-content-between align-items-center"
+            title="{{ line.resource.name }}">
+            {{ line.resource.unicode }}
+            <span class="badge badge-{% if _insufficient is defined and attribute(_insufficient, line.resource.id) is defined %}danger{% else %}primary{% endif %} badge-pill"
+                  title="{{ line.nb }} {{ line.resource.name }}">
+                {{ line.nb|nformat }}
+            </span>
+        </li>
+    {% endfor %}
+{% if alreadyWrapped is not defined or not alreadyWrapped %}</ul>{% endif %}
